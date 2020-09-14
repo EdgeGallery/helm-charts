@@ -1,0 +1,52 @@
+global:
+  ingress:
+    enabled: false
+  ssl:
+    secretName:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
+  oauth2:
+    authServerAddress:
+    clients:
+      mecm:
+        clientId: mecm
+        clientSecret: 
+images:
+  inventory:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-inventory
+    tag: latest
+    pullPolicy: IfNotPresent
+  appo:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-appo
+    tag: latest
+    pullPolicy: IfNotPresent
+  apm:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apm
+    tag: latest
+    pullPolicy: IfNotPresent
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    tag: 12.2
+    pullPolicy: IfNotPresent
+persistence:
+  enabled: true
+pushimage:
+  enabled: true
+expose:
+  inventory:
+    port: 8093
+    nodePort: 30203
+  appo:
+    port: 8091
+    nodePort: 30201
+  apm:
+    port: 8092
+    nodePort: 30202
+  postgres:
+    port: 5432
+    nodePort: 30207
+ssl:
+  secretName: 
+mecm:
+  secretName: 
