@@ -1,0 +1,2 @@
+PR_TITLE_REGEX: /(.+)/
+COMMIT_MESSAGE_REGEX: /(Issue-ID)(:)([A-Z]+)(-)(\d+)/
