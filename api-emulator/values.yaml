@@ -1,0 +1,12 @@
+image:
+  repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/api-emulator
+  tag: latest
+  pullPolicy: IfNotPresent
+persistence:
+  enabled: false
+expose:
+  port: 8089
+  nodePort: 30089
+ssl:
+  enabled: false
+  secretName:
