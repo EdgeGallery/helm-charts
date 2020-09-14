@@ -31,8 +31,6 @@ images:
     pullPolicy: IfNotPresent
 persistence:
   enabled: true
-pushimage:
-  enabled: true
 expose:
   inventory:
     port: 8093
@@ -50,3 +48,4 @@ ssl:
   secretName: 
 mecm:
   secretName: 
+  pushImage: false

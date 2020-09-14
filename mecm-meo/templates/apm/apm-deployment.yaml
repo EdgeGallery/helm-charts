@@ -27,7 +27,7 @@ spec:
             - name: LOG_DIR
               value: /var/log/apm
             - name: PUSH_IMAGE
-              value: {{ quote .Values.pushimage.enabled }} 
+              value: {{ quote .Values.mecm.pushImage }} 
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
