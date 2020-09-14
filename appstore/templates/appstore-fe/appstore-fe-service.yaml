@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: appstore-fe-svc
+  labels:
+    svc: appstore-fe-svc
+spec:
+  {{- if not .Values.global.ingress.enabled }}
+  type: NodePort
+  {{- end }}
+  ports:
+    - port: {{ .Values.expose.appstoreFe.port }}
+      targetPort: 8443
+      protocol: TCP
+      {{- if not .Values.global.ingress.enabled }}
+      nodePort: {{ .Values.expose.appstoreFe.nodePort }}
+      {{- end }}
+  selector:
+    app: appstore-fe

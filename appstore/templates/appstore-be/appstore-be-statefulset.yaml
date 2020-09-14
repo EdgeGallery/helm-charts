@@ -1,0 +1,171 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: appstore-be-postgres
+spec:
+  serviceName: "appstore-be-postgres-svc"
+  selector:
+    matchLabels:
+      app: appstore-be-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: appstore-be-postgres
+    spec:
+      containers:
+        - name: appstore-be-postgres
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: appstore-be-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: appstore-be-secret
+                  key: postgresPassword
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.dbname }}
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: appstore-be-postgres-pvc
+            {{- end }}
+            - mountPath: /docker-entrypoint-initdb.d
+              name: appstore-be-postgres-initdb
+      volumes:
+        - name: appstore-be-postgres-initdb
+          configMap:
+            name: appstore-be-postgres-initdb-configmap
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: appstore-be-postgres-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 5Gi
+  {{- end }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: appstore-be
+spec:
+  serviceName: "appstore-be-svc"
+  selector:
+    matchLabels:
+      app: appstore-be
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: appstore-be
+    spec:
+      initContainers:
+        - name: init-service-center
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100/v4/default/registry/health; do echo waiting for service center; sleep 2; done"]
+        - name: init-usermgmt
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
+      containers:
+        - name: appstore-be
+          image: {{ .Values.images.appstoreBe.repository }}:{{ .Values.images.appstoreBe.tag }}
+          imagePullPolicy: {{ .Values.images.appstoreBe.pullPolicy }}
+          ports:
+            - containerPort: 8099
+          env:
+            - name: LOG_DIR
+              value: /var/log/appstore-be
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: POSTGRES_IP
+              value: appstore-be-postgres-svc
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: appstore-be-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: appstore-be-secret
+                  key: postgresPassword
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: appstore-be-keystore
+            {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - name: appstore-be-log
+              mountPath: /var/log/appstore-be
+            - name: appstore-be-workspace-pvc
+              mountPath: /home/appstore
+            {{- end }}
+      volumes:
+        {{- if .Values.global.ssl.enabled }}
+        - name: appstore-be-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+        {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: appstore-be-log
+          hostPath:
+            path: /var/log/edgegallery/appstore-be
+        {{- end }}
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: appstore-be-workspace-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 5Gi
+  {{- end }}
