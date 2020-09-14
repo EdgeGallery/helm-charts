@@ -25,7 +25,7 @@ spec:
           name: mecm-appo
           env:
             - name: LOG_DIR
-              value: /var/log/appo
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
