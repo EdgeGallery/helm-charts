@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mecm-mepm-lcmcontroller
+  namespace: default
+  labels:
+    app: mecm-mepm-lcmcontroller
+spec:
+  selector:
+    matchLabels:
+      app: mecm-mepm-lcmcontroller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-mepm-lcmcontroller
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;'] 
+      containers:
+        - image: {{ .Values.images.lcmcontroller.repository }}:{{ .Values.images.lcmcontroller.tag }}
+          imagePullPolicy: {{ .Values.images.lcmcontroller.pullPolicy }}
+          name: mecm-mepm-lcmcontroller
+          env:
+            - name: LOG_DIR
+              value: /var/log/lcmcontroller
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP    
+            - name: LCM_CNTLR_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mepm.secretName }}
+                  key: postgresLcmCntlrPassword
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jwt.publicKeySecretName }}
+                  key: publicKey
+          ports:
+            - containerPort: 8094
+          resources: {}
+          volumeMounts:
+
+            - mountPath: /usr/app/ssl/
+              name: lcmcontroller-certs
+              readOnly: true
+
+            {{- if .Values.persistence.enabled }}
+            - name: lcmcontroller-log
+              mountPath: /var/log/lcmcontroller
+            {{- end }}
+      volumes:
+
+        - name: lcmcontroller-certs
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: ca.crt
+                path: ca.crt
+                mode: 0644
+              - key: server_tls.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server_tls.key
+                path: server_tls.key
+                mode: 0644
+        {{- if .Values.persistence.enabled }}
+        - name: lcmcontroller-log
+          hostPath:
+            path: /var/log/edgegallery/lcmcontroller
+        {{- end }}
+
+

@@ -1,0 +1,32 @@
+global:
+  ingress:
+    enabled: false
+  ssl:
+    enabled: false
+    secretName:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
+  oauth2:
+    authServerAddress:
+    clients:
+      mecm:
+        clientId: mecm-fe
+        clientSecret: te9Fmv%qaq
+images:
+  mecmFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
+    tag: latest
+    pullPolicy: IfNotPresent  
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+  curl:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+expose:
+  mecmFe:
+    port: 8443
+    nodePort: 30093

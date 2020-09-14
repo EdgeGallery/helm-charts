@@ -1,0 +1,44 @@
+global:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
+images:
+  mep:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep
+    tag: latest
+    pullPolicy: IfNotPresent
+  mepauth:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mepauth
+    tag: latest
+    pullPolicy: IfNotPresent
+  kong:
+    repository: kong
+    tag: 2.0.4-ubuntu
+    pullPolicy: IfNotPresent
+  postgres:
+    repository: postgres
+    tag: 12.3
+    pullPolicy: IfNotPresent
+  dns:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-dns-server
+    tag: latest
+    pullPolicy: IfNotPresent
+
+
+dnsserver:
+  command: []
+  storageSize: 1Gi
+
+postgres:
+  username: kong
+  password: te9Fmv%qaq
+  dbname: kongdb
+
+ssl:
+  enabled: false
+  secretName:
+
+networkIsolation:
+  phyInterface: 
+    mp1: ens3
+    mm5: ens3

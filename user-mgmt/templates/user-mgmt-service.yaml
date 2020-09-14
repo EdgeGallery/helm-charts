@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mgmt-svc
+  namespace: default
+  labels:
+    svc: user-mgmt-svc
+spec:
+  {{- if not .Values.global.ingress.enabled }}
+  type: NodePort
+  {{- end }}
+  ports:
+    - port: {{ .Values.expose.port }}
+      targetPort: 8067
+      protocol: TCP
+      {{- if not .Values.global.ingress.enabled }}
+      nodePort: {{ .Values.expose.nodePort }}
+      {{- end }}
+  selector:
+    app: user-mgmt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mgmt-postgres-svc
+  namespace: default
+  labels:
+    svc: user-mgmt-postgres-svc
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: user-mgmt-postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mgmt-redis-svc
+  namespace: default
+  labels:
+    svc: user-mgmt-redis-svc
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    app: user-mgmt-redis

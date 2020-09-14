@@ -1,0 +1,6 @@
+## Global configuration
+global:
+  mep:
+    enabled: true
+  mep-agent:
+    enabled: true

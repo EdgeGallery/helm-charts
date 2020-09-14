@@ -1,0 +1,278 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: developer-be-postgres-initdb-configmap
+data:
+  postgres.sql: |
+    -- ----------------------------
+    -- plugin and app-test table start -----------------
+    -- ----------------------------
+    -- Table structure for tbl_appfunction
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS  "tbl_appfunction"(
+      "functionid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "funcname" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "funcdesc" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "addtime" varchar(244) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      CONSTRAINT "tbl_appfunction_pkey" PRIMARY KEY ("functionid")
+    )
+    ;
+
+    -- ----------------------------
+    -- Records of tbl_appfunction
+    -- ----------------------------
+    INSERT INTO  "tbl_appfunction" VALUES ('53fc40e9a1f048e4b4310e8ac30856b3', 'CPU', '处理速度', '2019-10-23 03:27:36');
+    INSERT INTO  "tbl_appfunction" VALUES ('343d42a3b59c46f9afda063b8be4cc8f', 'GPU', '处理图片', '2019-10-23 03:27:54');
+    INSERT INTO  "tbl_appfunction" VALUES ('526f86afd6b841ae9df56e30d37f0574', 'Memory Disk', '存储优先', '2019-11-02 10:48:33');
+    INSERT INTO  "tbl_appfunction" VALUES ('8167fc046c2d4e42997c612fdfbd7c8f', 'AI', '存储', '2019-10-23 05:37:46');
+
+
+    -- ----------------------------
+    -- Table structure for tbl_downloadrecord
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS "tbl_downloadrecord"(
+      "recordid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "pluginid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "downloaduserid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "downloadusername" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "score" float4 NOT NULL DEFAULT NULL,
+      "scoretype" int4 NOT NULL DEFAULT NULL,
+      "downloadtime" timestamptz(0) NOT NULL DEFAULT NULL,
+       CONSTRAINT "tbl_downloadrecord_pkey" PRIMARY KEY ("recordid")
+    )
+    ;
+
+    -- ----------------------------
+    -- Table structure for tbl_plugin
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS "tbl_plugin" (
+      "pluginid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "pluginname" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "introduction" varchar(500) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "satisfaction" float4 NOT NULL DEFAULT NULL,
+      "codelanguage" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "plugintype" int4 NOT NULL DEFAULT NULL,
+      "version" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "downloadcount" int4 NOT NULL DEFAULT NULL,
+      "logofile" varchar(500) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "pluginfile" varchar(500) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "userid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "uploadtime" timestamptz(6) NOT NULL DEFAULT NULL,
+      "username" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "pluginsize" int4 NOT NULL DEFAULT NULL,
+      "apifile" varchar(500) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "scorecount" int4 NOT NULL DEFAULT NULL,
+      CONSTRAINT "tbl_plugin_pkey" PRIMARY KEY ("pluginid")
+    )
+    ;
+
+    -- ----------------------------
+    -- Table structure for tbl_subtaskstatus
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS "tbl_subtaskstatus" (
+      "executionid" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "taskid" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "testcaseid" int4 NOT NULL DEFAULT NULL,
+      "status" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "parameters" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_subtaskstatus_pkey" PRIMARY KEY ("executionid")
+    )
+    ;
+
+    -- ----------------------------
+    -- Table structure for tbl_testCase
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS "tbl_testCase" (
+      "id" int8 NOT NULL DEFAULT NULL,
+      "scenarios" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "testsuite" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "testCaseName" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "author" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "inputs" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "outputs" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "mandatory" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "subtestcase" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_testCase_pkey" PRIMARY KEY ("id")
+    )
+    ;
+
+    -- ----------------------------
+    -- Table structure for tbl_testapp
+    -- ----------------------------
+    CREATE TABLE IF NOT EXISTS "tbl_testapp" (
+      "appid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "appname" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "appfile" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "affinity" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "industry" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "appdesc" varchar(500) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "uploadtime" timestamptz(0) NOT NULL DEFAULT NULL,
+      "userid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "logofile" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "appversion" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "type" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      CONSTRAINT "tbl_testapp_pkey" PRIMARY KEY ("appid")
+    )
+    ;
+
+
+    CREATE TABLE IF NOT EXISTS "tbl_testtask" (
+      "taskid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "taskno" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "status" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "begintime" timestamptz(6) NOT NULL DEFAULT NULL,
+      "endtime" timestamptz(6) DEFAULT NULL,
+      "appid" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      CONSTRAINT "tbl_testtask_pkey" PRIMARY KEY ("taskid")
+    )
+    ;
+    -- plugin and app-test table end -----------------
+    -- workspace table start -----------------
+    CREATE TABLE IF NOT EXISTS "tbl_app_project" (
+      "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "name" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "provider" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "platform" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "industries" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "type" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "status" varchar(20) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "user_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "create_date" timestamptz(6) DEFAULT NULL::timestamp with time zone,
+      "last_test_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "version" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "capabilities" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "project_type" varchar(10) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "icon_file_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "open_capability_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_app_project_pkey" PRIMARY KEY ("id")
+    )
+    ;
+
+
+    CREATE TABLE IF NOT EXISTS "tbl_openmep_capability" (
+      "group_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "type" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_openmep_capability_pkey" PRIMARY KEY ("group_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_openmep_capability_detail" (
+      "detail_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "service" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "version" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "provider" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "group_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "api_file_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_openmep_capability_detail_pkey" PRIMARY KEY ("detail_id")
+    )
+    ;
+
+
+    CREATE TABLE IF NOT EXISTS "tbl_project_image" (
+      "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "name" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "version" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "project_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "type" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "port" int4 DEFAULT '-1'::integer,
+      "node_port" int4 DEFAULT '-1'::integer,
+      CONSTRAINT "tbl_project_image_pkey" PRIMARY KEY ("id")
+    )
+    ;
+
+
+    CREATE TABLE IF NOT EXISTS "tbl_project_test_config" (
+      "test_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "project_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "agent_config" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "image_file_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "app_api_file_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "status" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "access_url" varchar(200) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "error_log" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "deploy_date" timestamptz(6) DEFAULT NULL,
+      "hosts" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "app_instance_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "work_load_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_project_test_config_pkey" PRIMARY KEY ("test_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_uploaded_file" (
+      "file_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "file_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "is_temp" bool DEFAULT NULL,
+      "user_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "upload_date" timestamptz(6) DEFAULT NULL,
+      "file_path" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      CONSTRAINT "tbl_uploaded_file_pkey" PRIMARY KEY ("file_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_helm_template_yaml" (
+      "file_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "file_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "user_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "project_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "content" text COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "upload_time_stamp" bigint DEFAULT NULL,
+      CONSTRAINT "tbl_helm_template_yaml_pkey" PRIMARY KEY ("file_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_service_host" (
+      "host_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+      "name" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "address" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "architecture" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "status" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "protocol" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "ip" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "os" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "port_range_min" int DEFAULT '-1'::integer,
+      "port_range_max" int DEFAULT '-1'::integer,
+      "port" int4 DEFAULT '-1'::integer,
+      "delete" bool DEFAULT NULL
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_api_emulator" (
+      "id" varchar(50) NOT NULL,
+      "user_id" varchar(50) NOT NULL,
+      "host_id" varchar(50) NOT NULL,
+      "port" int4 NOT NULL,
+      "workload_id" varchar(50) NOT NULL,
+      "create_time" varchar(50) NOT NULL
+    )
+    ;
+    -- workspace table end -----------------
+
+    -- workspace mep capability init --
+    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', 'Traffic', 'OPENMEP', 'L3/L4规则API,L7规则API');
+    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', 'Service Discovery', 'OPENMEP', 'Service Discovery');
+    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', 'Location', 'OPENMEP', '自定义不规则区域分析API,标准栅格区域分析API,特定人群流动分析API,API区域原子报表分析,匿名历史位置轨');
+    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', 'Bandwidth', 'OPENMEP', 'MBB应用,FMC应用,UIC应用');
+    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', 'Face Recognition', 'OPENMEP', 'Face Recognition');
+
+
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('8d93cb64-e9ff-468f-a5b1-160efa5c4f05', 'Face Recognition service plus', 'v1', 'provide the face recognition plus capabilities for apps', 'Huawei', 'd8f06d28-390c-4a06-905e-120f56279bbc', '7dd477d8-bcc0-4e2a-a48d-2b587a30026a');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('6f250fc0-0961-470f-bf17-e9bba8e56c12', 'Face Recognition service', 'v1', 'provide the face recognition capabilities for apps', 'Huawei', 'd8f06d28-390c-4a06-905e-120f56279bbc', 'd0f8fa57-2f4c-4182-be33-0a508964d04a');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('143e8608-7304-4932-9d99-4bd6b115dac8', 'Service Discovery', 'v1', 'provide the service discovery capabilities for apps', 'Huawei', 'a6efaa2c-ad99-432f-9405-e28e90f44f15', '540e0817-f6ea-42e5-8c5b-cb2daf9925a3');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('ee7fbc17-f370-4c02-a9ab-680a41cd0255', 'Bandwidth service', 'v1', 'provide the bandwidth capabilities for apps', 'Huawei', '72a1434d-fbb0-459b-9b92-ce1e02a121c2', '7c544903-aa4f-40e0-bd8c-cf6e17c37c12');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('146f4f87-4027-4ad8-af99-ec4a6f6bcc3c', 'Location service', 'v1', 'provide the location capabilities for apps', 'Huawei', '406593b4-c782-409c-8f46-a6fd5e1f6221', '688f259e-48eb-407d-8604-7feb19cf1f44');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id) VALUES ('3fda958c-ef56-44c9-bf3b-469cf5d54e33', 'Traffic service', 'v1', 'provide the traffic capabilities for apps', 'Huawei', 'c0db376b-ae50-48fc-b9f7-58a609e3ee12', '9f1f13a0-8554-4dfa-90a7-d2765238fca7');
+
+
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('7dd477d8-bcc0-4e2a-a48d-2b587a30026a', 'Face Recognition service plus.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/7dd477d8-bcc0-4e2a-a48d-2b587a30026a');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('d0f8fa57-2f4c-4182-be33-0a508964d04a', 'Face Recognition service.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/d0f8fa57-2f4c-4182-be33-0a508964d04a');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('540e0817-f6ea-42e5-8c5b-cb2daf9925a3', 'Service Discovery.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/540e0817-f6ea-42e5-8c5b-cb2daf9925a3');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('7c544903-aa4f-40e0-bd8c-cf6e17c37c12', 'Bandwidth service.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/7c544903-aa4f-40e0-bd8c-cf6e17c37c12');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('688f259e-48eb-407d-8604-7feb19cf1f44', 'Location service.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/688f259e-48eb-407d-8604-7feb19cf1f44');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('9f1f13a0-8554-4dfa-90a7-d2765238fca7', 'Traffic service.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/9f1f13a0-8554-4dfa-90a7-d2765238fca7');
+
+    -- workspace mep capability init end--

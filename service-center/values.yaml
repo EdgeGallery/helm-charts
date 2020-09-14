@@ -1,0 +1,8 @@
+global:
+  ssl:
+    enabled: false
+    secretName:
+images:
+  repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
+  tag: latest
+  pullPolicy: IfNotPresent

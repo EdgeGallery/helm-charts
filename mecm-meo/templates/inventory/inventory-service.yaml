@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mecm-inventory
+  labels:
+    app: mecm-inventory
+spec:
+  selector:
+    app: mecm-inventory
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.inventory.port }}
+      targetPort: 8093
+      nodePort: {{ .Values.expose.inventory.nodePort }}

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mecm-postgres
+  namespace: default
+  labels:
+    app: mecm-postgres
+spec:
+  serviceName: "mecm-postgres"
+  selector:
+    matchLabels:
+      app: mecm-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-postgres
+    spec:
+      containers:
+        - image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          name: mecm-postgres
+          env:            
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mecm.secretName }}
+                  key: postgresPassword
+            - name: POSTGRES_DB
+              value: root
+          ports:
+            - containerPort: 5432
+          resources: {}
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d/
+              name: postgres-initdb
+              readOnly: true
+#            - mountPath: /var/lib/postgresql/data
+#              name: mecm-postgres-pvc
+
+      volumes:
+        - name: postgres-initdb
+          secret:
+            secretName: {{ .Values.mecm.secretName }}
+            items:
+              - key: postgres_init.sql
+                path: postgres_init.sql
+                mode: 0644   
+#  {{- if .Values.persistence.enabled }}
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: mecm-postgres-pvc
+#      spec:
+#        accessModes: [ "ReadWriteOnce" ]
+#        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+#        resources:
+#          requests:
+#            storage: 1Gi
+#  {{- end }}
+
+

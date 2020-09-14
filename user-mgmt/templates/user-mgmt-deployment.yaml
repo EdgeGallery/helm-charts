@@ -1,0 +1,217 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-mgmt
+  namespace: default
+  labels:
+    app: user-mgmt
+spec:
+  selector:
+    matchLabels:
+      app: user-mgmt
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-mgmt
+    spec:
+      initContainers:
+        - name: init-service-center
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100/v4/default/registry/health; do echo waiting for service center; sleep 2; done"]
+      containers:
+        - name: user-mgmt
+          image: {{ .Values.images.usermgmt.repository }}:{{ .Values.images.usermgmt.tag }}
+          imagePullPolicy: {{ .Values.images.usermgmt.pullPolicy }}
+          ports:
+            - containerPort: 8067
+          env:
+            - name: LOG_DIR
+              value: /var/log/usermgmt
+            - name: CORS_ALLOW_ORIGINS
+              value: {{ quote .Values.cors.allowOrigins }}
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POSTGRES_IP
+              value: user-mgmt-postgres-svc
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: postgresPassword
+            - name: REDIS_IP
+              value: user-mgmt-redis-svc
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_TIMEOUT
+              value: {{ quote .Values.redis.timeout }}
+            - name: REDIS_VERIFICATION_TIMEOUT
+              value: {{ quote .Values.redis.verificationTimeout }}
+            - name: REDIS_MAX_TOTAL
+              value: {{ quote .Values.redis.maxTotal }}
+            - name: REDIS_MAX_IDLE
+              value: {{ quote .Values.redis.maxIdle }}
+            - name: REDIS_MAX_WAIT_MILLIS
+              value: {{ quote .Values.redis.maxWaitMillis }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: redisPassword
+            - name: SMS_ENABLED
+              value: {{ quote .Values.sms.enabled }}
+            {{- if .Values.sms.enabled }}
+            - name: SMS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsUrl
+            - name: SMS_APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsAppKey
+            - name: SMS_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsAppSecret
+            - name: SMS_SENDER
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsSender
+            - name: SMS_TEMPLATE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsTemplateId
+            - name: SMS_APP_SIGNATURE
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsAppSignature
+            - name: SMS_STATUS_CALL_BACK
+              valueFrom:
+                 secretKeyRef:
+                  name: user-mgmt-secret
+                  key: smsStatusCallBack
+            {{- end }}
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jwt.secretName }}
+                  key: publicKey
+            - name: JWT_ENCRYPTED_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jwt.secretName }}
+                  key: encryptedPrivateKey
+            - name: JWT_ENCRYPT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jwt.secretName }}
+                  key: encryptPassword
+            - name: OAUTH_APPSTORE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appstoreClientId
+            - name: OAUTH_DEVELOPER_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientId
+            - name: OAUTH_MECM_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: mecmClientId
+            - name: OAUTH_APPSTORE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appstoreClientSecret
+            - name: OAUTH_DEVELOPER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientSecret
+            - name: OAUTH_MECM_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: mecmClientSecret
+            - name: OAUTH_APPSTORE_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appstoreClientUrl
+            - name: OAUTH_DEVELOPER_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientUrl
+            - name: OAUTH_MECM_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: mecmClientUrl
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: user-mgmt-keystore
+            {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/log/usermgmt
+              name: usermgmt-log
+            {{- end }}
+      volumes:
+        {{- if .Values.global.ssl.enabled }}
+        - name: user-mgmt-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+        {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: usermgmt-log
+          hostPath:
+            path: /var/log/edgegallery/usermgmt
+        {{- end }}

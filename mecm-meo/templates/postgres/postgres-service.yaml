@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mecm-postgres
+  labels:
+    app: mecm-postgres
+spec:
+  selector:
+    app: mecm-postgres
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.postgres.port }}
+      targetPort: 5432
+      nodePort: {{ .Values.expose.postgres.nodePort }}

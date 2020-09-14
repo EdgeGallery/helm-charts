@@ -1,0 +1,60 @@
+{{- if .Values.global.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: edgegallery-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.global.ingress.annotations.bodySize }}
+    {{- if and .Values.global.ssl.enabled }}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    {{- end }}
+spec:
+  {{- if .Values.global.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.global.ingress.hosts.auth }}
+        - {{ .Values.global.ingress.hosts.developer }}
+        - {{ .Values.global.ingress.hosts.appstore }}
+      secretName: {{ .Values.global.ingress.tls.secretName }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.global.ingress.hosts.auth }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: user-mgmt-svc
+              servicePort: 8067
+    - host: {{ .Values.global.ingress.hosts.developer }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: developer-fe-svc
+              servicePort: 8443
+    - host: {{ .Values.global.ingress.hosts.appstore }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: appstore-fe-svc
+              servicePort: 8443
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: edgegallery-ingress-mecm
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: {{ .Values.global.ingress.hosts.mecm }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mecm-fe-svc
+              servicePort: 8443
+{{- end }}

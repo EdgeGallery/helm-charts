@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: developer-be-postgres-svc
+  labels:
+    svc: developer-be-postgres-svc
+spec:
+  ports:
+    - port: {{ .Values.expose.postgres.port }}
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: developer-be-postgres

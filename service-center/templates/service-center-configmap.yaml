@@ -1,0 +1,45 @@
+{{- if .Values.global.ssl.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-center-configmap
+data:
+  start.sh: |
+    #!/bin/sh
+
+    # Licensed to the Apache Software Foundation (ASF) under one or more
+    # contributor license agreements.  See the NOTICE file distributed with
+    # this work for additional information regarding copyright ownership.
+    # The ASF licenses this file to You under the Apache License, Version 2.0
+    # (the "License"); you may not use this file except in compliance with
+    # the License.  You may obtain a copy of the License at
+    #
+    #     http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS,
+    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    # See the License for the specific language governing permissions and
+    # limitations under the License.
+
+    set -e
+
+    umask 027
+
+    cd /opt/service-center
+
+    set +e
+
+    sed -i "s/^ssl_mode.*=.*$/ssl_mode = 1/g" conf/app.conf
+
+    sed -i "s/^ssl_verify_client.*=.*$/ssl_verify_client = 0/g" conf/app.conf
+
+    sed -i "s/^httpaddr.*=.*$/httpaddr = $(hostname)/g" conf/app.conf
+    if [ ! -z "${BACKEND_ADDRESS}" ]; then
+        sed -i "s|^registry_plugin.*=.*$|registry_plugin = etcd|g" conf/app.conf
+        sed -i "s|^manager_cluster.*=.*$|manager_cluster = ${BACKEND_ADDRESS}|g" conf/app.conf
+    fi
+    set -e
+
+    ./service-center
+{{- end }}

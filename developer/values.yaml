@@ -1,0 +1,50 @@
+global:
+  ingress:
+    enabled: false
+  ssl:
+    enabled: false
+    secretName:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
+  oauth2:
+    authServerAddress:
+    clients:
+      developer:
+        clientId: developer-fe
+        clientSecret: te9Fmv%qaq
+images:
+  developerFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-fe
+    tag: latest
+    pullPolicy: IfNotPresent
+  developerBe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-be
+    tag: latest
+    pullPolicy: IfNotPresent
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    tag: 12.2
+    pullPolicy: IfNotPresent
+  toolChain:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/tool-chain
+    tag: latest
+    pullPolicy: IfNotPresent
+  portingAdvisor:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/porting-advisor
+    tag: latest
+    pullPolicy: IfNotPresent
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+postgres:
+  username: developer
+  password: te9Fmv%qaq
+  dbname: developerdb
+expose:
+  developerFe:
+    port: 8443
+    nodePort: 30092
+  postgres:
+    port: 5432

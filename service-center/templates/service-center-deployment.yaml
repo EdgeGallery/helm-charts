@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-center
+  labels:
+    app: service-center
+spec:
+  selector:
+    matchLabels:
+      app: service-center
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: service-center
+    spec:
+      containers:
+        - name: service-center
+          image: {{ .Values.images.repository }}:{{ .Values.images.tag }}
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: 30100
+      {{- if .Values.global.ssl.enabled }}
+          env:
+            - name: SSL_ROOT
+              value: /opt/service-center/ssl
+          volumeMounts:
+            - mountPath: /opt/service-center/start.sh
+              name: service-center-conf
+              subPath: start.sh
+            - mountPath: /opt/service-center/ssl
+              name: service-center-ssl
+      volumes:
+        - name: service-center-conf
+          configMap:
+            name: service-center-configmap
+            defaultMode: 0500
+        - name: service-center-ssl
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: trust.cer
+                path: trust.cer
+                mode: 0644
+              - key: server.cer
+                path: server.cer
+                mode: 0644
+              - key: server_key.pem
+                path: server_key.pem
+                mode: 0644
+              - key: cert_pwd
+                path: cert_pwd
+                mode: 0644
+      {{- end }}

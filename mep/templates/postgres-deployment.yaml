@@ -1,0 +1,63 @@
+# postgresql deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mep-pg
+  namespace: mep
+  labels:
+    app: mep-pg
+spec:
+  selector:
+    matchLabels:
+      app: mep-pg
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mep-pg
+    spec:
+      containers:
+        - image: "{{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}"
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          name: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_DB
+              value: kong
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-secret
+                  key: pg_admin_pwd
+            - name: POSTGRES_INITDB_ARGS
+              value: --auth-local=password
+
+          volumeMounts:
+            - name: pg-certs
+              mountPath: /etc/mep/ssl/
+              readOnly: true
+            - name: pg-init
+              mountPath: /docker-entrypoint-initdb.d/
+              readOnly: true
+      volumes:
+        - name: pg-certs
+          secret:
+            secretName: pg-secret
+            items:
+              - key: server.crt
+                path: server.crt
+                mode: 0644
+              - key: server.key
+                path: server.key
+                mode: 0644
+        - name: pg-init
+          secret:
+            secretName: pg-init-sql
+            items:
+              - key: init.sql
+                path: init.sql
+                mode: 0644

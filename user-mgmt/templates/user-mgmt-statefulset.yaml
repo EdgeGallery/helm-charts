@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-mgmt-postgres
+spec:
+  serviceName: user-mgmt-postgres-svc
+  selector:
+    matchLabels:
+      app: user-mgmt-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-mgmt-postgres
+    spec:
+      containers:
+        - name: user-mgmt-postgres
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: postgresPassword
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.dbname }}
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: usermgmt-postgres-pvc
+            {{- end }}
+            - mountPath: /docker-entrypoint-initdb.d
+              name: usermgmt-postgres-initdb
+      volumes:
+        - name: usermgmt-postgres-initdb
+          configMap:
+            name: usermgmt-postgres-initdb-configmap
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: usermgmt-postgres-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 5Gi
+  {{- end }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-mgmt-redis
+spec:
+  serviceName: user-mgmt-redis-svc
+  selector:
+    matchLabels:
+      app: user-mgmt-redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-mgmt-redis
+    spec:
+      containers:
+        - name: user-mgmt-redis
+          image: {{ .Values.images.redis.repository }}:{{ .Values.images.redis.tag }}
+          imagePullPolicy: {{ .Values.images.redis.pullPolicy }}
+          command:
+            - "redis-server"
+          args:
+            - "/etc/redis/redis.conf"
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /etc/redis
+              name: user-mgmt-redis-config
+          {{- if .Values.global.persistence.enabled }}
+            - mountPath: /data
+              name: usermgmt-redis-pvc
+          {{- end }}
+      volumes:
+        - name: user-mgmt-redis-config
+          secret:
+            secretName: user-mgmt-redis-secret
+            defaultMode: 0644
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: usermgmt-redis-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 1Gi
+  {{- end }}

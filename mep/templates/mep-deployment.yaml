@@ -1,0 +1,236 @@
+# mepserver deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mep
+  namespace: mep
+  labels:
+    app: mep
+spec:
+  selector:
+    matchLabels:
+      app: mep
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mep
+      annotations:
+        k8s.v1.cni.cncf.io/networks: mep/mm5, mep/mp1
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: "{{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}"
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          command: ['sh', '-c', 'until pg_isready -h pg-service -p 5432; do echo waiting for database; sleep 2; done;']
+        - name: kong-migrations
+          image: "{{ .Values.images.kong.repository }}:{{ .Values.images.kong.tag }}"
+          imagePullPolicy: {{ .Values.images.kong.pullPolicy }}
+          env:
+            - name: KONG_DATABASE
+              value: postgres
+            - name: KONG_PG_HOST
+              value: pg-service
+            - name: KONG_PG_USER
+              value: kong
+            - name: KONG_PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-secret
+                  key: kong_pg_pwd
+          command: ['sh', '-c', 'kong migrations bootstrap']
+      containers:
+        - name: kong-proxy
+          image: "{{ .Values.images.kong.repository }}:{{ .Values.images.kong.tag }}"
+          imagePullPolicy: {{ .Values.images.kong.pullPolicy }}
+          env:
+            - name: KONG_NGINX_WORKER_PROCESSES
+              value: "1"
+            - name: KONG_ADMIN_LISTEN
+              value: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+            - name: KONG_PROXY_LISTEN
+              value: 0.0.0.0:8000, 0.0.0.0:8443 ssl http2
+            - name: KONG_DATABASE
+              value: postgres
+            - name: KONG_PG_DATABASE
+              value: kong
+            - name: KONG_PG_HOST
+              value: pg-service
+            - name: KONG_PG_USER
+              value: kong
+            - name: KONG_PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-secret
+                  key: kong_pg_pwd
+            - name: KONG_PROXY_ACCESS_LOG
+              value: /tmp/access.log
+            - name: KONG_ADMIN_ACCESS_LOG
+              value: /tmp/admin-access.log
+            - name: KONG_PROXY_ERROR_LOG
+              value: /tmp/proxy.log
+            - name: KONG_ADMIN_ERROR_LOG
+              value: /tmp/proxy-admin.log
+            - name: KONG_HEADERS
+              value: "off"
+          volumeMounts:
+            - name: kong-conf
+              mountPath: /etc/kong/
+            - name: kong-certs
+              mountPath: /var/lib/kong/data/
+            - name: kong-plugins
+              mountPath: /usr/local/share/lua/5.1/kong/plugins/appid-header/
+          ports:
+            - containerPort: 8000
+              name: proxy
+              protocol: TCP
+            - containerPort: 8443
+              name: proxy-ssl
+              protocol: TCP
+            - containerPort: 8001
+              name: admin-api
+              protocol: TCP
+            - containerPort: 8444
+              name: admin-api-ssl
+              protocol: TCP
+        - image: "{{ .Values.images.mepauth.repository }}:{{ .Values.images.mepauth.tag }}"
+          imagePullPolicy: {{ .Values.images.mepauth.pullPolicy }}
+          name: mepauth
+          ports:
+            - containerPort: 10443
+          env:
+            - name: MEPAUTH_APIGW_HOST
+              value: "localhost"
+            - name: MEPAUTH_APIGW_PORT
+              value: "8444"
+            - name: MEPAUTH_CERT_DOMAIN_NAME
+              value: "edgegallery"
+          volumeMounts:
+            - name: mepauth-certs
+              mountPath: /usr/mep/ssl/
+              readOnly: true
+            - name: mepauth-jwt
+              mountPath: /usr/mep/keys/
+              readOnly: true
+            - name: mepauth-properties
+              mountPath: /usr/mep/mprop/
+              readOnly: true
+        - image: "{{ .Values.images.mep.repository }}:{{ .Values.images.mep.tag }}"
+          imagePullPolicy: {{ .Values.images.mep.pullPolicy }}
+          name: mepserver
+          tty: true
+          args: ['sh']
+          ports:
+            - containerPort: 8088
+          env:
+            - name: SSL_ROOT
+              value: /usr/mep/ssl
+          volumeMounts:
+            - name: mep-certs
+              mountPath: /usr/mep/ssl_tmp/
+              readOnly: true
+        - image: "{{ .Values.images.dns.repository }}:{{ .Values.images.dns.tag }}"
+          imagePullPolicy: {{ .Values.images.dns.pullPolicy }}
+          name: dns-server
+        {{- with .Values.dnsserver.command }}
+          command: {{ .Values.dnsserver.command }}
+        {{- end }}
+          ports:
+            - name: dns
+              containerPort: 8053
+              protocol: UDP
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/mep/data
+              name: dns-datastore-pvc
+            {{- end }}
+      volumes:
+        - name: kong-conf
+          secret:
+            secretName: kong-secret
+            items:
+              - key: kong.conf
+                path: kong.conf
+                mode: 0644
+        - name: kong-certs
+          secret:
+            secretName: mepauth-secret
+            items:
+              - key: server.crt
+                path: kong.crt
+                mode: 0644
+              - key: server.key
+                path: kong.key
+                mode: 0644
+              - key: ca.crt
+                path: ca.crt
+                mode: 0644
+        - name: kong-plugins
+          secret:
+            secretName: kong-secret
+            items:
+              - key: handler.lua
+                path: handler.lua
+                mode: 0644
+              - key: schema.lua
+                path: schema.lua
+                mode: 0644
+        - name: mep-certs
+          secret:
+            secretName: mep-ssl
+            items:
+              - key: server.cer
+                path: server.cer
+                mode: 0644
+              - key: server_key.pem
+                path: server_key.pem
+                mode: 0644
+              - key: trust.cer
+                path: trust.cer
+                mode: 0644
+        - name: mepauth-certs
+          secret:
+            secretName: mepauth-secret
+            items:
+              - key: server.crt
+                path: server.crt
+                mode: 0644
+              - key: server.key
+                path: server.key
+                mode: 0644
+              - key: ca.crt
+                path: ca.crt
+                mode: 0644
+        - name: mepauth-jwt
+          secret:
+            secretName: mepauth-secret
+            items:
+              - key: jwt_publickey
+                path: jwt_publickey
+                mode: 0644
+              - key: jwt_encrypted_privatekey
+                path: jwt_encrypted_privatekey
+                mode: 0644
+        - name: mepauth-properties
+          secret:
+            secretName: mepauth-prop
+            items:
+              - key: mepauth.properties
+                path: mepauth.properties
+                mode: 0644
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: dns-datastore-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: {{ .Values.dnsserver.storageSize }}
+  {{- end }}
+

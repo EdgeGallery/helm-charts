@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-center
+  labels:
+    app: service-center
+spec:
+  selector:
+    app: service-center
+  ports:
+    - port: 30100
+      name: service-center
+      targetPort: 30100

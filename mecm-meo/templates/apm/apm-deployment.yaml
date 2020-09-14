@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mecm-apm
+  namespace: default
+  labels:
+    app: mecm-apm
+spec:
+  selector:
+    matchLabels:
+      app: mecm-apm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-apm
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mecm-postgres -p 5432; do echo waiting for database; sleep 2; done;'] 
+      containers:
+        - image: {{ .Values.images.apm.repository }}:{{ .Values.images.apm.tag }}
+          imagePullPolicy: {{ .Values.images.apm.pullPolicy }}
+          name: mecm-apm
+          env:
+            - name: LOG_DIR
+              value: /var/log/apm
+            - name: PUSH_IMAGE
+              value: {{ quote .Values.pushimage.enabled }} 
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP    
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_TRUST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: truststorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keyAlias
+            - name: APM_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mecm.secretName }}
+                  key: postgresApmPassword
+            - name: EDGE_REPO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mecm.secretName }}
+                  key: edgeRepoPassword
+            - name: EDGE_REPO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mecm.secretName }}
+                  key: edgeRepoUserName
+          ports:
+            - containerPort: 8092
+          resources: {}
+          volumeMounts:
+
+            - mountPath: /usr/app/ssl
+              name: apm-keystore
+              readOnly: true
+
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+
+            {{- if .Values.persistence.enabled }}
+            - name: apm-log
+              mountPath: /var/log/apm
+            {{- end }}
+      volumes:
+
+        - name: apm-keystore
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+                mode: 0644
+              - key: keystore.jks
+                path: keystore.jks
+                mode: 0644                
+
+        {{- if .Values.persistence.enabled }}
+        - name: apm-log
+          hostPath:
+            path: /var/log/edgegallery/apm
+        {{- end }}
+
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock

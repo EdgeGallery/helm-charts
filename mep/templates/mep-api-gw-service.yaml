@@ -1,0 +1,16 @@
+# kong proxy service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mep-api-gw
+  namespace: mep
+  annotations:
+    k8s.v1.cni.cncf.io/networks: mep/mp1
+spec:
+  selector:
+    app: mep
+  type: NodePort
+  ports:
+    - port: 8443
+      nodePort: 30443
+      name: api-gw

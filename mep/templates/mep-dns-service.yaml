@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dns-lb
+  namespace: mep
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 53
+      targetPort: 8053
+      protocol: UDP
+      name: dns
+  selector:
+    app: mep
+  externalTrafficPolicy: Cluster

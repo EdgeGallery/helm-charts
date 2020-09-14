@@ -1,0 +1,22 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: mm5
+  namespace: mep
+spec:
+  config: '{
+      "cniVersion": "0.3.0",
+      "type": "macvlan",
+      "master": "{{ .Values.networkIsolation.phyInterface.mm5 }}",
+      "mode": "bridge",
+      "ipam": {
+        "type": "host-local",
+        "subnet": "100.1.1.0/24",
+        "rangeStart": "100.1.1.2",
+        "rangeEnd": "100.1.1.254",
+        "routes": [
+          { "dst": "0.0.0.0/0" }
+        ],
+        "gateway": "100.1.1.1"
+      }
+    }'

@@ -1,0 +1,67 @@
+global:
+  ingress:
+    enabled: false
+  ssl:
+    enabled: false
+    secretName:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
+  oauth2:
+    clients:
+      appstore:
+        clientId: appstore-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
+      developer:
+        clientId: developer-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
+      mecm:
+        clientId: mecm-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
+jwt:
+  secretName:
+expose:
+  port: 8067
+  nodePort: 30067
+images:
+  usermgmt:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/user-mgmt
+    tag: latest
+    pullPolicy: Always
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    tag: 12.2
+    pullPolicy: IfNotPresent
+  redis:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/redis
+    tag: 6.0.3
+    pullPolicy: IfNotPresent
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+postgres:
+  username: usermgmt
+  password: te9Fmv%qaq
+  dbname: usermgmtdb
+cors:
+  allowOrigins: "*"
+redis:
+  password: te9Fmv%qaq
+  timeout: 1800
+  verificationTimeout: 60
+  maxTotal: 1000
+  maxIdle: 50
+  maxWaitMillis: 100000
+sms:
+  enabled: false
+  url:
+  appKey:
+  appSecret:
+  sender:
+  templateId:
+  signature:
+  statusCallBack:

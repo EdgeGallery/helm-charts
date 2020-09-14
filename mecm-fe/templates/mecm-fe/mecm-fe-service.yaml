@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mecm-fe-svc
+  labels:
+    svc: mecm-fe-svc
+spec:
+  {{- if not .Values.global.ingress.enabled }}
+  type: NodePort
+  {{- end }}
+  ports:
+    - port: {{ .Values.expose.mecmFe.port }}
+      targetPort: 8443
+      protocol: TCP
+      {{- if not .Values.global.ingress.enabled }}
+      nodePort: {{ .Values.expose.mecmFe.nodePort }}
+      {{- end }}
+  selector:
+    app: mecm-fe

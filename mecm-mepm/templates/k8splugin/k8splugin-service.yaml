@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mecm-mepm-k8splugin
+  labels:
+    app: mecm-mepm-k8splugin
+spec:
+  selector:
+    app: mecm-mepm-k8splugin
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.k8splugin.port }}
+      targetPort: 8095
+      nodePort: {{ .Values.expose.k8splugin.nodePort }}

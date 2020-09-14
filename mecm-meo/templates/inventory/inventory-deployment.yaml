@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mecm-inventory
+  namespace: default
+  labels:
+    app: mecm-inventory
+spec:
+  selector:
+    matchLabels:
+      app: mecm-inventory
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-inventory
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mecm-postgres -p 5432; do echo waiting for database; sleep 2; done;'] 
+      containers:
+        - image: {{ .Values.images.inventory.repository }}:{{ .Values.images.inventory.tag }}
+          imagePullPolicy: {{ .Values.images.inventory.pullPolicy }}
+          name: mecm-inventory
+          env:
+            - name: LOG_DIR
+              value: /var/log/inventory
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP    
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_TRUST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: truststorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ssl.secretName }}
+                  key: keyAlias
+            - name: INVENTORY_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mecm.secretName }}
+                  key: postgresPassword
+          ports:
+            - containerPort: 8093
+          resources: {}
+          volumeMounts:
+
+            - mountPath: /usr/app/ssl
+              name: inventory-keystore
+              readOnly: true
+
+            {{- if .Values.persistence.enabled }}
+            - name: inventory-log
+              mountPath: /var/log/inventory
+            {{- end }}
+      volumes:
+
+        - name: inventory-keystore
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+                mode: 0644
+              - key: keystore.jks
+                path: keystore.jks
+                mode: 0644
+
+        {{- if .Values.persistence.enabled }}
+        - name: inventory-log
+          hostPath:
+            path: /var/log/edgegallery/inventory
+        {{- end }}
+
+
