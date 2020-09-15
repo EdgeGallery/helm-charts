@@ -111,6 +111,13 @@ helm install --name my-mecm-meo edgegallery/mecm-meo \
   --set mecm.secretName=edgegallery-mecm-secret
 ```
 
+### Example enable push image configuration
+helm install --name my-mecm-meo edgegallery/mecm-meo \
+  --set ssl.secretName=edgegallery-mecm-ssl-secret \
+  --set mecm.secretName=edgegallery-mecm-secret \
+  --set mecm.pushImage=true
+```
+
 ### Example persistence configuration
 ```shell
 helm install --name my-mecm-meo edgegallery/mecm-meo \

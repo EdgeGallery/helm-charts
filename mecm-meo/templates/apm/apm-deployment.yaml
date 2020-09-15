@@ -25,9 +25,9 @@ spec:
           name: mecm-apm
           env:
             - name: LOG_DIR
-              value: /var/log/apm
+              value: /usr/app/log
             - name: PUSH_IMAGE
-              value: {{ quote .Values.pushimage.enabled }} 
+              value: {{ quote .Values.mecm.pushImage }} 
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:

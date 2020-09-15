@@ -37,8 +37,10 @@ spec:
             - mountPath: /docker-entrypoint-initdb.d/
               name: postgres-initdb
               readOnly: true
-#            - mountPath: /var/lib/postgresql/data
-#              name: mepm-postgres-pvc
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: mepm-postgres-pvc
+            {{- end }}
 
       volumes:
         - name: postgres-initdb
@@ -48,16 +50,16 @@ spec:
               - key: postgres_init.sql
                 path: postgres_init.sql
                 mode: 0644   
-#  {{- if .Values.persistence.enabled }}
-#  volumeClaimTemplates:
-#    - metadata:
-#        name: mepm-postgres-pvc
-#      spec:
-#        accessModes: [ "ReadWriteOnce" ]
-#        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-#        resources:
-#          requests:
-#            storage: 1Gi
-#  {{- end }}
+  {{- if .Values.global.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: mepm-postgres-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 5Gi
+  {{- end }}
 
 
