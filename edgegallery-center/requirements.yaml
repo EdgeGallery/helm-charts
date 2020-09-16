@@ -18,11 +18,7 @@ dependencies:
   - name: developer
     version: 1.0.1
     repository: http://192.168.100.143:30002/chartrepo/edgegallery_helm_chart
-    condition: global.developer.enabled
-  - name: dns-server
-    version: 1.0.1
-    repository: http://192.168.100.143:30002/chartrepo/edgegallery_helm_chart
-    condition: global.dns-server.enabled    
+    condition: global.developer.enabled   
   - name: mecm-meo
     version: 1.0.1
     repository: http://192.168.100.143:30002/chartrepo/edgegallery_helm_chart
