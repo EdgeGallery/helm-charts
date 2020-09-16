@@ -1,9 +1,9 @@
 dependencies:
   - name: mecm-mepm
     version: 1.0.1
-    repository: http://192.168.100.143:30002/chartrepo/edgegallery_helm_chart
+    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
     condition: global.mecm-mepm.enabled
   - name: mep
     version: 1.0.1
-    repository: http://192.168.100.143:30002/chartrepo/edgegallery_helm_chart
+    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
     condition: global.mecm-mepm.enabled
