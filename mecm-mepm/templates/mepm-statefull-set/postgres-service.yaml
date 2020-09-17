@@ -7,8 +7,6 @@ metadata:
 spec:
   selector:
     app: mepm-postgres
-  type: NodePort
   ports:
     - port: {{ .Values.expose.postgres.port }}
       targetPort: 5432
-      nodePort: {{ .Values.expose.postgres.nodePort }}
