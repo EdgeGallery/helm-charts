@@ -191,7 +191,7 @@ data:
       "project_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
       "agent_config" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "image_file_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
-      "app_api_file_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+      "app_api_file_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "status" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "access_url" varchar(200) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "error_log" text COLLATE "pg_catalog"."default" DEFAULT NULL,
