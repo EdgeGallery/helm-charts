@@ -36,7 +36,6 @@ expose:
     nodePort: 30205
   postgres:
     port: 5432
-    nodePort: 30208
 ssl:
   secretName: 
 mepm:
