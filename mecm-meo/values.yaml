@@ -27,7 +27,7 @@ images:
     pullPolicy: IfNotPresent
   postgres:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
-    tag: 12.2
+    tag: 12.3
     pullPolicy: IfNotPresent
 persistence:
   enabled: true
