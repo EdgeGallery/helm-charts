@@ -64,7 +64,7 @@ spec:
               name: inventory-keystore
               readOnly: true
 
-            {{- if .Values.persistence.enabled }}
+            {{- if .Values.global.persistence.enabled }}
             - name: inventory-log
               mountPath: /usr/app/log
             {{- end }}
@@ -81,7 +81,7 @@ spec:
                 path: keystore.jks
                 mode: 0644
 
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.global.persistence.enabled }}
         - name: inventory-log
           hostPath:
             path: /var/log/edgegallery/inventory

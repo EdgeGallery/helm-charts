@@ -25,7 +25,7 @@ spec:
           name: mecm-mepm-lcmcontroller
           env:
             - name: LOG_DIR
-              value: /var/log/lcmcontroller
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
@@ -49,9 +49,9 @@ spec:
               name: lcmcontroller-certs
               readOnly: true
 
-            {{- if .Values.persistence.enabled }}
+            {{- if .Values.global.persistence.enabled }}
             - name: lcmcontroller-log
-              mountPath: /var/log/lcmcontroller
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -68,7 +68,7 @@ spec:
               - key: server_tls.key
                 path: server_tls.key
                 mode: 0644
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.global.persistence.enabled }}
         - name: lcmcontroller-log
           hostPath:
             path: /var/log/edgegallery/lcmcontroller

@@ -25,7 +25,7 @@ spec:
           name: mecm-mepm-k8splugin
           env:
             - name: LOG_DIR
-              value: /var/log/k8splugin
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
@@ -49,9 +49,9 @@ spec:
               name: k8splugin-certs
               readOnly: true
 
-            {{- if .Values.persistence.enabled }}
+            {{- if .Values.global.persistence.enabled }}
             - name: k8splugin-log
-              mountPath: /var/log/k8splugin
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -68,7 +68,7 @@ spec:
               - key: server_tls.key
                 path: server_tls.key
                 mode: 0644
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.global.persistence.enabled }}
         - name: k8splugin-log
           hostPath:
             path: /var/log/edgegallery/k8splugin
