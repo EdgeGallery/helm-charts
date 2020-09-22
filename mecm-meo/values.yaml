@@ -49,3 +49,5 @@ ssl:
 mecm:
   secretName: 
   pushImage: false
+  docker:
+    fsgroup:
