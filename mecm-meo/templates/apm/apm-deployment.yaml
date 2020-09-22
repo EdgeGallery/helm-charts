@@ -82,7 +82,7 @@ spec:
 
             {{- if .Values.persistence.enabled }}
             - name: apm-log
-              mountPath: /var/log/apm
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
