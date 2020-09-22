@@ -80,7 +80,7 @@ spec:
               name: docker-sock
               readOnly: true
 
-            {{- if .Values.persistence.enabled }}
+            {{- if .Values.global.persistence.enabled }}
             - name: apm-log
               mountPath: /usr/app/log
             {{- end }}
@@ -97,7 +97,7 @@ spec:
                 path: keystore.jks
                 mode: 0644                
 
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.global.persistence.enabled }}
         - name: apm-log
           hostPath:
             path: /var/log/edgegallery/apm
