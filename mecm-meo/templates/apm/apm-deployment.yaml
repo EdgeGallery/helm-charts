@@ -29,6 +29,8 @@ spec:
       labels:
         app: mecm-apm
     spec:
+      securityContext:
+        fsGroup: {{ .Values.mecm.docker.fsgroup }}
       initContainers:
         - name: check-db-ready
           image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
