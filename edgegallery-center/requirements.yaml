@@ -15,34 +15,34 @@
 dependencies:
   - name: servicecenter
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.servicecenter.enabled
   - name: api-emulator
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.api-emulator.enabled    
   - name: usermgmt
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.usermgmt.enabled
   - name: appstore
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.appstore.enabled
   - name: developer
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.developer.enabled   
   - name: mecm-meo
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.mecm-meo.enabled
   - name: mecm-mepm
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.mecm-mepm.enabled    
   - name: mecm-fe
     version: 1.0.1
-    repository: http://119.8.55.191:30002/chartrepo/edgegallery_helm_chart
+    repository: http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
     condition: global.mecm-fe.enabled    
 
