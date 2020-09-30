@@ -26,7 +26,7 @@ spec:
       "ipam": {
         "type": "host-local",
         "subnet": "200.1.1.0/24",
-        "rangeStart": "200.1.1.2",
+        "rangeStart": "200.1.1.25",
         "rangeEnd": "200.1.1.254",
         "routes": [
           { "dst": "0.0.0.0/0" }
