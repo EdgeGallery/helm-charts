@@ -101,7 +101,7 @@ spec:
             - containerPort: 8099
           env:
             - name: LOG_DIR
-              value: /var/log/appstore-be
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
@@ -153,8 +153,6 @@ spec:
               name: appstore-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: appstore-be-log
-              mountPath: /var/log/appstore-be
             - name: appstore-be-workspace-pvc
               mountPath: /home/appstore
             {{- end }}
