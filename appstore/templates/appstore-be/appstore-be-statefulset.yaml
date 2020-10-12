@@ -153,8 +153,6 @@ spec:
               name: appstore-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: appstore-be-log
-              mountPath: /var/log/appstore-be
             - name: appstore-be-workspace-pvc
               mountPath: /home/appstore
             {{- end }}
