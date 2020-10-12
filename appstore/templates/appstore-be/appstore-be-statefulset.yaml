@@ -101,7 +101,7 @@ spec:
             - containerPort: 8099
           env:
             - name: LOG_DIR
-              value: /var/log/appstore-be
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
