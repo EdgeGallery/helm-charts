@@ -120,6 +120,17 @@ spec:
               value: "8444"
             - name: MEPAUTH_CERT_DOMAIN_NAME
               value: "edgegallery"
+            - name: MEPAUTH_DB_NAME
+              value: kong
+            - name: MEPAUTH_DB_HOST
+              value: pg-service
+            - name: MEPAUTH_DB_USER
+              value: kong
+            - name: MEPAUTH_DB_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-secret
+                  key: kong_pg_pwd
           volumeMounts:
             - name: mepauth-certs
               mountPath: /usr/mep/ssl/
