@@ -101,7 +101,7 @@ spec:
             - containerPort: 9082
           env:
             - name: LOG_DIR
-              value: /var/log/developer-be
+              value: /usr/app/log
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
@@ -155,8 +155,6 @@ spec:
               name: developer-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: developer-log
-              mountPath: /var/log/developer-be
             - name: developer-be-workspace-pvc
               mountPath: /home/mec-developer/user
             {{- end }}
