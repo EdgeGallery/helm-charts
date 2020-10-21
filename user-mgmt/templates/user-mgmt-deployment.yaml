@@ -42,7 +42,7 @@ spec:
             - containerPort: 8067
           env:
             - name: LOG_DIR
-              value: /var/log/usermgmt
+              value: /usr/app/log
             - name: CORS_ALLOW_ORIGINS
               value: {{ quote .Values.cors.allowOrigins }}
             - name: SC_ADDRESS
@@ -212,7 +212,7 @@ spec:
               name: user-mgmt-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - mountPath: /var/log/usermgmt
+            - mountPath: /usr/app/log
               name: usermgmt-log
             {{- end }}
       volumes:
