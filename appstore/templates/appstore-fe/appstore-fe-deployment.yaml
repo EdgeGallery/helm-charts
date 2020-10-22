@@ -42,7 +42,7 @@ spec:
             - containerPort: 8443
           env:
             - name: LOG_DIR
-              value: /var/log/appstore-fe
+              value: /usr/app/log
             - name: LOG_FILE_NAME
               value: appstore-fe
             - name: LISTEN_IP
@@ -92,10 +92,6 @@ spec:
             {{- if .Values.global.ssl.enabled }}
             - mountPath: /usr/app/ssl
               name: appstore-fe-keystore
-            {{- end }}
-            {{- if .Values.global.persistence.enabled }}
-            - name: appstore-fe-log
-              mountPath: /var/log/appstore-fe
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
