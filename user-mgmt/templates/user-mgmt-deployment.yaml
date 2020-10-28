@@ -211,6 +211,10 @@ spec:
             - mountPath: /usr/app/ssl
               name: user-mgmt-keystore
             {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/app/log
+              name: usermgmt-log
+            {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: user-mgmt-keystore
