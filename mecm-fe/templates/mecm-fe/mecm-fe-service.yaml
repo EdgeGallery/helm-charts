@@ -22,6 +22,7 @@ spec:
   {{- if not .Values.global.ingress.enabled }}
   type: NodePort
   {{- end }}
+  externalTrafficPolicy: Local
   ports:
     - port: {{ .Values.expose.mecmFe.port }}
       targetPort: 8443
