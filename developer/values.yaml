@@ -36,6 +36,14 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-be
     tag: latest
     pullPolicy: IfNotPresent
+  toolChain:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/tool-chain
+    tag: latest
+    pullPolicy: IfNotPresent
+  portingAdvisor:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/porting-advisor
+    tag: latest
+    pullPolicy: IfNotPresent
   postgres:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
     tag: 12.2
