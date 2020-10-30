@@ -91,6 +91,10 @@ Deploy MEP.
   kubectl apply -f multus.yaml
   kubectl apply -f eg-sp-rbac.yaml
   kubectl apply -f eg-sp-controller.yaml
+
+  ## Network Isolation on multinode (only x86 now)
+  kubectl apply -f whereabouts-daemonset-install.yaml
+  kubectl apply -f whereabouts.cni.cncf.io_ippools.yaml
 ```
 
 ## Setup interfaces
@@ -99,13 +103,19 @@ Deploy MEP.
   export $EG_NODE_EDGE_MP1=interface-1
   export $EG_NODE_EDGE_MM5=interface-2
 
-  ## These ip's range is betwen x.1.1.2~x.1.1.24 . Rest reserved for allocation to pods.
-  ip link add eg-mp1 link $EG_NODE_EDGE_MP1 type macvlan mode bridge
-  ip addr add 200.1.1.2/24 dev eg-mp1
+  ## These ip's range is betwen x.1.1.2~x.1.1.24 . Rest reserved for allocation to pods. ip_prefix is starts with value 2. Increment it for every node to keep ip unique.
+  ip link add vxlan-mp1 type vxlan id 100 group 239.1.1.1 dstport 4789 dev $EG_NODE_EDGE_MP1
+  ip link set vxlan-mp1 up
+
+  ip link add vxlan-mm5 type vxlan id 200 group 239.1.1.1 dstport 4789 dev $EG_NODE_EDGE_MM5
+  ip link set vxlan-mm5 up
+
+  ip link add eg-mp1 link vxlan-mp1 type macvlan mode bridge
+  ip addr add 200.1.1.$ip_prefix/24 dev eg-mp1
   ip link set dev eg-mp1 up
 
-  ip link add eg-mm5 link $EG_NODE_EDGE_MM5 type macvlan mode bridge
-  ip addr add 100.1.1.2/24 dev eg-mm5
+  ip link add eg-mm5 link vxlan-mm5 type macvlan mode bridge
+  ip addr add 100.1.1.$ip_prefix/24 dev eg-mm5
   ip link set dev eg-mm5 up
 ```
 
@@ -116,7 +126,14 @@ helm repo add eg http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_ch
 
 ## Install MEP helm-chart
 ```
+ ## Aio mode
   helm install mep-edgegallery eg/mep \
+  --set --set networkIsolation.ipamType=host-local \
+  --set networkIsolation.phyInterface.mp1=interface-2 \
+  --set networkIsolation.phyInterface.mm5=interface-1
+ ## muno mode
+  helm install mep-edgegallery eg/mep \
+  --set --set networkIsolation.ipamType=whereabouts \
   --set networkIsolation.phyInterface.mp1=interface-2 \
   --set networkIsolation.phyInterface.mm5=interface-1
 ```
@@ -135,11 +152,15 @@ helm repo add eg http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_ch
   kubectl delete -f eg-sp-controller.yaml
   kubectl delete -f eg-sp-rbac.yaml
   kubectl delete -f multus.yaml
+  kubectl delete -f whereabouts-daemonset-install.yaml
+  kubectl delete -f whereabouts.cni.cncf.io_ippools.yaml
   rm /opt/cni/bin/macvlan /opt/cni/bin/host-local
   ip link set dev eg-mp1 down
   ip link delete eg-mp1
   ip link set dev eg-mm5 down
   ip link delete eg-mm5
+  ip link delete vxlan-mp1
+  ip link delete vxlan-mm5
   rm /opt/cni/bin/multus
 
   ## Cleanup dns setup:
