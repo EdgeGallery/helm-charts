@@ -171,7 +171,7 @@ spec:
           volumeMounts:
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/mep/data
-              name: dns-datastore-pvc
+              name: dns-datastore
             {{- end }}
       volumes:
         - name: kong-conf
@@ -247,15 +247,9 @@ spec:
               - key: mepauth.properties
                 path: mepauth.properties
                 mode: 0644
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: dns-datastore-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: {{ .Values.dnsserver.storageSize }}
-  {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: dns-datastore
+          persistentVolumeClaim:
+            claimName: dns-datastore-pvc
+        {{- end }}
 
