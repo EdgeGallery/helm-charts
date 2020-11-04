@@ -53,6 +53,7 @@ ssl:
   secretName:
 
 networkIsolation:
+  ipamType: host-local
   phyInterface: 
     mp1: ens3
     mm5: ens3
