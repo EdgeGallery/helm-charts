@@ -23,14 +23,27 @@ spec:
       "type": "macvlan",
       "master": "{{ .Values.networkIsolation.phyInterface.mm5 }}",
       "mode": "bridge",
+      {{- if eq .Values.networkIsolation.ipamType "whereabouts" }}
       "ipam": {
-        "type": "host-local",
-        "subnet": "100.1.1.0/24",
-        "rangeStart": "100.1.1.25",
-        "rangeEnd": "100.1.1.254",
-        "routes": [
-          { "dst": "0.0.0.0/0" }
-        ],
+        "type": "whereabouts",
+        "datastore": "kubernetes",
+        "kubernetes": { "kubeconfig": "/etc/cni/net.d/whereabouts.d/whereabouts.kubeconfig" },
+        "range": "100.1.1.25/24",
+        "range_start": "100.1.1.25",
+        "range_end": "100.1.1.254",
+        "log_file" : "/tmp/whereabouts.log",
         "gateway": "100.1.1.1"
       }
+      {{- else }}
+      "ipam": {
+         "type": "host-local",
+         "subnet": "100.1.1.0/24",
+         "rangeStart": "100.1.1.25",
+         "rangeEnd": "100.1.1.254",
+         "routes": [
+           { "dst": "0.0.0.0/0" }
+         ],
+         "gateway": "100.1.1.1"
+       }
+       {{- end }}
     }'
