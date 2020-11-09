@@ -52,3 +52,10 @@ data:
     insert into tbl_role (ID, PLATFORM, ROLE) values(7, 'MECM', 'GUEST');
     insert into tbl_role (ID, PLATFORM, ROLE) values(8, 'MECM', 'TENANT');
     insert into tbl_role (ID, PLATFORM, ROLE) values(9, 'MECM', 'ADMIN');
+
+    insert into tbl_tenant (TENANTID, USERNAME, PASSWORD, COMPANY, TELEPHONENUMBER, GENDER)
+    values('de3565b1-a7c2-42b9-b281-3f032af29ff7', 'guest',
+    '59756fda85ebddee6024d5cc0e6edcde3226693257a9c1eb662c56426b8a4f232b3d56c321adbd91', 'company', '13800000000', '1');
+
+    insert into tbl_tenant_role (TENANTID, ROLEID) values('guest', 1),('guest', 4),('guest', 7);
+
