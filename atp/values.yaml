@@ -25,11 +25,15 @@ global:
     authServerAddress:
     clients:
       atp:
-        clientId: atp
+        clientId: atp-fe
         clientSecret: te9Fmv%qaq
 images:
+  atpFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-fe
+    tag: latest
+    pullPolicy: IfNotPresent
   atp:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-be
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
@@ -45,6 +49,9 @@ postgres:
   password: te9Fmv%qaq
   dbname: atpdb
 expose:
+  atpFe:
+    port: 8442
+    nodePort: 30108
   atp:
     port: 8073
     nodePort: 30107
