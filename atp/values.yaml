@@ -51,7 +51,7 @@ postgres:
 expose:
   atpFe:
     port: 8442
-    nodePort: 30108
+    nodePort: 30094
   atp:
     port: 8073
     nodePort: 30107

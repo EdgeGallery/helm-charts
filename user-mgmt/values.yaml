@@ -35,6 +35,10 @@ global:
         clientId: mecm-fe
         clientSecret: te9Fmv%qaq
         clientUrl:
+      atp:
+        clientId: atp-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
 jwt:
   secretName:
 expose:
