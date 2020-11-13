@@ -112,18 +112,6 @@ spec:
               value: atp-postgres-svc
             - name: POSTGRES_PORT
               value: "5432"
-            - name: APPLCM_HOST_IP
-              value: "119.8.125.176"
-            - name: APPLCM_HOST_PORT
-              value: "30101"
-            - name: APPLCM_HOST_PROTOCOL
-              value: "https"
-            - name: INVENTORY_HOST_IP
-              value: "119.8.125.176"
-            - name: INVENTORY_HOST_PORT
-              value: "30101"
-            - name: INVENTORY_HOST_PROTOCOL
-              value: "https"
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
             - name: POSTGRES_USERNAME

@@ -41,14 +41,6 @@ data:
         CONSTRAINT test_case_table_pkey PRIMARY KEY (ID)
     );
 
-    CREATE TABLE BATCH_TASK_MAPPING_TABLE (
-        ID                       VARCHAR(200)       NOT NULL,
-        SUBTASKID                TEXT               NULL,
-        USERID                   VARCHAR(100)       NULL,
-        USERNAME                 VARCHAR(100)       NULL,
-        CONSTRAINT batch_task_mapping_table_pkey PRIMARY KEY (ID)
-    );
-
     INSERT INTO public.test_case_table(
     	id, name, content,type, classname,  description)
     	VALUES ('4d203173-1111-4f62-aabb-8ebcec357f87','MFFilePathValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.MFContentTestCase','Root path must contain the file which name ends of .mf'),
