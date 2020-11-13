@@ -50,7 +50,7 @@ postgres:
   dbname: atpdb
 expose:
   atpFe:
-    port: 8442
+    port: 8443
     nodePort: 30094
   atp:
     port: 8073

@@ -25,7 +25,7 @@ spec:
   externalTrafficPolicy: Local
   ports:
     - port: {{ .Values.expose.atpFe.port }}
-      targetPort: 8442
+      targetPort: 8443
       protocol: TCP
       {{- if not .Values.global.ingress.enabled }}
       nodePort: {{ .Values.expose.atpFe.nodePort }}
