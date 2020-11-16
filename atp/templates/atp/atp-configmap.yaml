@@ -49,4 +49,4 @@ data:
       ('4d203173-4444-4f62-aabb-8ebcec357f87','ToscaFileValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.TOSCAFileTestCase','ToscaFileValidation	TOSCA.meta file must exist, and it must contain the field: Entry-Definitions, and the the value of the filed must be right path, the corresponding file must exist'),
       ('4d203173-5555-4f62-aabb-8ebcec357f87','InstantiateApp','','sandboxTest','org.edgegallery.atp.schedule.testcase.sandbox.InstantiateAppTestCase','Instantiate application and its dependency application on one edge host'),
       ('4d203173-6666-4f62-aabb-8ebcec357f87','UnInstantiateApp','','sandboxTest','org.edgegallery.atp.schedule.testcase.sandbox.UninstantiateAppTestCase','Uninstantiate application and its dependency application on one edge host'),
-      ('4d203173-7777-4f62-aabb-8ebcec357f87','VirusScanning','','virusScanningTest','org.edgegallery.atp.schedule.testcase.virusScan.VirusScanTestCase','Virus scan by clamav util');
+      ('4d203173-7777-4f62-aabb-8ebcec357f87','VirusScanning','','virusScanningTest','org.edgegallery.atp.schedule.testcase.virusscan.VirusScanTestCase','Virus scan by clamav util');
