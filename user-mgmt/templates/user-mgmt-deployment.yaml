@@ -155,6 +155,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: mecmClientId
+            - name: OAUTH_ATP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientId
             - name: OAUTH_APPSTORE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -170,6 +175,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: mecmClientSecret
+            - name: OAUTH_ATP_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientSecret
             - name: OAUTH_APPSTORE_CLIENT_URL
               valueFrom:
                 secretKeyRef:
@@ -180,6 +190,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: developerClientUrl
+            - name: OAUTH_ATP_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientUrl
             - name: OAUTH_MECM_CLIENT_URL
               valueFrom:
                 secretKeyRef:
