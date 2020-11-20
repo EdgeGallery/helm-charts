@@ -21,8 +21,8 @@ metadata:
 spec:
   {{- if not .Values.global.ingress.enabled }}
   type: NodePort
-  {{- end }}
   externalTrafficPolicy: Local
+  {{- end }}
   ports:
     - port: {{ .Values.expose.atpFe.port }}
       targetPort: 8443
