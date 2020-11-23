@@ -35,17 +35,18 @@ global:
     enabled: false
     tls:
       enabled: false
-      secretName:
+      secretName: edgegallery-ingress-secret
     annotations:
       bodySize: 20m
     hosts:
-      auth:
-      developer:
-      appstore:
-      mecm:
+      auth: auth.edgegallery.org
+      developer: developer.edgegallery.org
+      appstore: appstore.edgegallery.org
+      mecm: mecm.edgegallery.org
+      atp: atp.edgegallery.org
   ssl:
     enabled: false
-    secretName:
+    secretName: edgegallery-ssl-secret
   oauth2:
     authServerAddress:
     clients:
@@ -61,166 +62,73 @@ global:
         clientId: mecm-fe
         clientSecret: te9Fmv%qaq
         clientUrl:
+      atp:
+        clientId: atp-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
 
-# Sub charts
-## Configuration values for the user-mgmt dependency
-##
 usermgmt:
   jwt:
-    secretName:
-#  expose:
-#    port: 8067
-#    nodePort: 30067
-#  images:
-#    usermgmt:
-#      repository: edgegallery/user-mgmt
-#      tag: latest
-#      pullPolicy: Always
-#    postgres:
-#      repository: postgres
-#      tag: 9.6.15
-#      pullPolicy: IfNotPresent
-#    redis:
-#      repository: redis
-#      tag: 6.0.3
-#      pullPolicy: IfNotPresent
-#  postgres:
-#    username: usermgmt
-#    password: te9Fmv%qaq
-#    dbname: usermgmtdb
-#  cors:
-#    allowOrigins: "*"
-#  redis:
-#    password: te9Fmv%qaq
-#    timeout: 1800
-#    verificationTimeout: 60
-#    maxTotal: 1000
-#    maxIdle: 50
-#    maxWaitMillis: 100000
-#  sms:
-#    enabled: false
-#    url:
-#    appKey:
-#    appSecret:
-#    sender:
-#    templateId:
-#    signature:
-#    statusCallBack:
+    secretName: user-mgmt-jwt-secret
 
-# Sub charts
-## Configuration values for the appstore dependency
-##
-#appstore:
-#  images:
-#    appstoreFe:
-#      repository: edgegallery/appstore-fe
-#      tag: latest
-#      pullPolicy: Always
-#    appstoreBe:
-#      repository: edgegallery/appstore-be
-#      tag: latest
-#      pullPolicy: Always
-#    postgres:
-#      repository: postgres
-#      tag: 9.6.15
-#      pullPolicy: IfNotPresent
-#  postgres:
-#    username: appstore
-#    password: te9Fmv%qaq
-#    dbname: appstoredb
-#  expose:
-#    appstoreFe:
-#      port: 8443
-#      nodePort: 30091
-#    appstoreBe:
-#      port: 8099
-#      nodePort: 30099
-#    postgres:
-#      port: 5432
+images:
+  usermgmt:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/user-mgmt
+    tag: latest
+    pullPolicy: Always
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    tag: 12.2
+    pullPolicy: IfNotPresent
+  redis:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/redis
+    tag: 6.0.3
+    pullPolicy: IfNotPresent
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
+    tag: latest
+    pullPolicy: IfNotPresent
 
-# Sub charts
-## Configuration values for the developer dependency
-##
-#developer:
-#  images:
-#    developerFe:
-#      repository: edgegallery/developer-fe
-#      tag: latest
-#      pullPolicy: Always
-#    developerBe:
-#      repository: edgegallery/developer-be
-#      tag: latest
-#      pullPolicy: Always
-#    postgres:
-#      repository: postgres
-#      tag: 9.6.15
-#      pullPolicy: IfNotPresent
-#    toolChain:
-#      repository: edgegallery/tool-chain
-#      tag: latest
-#      pullPolicy: Always
-#    portingAdvisor:
-#      repository: edgegallery/porting-advisor
-#      tag: latest
-#      pullPolicy: Always
-#  postgres:
-#    username: developer
-#    password: te9Fmv%qaq
-#    dbname: developerdb
-#  expose:
-#    developerFe:
-#      port: 8443
-#      nodePort: 30092
-#    postgres:
-#      port: 5432
+  appstoreBe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appstore-be
+    tag: latest
+    pullPolicy: Always
+  appstoreFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appstore-fe
+    tag: latest
+    pullPolicy: Always
 
-# Sub charts
-## Configuration values for the mecm dependency
-##
-#mecm:
-#  images:
-#    mecmFe:
-#      repository: edgegallery/mecm-fe
-#      tag: latest
-#      pullPolicy: Always
-#    apiHandlerInfra:
-#      repository: edgegallery/api-handler-infra
-#      tag: latest
-#      pullPolicy: Always
-#    meoBpmnInfra:
-#      repository: edgegallery/bpmn-infra
-#      tag: latest
-#      pullPolicy: Always
-#    meoCatalogDbAdapter:
-#      repository: edgegallery/catalog-db-adapter
-#      tag: latest
-#      pullPolicy: Always
-#    mecmEsr:
-#      repository: edgegallery/mecm-esr
-#      tag: latest
-#      pullPolicy: Always
-#    meoRequestDbAdapter:
-#      repository: edgegallery/request-db-adapter
-#      tag: latest
-#      pullPolicy: Always
-#    mecmCatalog:
-#      repository: edgegallery/mecm-catalog
-#      tag: latest
-#      pullPolicy: Always
-#    mariadb:
-#      repository: mariadb
-#      tag: 10.1
-#      pullPolicy: Always
-#  expose:
-#    mecmFe:
-#      port: 8443
-#      nodePort: 30093
+  developerBe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-be
+    tag: latest
+    pullPolicy: Always
+  developerFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-fe
+    tag: latest
+    pullPolicy: Always
+  toolChain:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/tool-chain
+    tag: latest
+    pullPolicy: Always
+  portingAdvisor:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/porting-advisor
+    tag: latest
+    pullPolicy: IfNotPresent
 
-# Sub charts
-## Configuration values for the service-center dependency
-##
-#servicecenter:
-#  images:
-#    repository: edgegallery/service-center
-#    tag: latest
-#    pullPolicy: Always
+  atp:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-be
+    tag: latest
+    pullPolicy: Always
+  atpFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-fe
+    tag: latest
+    pullPolicy: Always
+
+  mecmFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
+    tag: latest
+    pullPolicy: Always
+  service-center:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
+    tag: latest
+    pullPolicy: Always
