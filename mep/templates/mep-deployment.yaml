@@ -149,6 +149,12 @@ spec:
           ports:
             - containerPort: 8088
           env:
+            - name: MEPSERVER_APIGW_HOST
+              value: "localhost"
+            - name: MEPSERVER_APIGW_PORT
+              value: "8444"
+            - name: MEPSERVER_CERT_DOMAIN_NAME
+              value: "edgegallery"
             - name: SSL_ROOT
               value: /usr/mep/ssl
           volumeMounts:
