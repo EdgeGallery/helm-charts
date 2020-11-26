@@ -225,6 +225,7 @@ data:
       "pods" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "deploy_status" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "stage_status"  varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "lcm_token"  varchar(1000) COLLATE "pg_catalog"."default" DEFAULT NULL,
       CONSTRAINT "tbl_project_test_config_pkey" PRIMARY KEY ("test_id")
     )
     ;
