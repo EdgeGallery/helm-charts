@@ -37,6 +37,25 @@ spec:
         - image: {{ .Values.images.appo.repository }}:{{ .Values.images.appo.tag }}
           imagePullPolicy: {{ .Values.images.appo.pullPolicy }}
           name: mecm-appo
+          livenessProbe:
+            httpGet:
+              path: /appo/v1/health
+              port: {{ .Values.expose.appo.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+
+          readinessProbe:
+            httpGet:
+              path: /appo/v1/health
+              port: {{ .Values.expose.inventory.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
             - name: LOG_DIR
               value: /usr/app/log
