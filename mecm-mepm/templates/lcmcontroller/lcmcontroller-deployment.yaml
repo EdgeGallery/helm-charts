@@ -40,6 +40,10 @@ spec:
           env:
             - name: LOG_DIR
               value: /usr/app/log
+            - name: API_GW_ADDR
+              value: mepauth.mep
+            - name: API_GW_PORT
+              value: "10443"
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
