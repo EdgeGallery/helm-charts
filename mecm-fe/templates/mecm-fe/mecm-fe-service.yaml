@@ -21,7 +21,6 @@ metadata:
 spec:
   {{- if not .Values.global.ingress.enabled }}
   type: NodePort
-  externalTrafficPolicy: Local
   {{- end }}
   ports:
     - port: {{ .Values.expose.mecmFe.port }}
