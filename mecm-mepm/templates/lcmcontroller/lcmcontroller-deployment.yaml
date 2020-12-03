@@ -37,6 +37,25 @@ spec:
         - image: {{ .Values.images.lcmcontroller.repository }}:{{ .Values.images.lcmcontroller.tag }}
           imagePullPolicy: {{ .Values.images.lcmcontroller.pullPolicy }}
           name: mecm-mepm-lcmcontroller
+          livenessProbe:
+            httpGet:
+              path: /lcmcontroller/v1/health
+              port: {{ .Values.expose.lcmcontroller.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+
+          readinessProbe:
+            httpGet:
+              path: /inventory/v1/health
+              port: {{ .Values.expose.inventory.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
             - name: LOG_DIR
               value: /usr/app/log

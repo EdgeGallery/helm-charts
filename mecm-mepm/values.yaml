@@ -56,3 +56,17 @@ mepm:
   secretName: 
 jwt:
   publicKeySecretName: 
+# probe configuration parameters
+livenessProbe:
+  scheme: HTTPS
+  initialDelaySeconds: 600
+  periodSeconds: 60
+  timeoutSeconds: 10
+  successThreshold: 1
+  FailureThreshold: 3
+  
+readinessProbe:
+  scheme: HTTPS
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
