@@ -18,20 +18,20 @@ metadata:
   name: atp-postgres-initdb-configmap
 data:
   postgres.sql: |
-  	CREATE TABLE TASK_TABLE (
-  	    ID                       VARCHAR(200)       NOT NULL,
-  	    APPNAME                  VARCHAR(100)       NULL,
-  	    APPVERSION               VARCHAR(100)       NULL,
-  	    STATUS                   VARCHAR(100)       NULL,
-  	    TESTCASEDETAIL           TEXT               NULL,
-  	    CREATETIME               TIMESTAMP          NULL,
-  	    ENDTIME                  TIMESTAMP          NULL,
-  	    PROVIDERID               VARCHAR(100)       NULL,
-  	    PACKAGEPATH              VARCHAR(100)       NULL,
-  	    USERID                   VARCHAR(100)       NULL,
-  	    USERNAME                 VARCHAR(100)       NULL,
-  	    CONSTRAINT task_table_pkey PRIMARY KEY (ID)
-  	);
+    CREATE TABLE TASK_TABLE (
+        ID                       VARCHAR(200)       NOT NULL,
+        APPNAME                  VARCHAR(100)       NULL,
+        APPVERSION               VARCHAR(100)       NULL,
+        STATUS                   VARCHAR(100)       NULL,
+        TESTCASEDETAIL           TEXT               NULL,
+        CREATETIME               TIMESTAMP          NULL,
+        ENDTIME                  TIMESTAMP          NULL,
+        PROVIDERID               VARCHAR(100)       NULL,
+        PACKAGEPATH              VARCHAR(100)       NULL,
+        USERID                   VARCHAR(100)       NULL,
+        USERNAME                 VARCHAR(100)       NULL,
+        CONSTRAINT task_table_pkey PRIMARY KEY (ID)
+    );
 
     CREATE TABLE TEST_CASE_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
@@ -44,11 +44,11 @@ data:
     );
 
     INSERT INTO public.test_case_table(
-    	id, name, content,type, classname,  description)
-    	VALUES ('4d203173-1111-4f62-aabb-8ebcec357f87','MFFilePathValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.MFContentTestCase','Root path must contain the file which name ends of .mf'),
+      id, name, content,type, classname,  description)
+      VALUES ('4d203173-1111-4f62-aabb-8ebcec357f87','MFFilePathValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.MFContentTestCase','Root path must contain the file which name ends of .mf'),
       ('4d203173-2222-4f62-aabb-8ebcec357f87','MFFileFieldValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.SourcePathTestCase','.mf file must contain the following field: app_product_name, app_provider_id, app_package_version, app_release_date_time and app_package_description'),
       ('4d203173-3333-4f62-aabb-8ebcec357f87','MFFileSourcePathValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.SuffixTestCase','The value of Source filed must be right path, the corresponding file must exist'),
-      ('4d203173-4444-4f62-aabb-8ebcec357f87','ToscaFileValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.TOSCAFileTestCase','ToscaFileValidation	TOSCA.meta file must exist, and it must contain the field: Entry-Definitions, and the the value of the filed must be right path, the corresponding file must exist'),
+      ('4d203173-4444-4f62-aabb-8ebcec357f87','ToscaFileValidation','','complianceTest','org.edgegallery.atp.schedule.testcase.compliance.TOSCAFileTestCase','ToscaFileValidation  TOSCA.meta file must exist, and it must contain the field: Entry-Definitions, and the the value of the filed must be right path, the corresponding file must exist'),
       ('4d203173-5555-4f62-aabb-8ebcec357f87','InstantiateApp','','sandboxTest','org.edgegallery.atp.schedule.testcase.sandbox.InstantiateAppTestCase','Instantiate application and its dependency application on one edge host'),
       ('4d203173-6666-4f62-aabb-8ebcec357f87','UnInstantiateApp','','sandboxTest','org.edgegallery.atp.schedule.testcase.sandbox.UninstantiateAppTestCase','Uninstantiate application and its dependency application on one edge host'),
       ('4d203173-7777-4f62-aabb-8ebcec357f87','VirusScanning','','virusScanningTest','org.edgegallery.atp.schedule.testcase.virusscan.VirusScanTestCase','Virus scan by clamav util');
