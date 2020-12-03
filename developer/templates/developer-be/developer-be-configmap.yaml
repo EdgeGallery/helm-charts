@@ -163,16 +163,18 @@ data:
       CONSTRAINT "tbl_app_project_pkey" PRIMARY KEY ("id")
     )
     ;
-
-
+    
     CREATE TABLE IF NOT EXISTS "tbl_openmep_capability" (
       "group_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
-      "name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "one_level_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "two_level_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "three_level_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "type" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       CONSTRAINT "tbl_openmep_capability_pkey" PRIMARY KEY ("group_id")
     )
     ;
+
 
     CREATE TABLE IF NOT EXISTS "tbl_openmep_capability_detail" (
       "detail_id" varchar(50) NOT NULL,
@@ -294,19 +296,30 @@ data:
     -- workspace table end -----------------
 
     -- workspace mep capability init --
-    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', 'Traffic', 'OPENMEP', 'L3/L4规则API,L7规则API');
-    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', 'Service Discovery', 'OPENMEP', 'Service Discovery');
-    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', 'Location', 'OPENMEP', '自定义不规则区域分析API,标准栅格区域分析API,特定人群流动分析API,API区域原子报表分析,匿名历史位置轨');
-    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', 'Bandwidth', 'OPENMEP', 'MBB应用,FMC应用,UIC应用');
-    INSERT INTO tbl_openmep_capability (group_id, name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', 'Face Recognition', 'OPENMEP', 'Face Recognition');
+    
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', 'Platform basic services', 'Service governance', 'OPENMEP', 'EdgeGallery MEC Service governance API');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', 'Telecom network capabilities', 'Bandwidth management', 'OPENMEP', 'Bandwidth management');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', 'Telecom network capabilities', 'Location service', 'OPENMEP', '自定义不规则区域分析API,标准栅格区域分析API,特定人群流动分析API,API区域原子报表分析,匿名历史位置轨');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', 'Telecom network capabilities', 'UE identity', 'OPENMEP', 'UE标识');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', 'Telecom network capabilities', 'Traffic Rule', 'OPENMEP', '流量转发');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', 'AI capabilities', 'Face Recognition', 'OPENMEP', 'Face Recognition');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('b97e4b44-e7b2-4246-9eaa-d5c8ad243114', 'AI capabilities', 'Card recognition', 'OPENMEP', 'Card recognition');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('3af01bd2-7af7-4523-be4f-01d99d739e30', 'AI capabilities', 'Gesture recognition', 'OPENMEP', 'Card recognition');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('53be0614-5e3f-41e3-9edb-b6671ba9fe32', 'Video processing', 'Encoding decoding', 'OPENMEP', 'Encoding decoding');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('293bebd8-a226-4df6-adff-2d4bed7b08d3', 'DateBase', 'Data management', 'OPENMEP', 'Data management');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('38d54f55-d981-47a3-824b-46f8f81d1091', 'Public framework', 'Data management', 'OPENMEP', 'Data management');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('fb9cc991-0025-4971-b89d-00da1b0b518b', 'Public framework', 'Message bus', 'OPENMEP', 'Message bus');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4466a11e-c213-40ef-9d28-1907b63b8844', 'Public framework', 'Gateway', 'OPENMEP', 'Gateway');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('e8d53fad-89b7-482d-9a08-7f8af925e9ac', 'Public framework', 'Multi-cloud capabilities', 'OPENMEP', 'Multi-cloud capabilities');
+	
 
 
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('8d93cb64-e9ff-468f-a5b1-160efa5c4f05', 'Face Recognition service plus', 'v1', 'provide the face recognition plus capabilities for apps', 'Huawei', 'd8f06d28-390c-4a06-905e-120f56279bbc', '7dd477d8-bcc0-4e2a-a48d-2b587a30026a', 'b8b5d055-1024-4ea8-8439-64de19875834', 9999, 'face-recognition-plus', 'http', '2020-11-20 00:00:00.000000', 'admin');
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('6f250fc0-0961-470f-bf17-e9bba8e56c12', 'Face Recognition service', 'v1', 'provide the face recognition capabilities for apps', 'Huawei', 'd8f06d28-390c-4a06-905e-120f56279bbc', 'd0f8fa57-2f4c-4182-be33-0a508964d04a', '10d8a909-742a-433f-8f7a-5c7667adf825', 9997, 'face-recognition', 'http', '2020-11-20 00:00:00.000000', 'admin');
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('143e8608-7304-4932-9d99-4bd6b115dac8', 'Service Discovery', 'v1', 'provide the service discovery capabilities for apps', 'Huawei', 'a6efaa2c-ad99-432f-9405-e28e90f44f15', '540e0817-f6ea-42e5-8c5b-cb2daf9925a3', '9bb4a85f-e985-47e1-99a4-20c03a486864', 8684, 'service-discovery', 'http', '2020-11-20 00:00:00.000000', 'admin');
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('ee7fbc17-f370-4c02-a9ab-680a41cd0255', 'Bandwidth service', 'v1', 'provide the bandwidth capabilities for apps', 'Huawei', '72a1434d-fbb0-459b-9b92-ce1e02a121c2', '7c544903-aa4f-40e0-bd8c-cf6e17c37c12', '6736ec41-eb7e-4dca-bda2-3b4e10d0a294', 8489, 'bandwidth-service', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('8d93cb64-e9ff-468f-a5b1-160efa5c4f05', 'Face Recognition service plus', 'v1', 'provide the face recognition plus capabilities for apps', 'Huawei', 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', '7dd477d8-bcc0-4e2a-a48d-2b587a30026a', 'b8b5d055-1024-4ea8-8439-64de19875834', 9999, 'face-recognition-plus', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('6f250fc0-0961-470f-bf17-e9bba8e56c12', 'Face Recognition service', 'v1', 'provide the face recognition capabilities for apps', 'Huawei', 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', 'd0f8fa57-2f4c-4182-be33-0a508964d04a', '10d8a909-742a-433f-8f7a-5c7667adf825', 9997, 'face-recognition', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('143e8608-7304-4932-9d99-4bd6b115dac8', 'Service Discovery', 'v1', 'provide the service discovery capabilities for apps', 'Huawei', 'c0db376b-ae50-48fc-b9f7-58a609e3ee12', '540e0817-f6ea-42e5-8c5b-cb2daf9925a3', '9bb4a85f-e985-47e1-99a4-20c03a486864', 8684, 'service-discovery', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('ee7fbc17-f370-4c02-a9ab-680a41cd0255', 'Bandwidth service', 'v1', 'provide the bandwidth capabilities for apps', 'Huawei', 'a6efaa2c-ad99-432f-9405-e28e90f44f15', '7c544903-aa4f-40e0-bd8c-cf6e17c37c12', '6736ec41-eb7e-4dca-bda2-3b4e10d0a294', 8489, 'bandwidth-service', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('146f4f87-4027-4ad8-af99-ec4a6f6bcc3c', 'Location service', 'v1', 'provide the location capabilities for apps', 'Huawei', '406593b4-c782-409c-8f46-a6fd5e1f6221', '688f259e-48eb-407d-8604-7feb19cf1f44', 'b0819798-e932-415c-95f5-dead04ef2fba', 8487, 'location-service', 'http', '2020-11-20 00:00:00.000000', 'admin');
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('3fda958c-ef56-44c9-bf3b-469cf5d54e33', 'Traffic service', 'v1', 'provide the traffic capabilities for apps', 'Huawei', 'c0db376b-ae50-48fc-b9f7-58a609e3ee12', '9f1f13a0-8554-4dfa-90a7-d2765238fca7', '5110740f-305c-4553-920e-2b11cd9f64c1', 8456, 'traffice-service', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('3fda958c-ef56-44c9-bf3b-469cf5d54e33', 'Traffic service', 'v1', 'provide the traffic capabilities for apps', 'Huawei', 'd8f06d28-390c-4a06-905e-120f56279bbc', '9f1f13a0-8554-4dfa-90a7-d2765238fca7', '5110740f-305c-4553-920e-2b11cd9f64c1', 8456, 'traffice-service', 'http', '2020-11-20 00:00:00.000000', 'admin');
 
 
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('7dd477d8-bcc0-4e2a-a48d-2b587a30026a', 'Face Recognition service plus.json', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/7dd477d8-bcc0-4e2a-a48d-2b587a30026a');
