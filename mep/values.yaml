@@ -57,3 +57,25 @@ networkIsolation:
   phyInterface: 
     mp1: ens3
     mm5: ens3
+
+livenessProbe:
+  path: /health
+  scheme: HTTPS
+  scheme_http: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  FailureThreshold: 3
+  iniDelayMEP: 300
+
+readinessProbe:
+  path: /health
+  scheme: HTTPS
+  scheme_http: HTTP
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  FailureThreshold: 3
+  iniDelayMEP: 300
