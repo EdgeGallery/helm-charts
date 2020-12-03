@@ -18,18 +18,20 @@ metadata:
   name: atp-postgres-initdb-configmap
 data:
   postgres.sql: |
-    CREATE TABLE TASK_TABLE (
-        ID                       VARCHAR(200)       NOT NULL,
-        APPNAME                  VARCHAR(100)       NULL,
-        APPVERSION               VARCHAR(100)       NULL,
-        STATUS                   VARCHAR(100)       NULL,
-        TESTCASEDETAIL           TEXT               NULL,
-        CREATETIME               TIMESTAMP          NULL,
-        ENDTIME                  TIMESTAMP          NULL,
-        USERID                   VARCHAR(100)       NULL,
-        USERNAME                 VARCHAR(100)       NULL,
-        CONSTRAINT task_table_pkey PRIMARY KEY (ID)
-    );
+  	CREATE TABLE TASK_TABLE (
+  	    ID                       VARCHAR(200)       NOT NULL,
+  	    APPNAME                  VARCHAR(100)       NULL,
+  	    APPVERSION               VARCHAR(100)       NULL,
+  	    STATUS                   VARCHAR(100)       NULL,
+  	    TESTCASEDETAIL           TEXT               NULL,
+  	    CREATETIME               TIMESTAMP          NULL,
+  	    ENDTIME                  TIMESTAMP          NULL,
+  	    PROVIDERID               VARCHAR(100)       NULL,
+  	    PACKAGEPATH              VARCHAR(100)       NULL,
+  	    USERID                   VARCHAR(100)       NULL,
+  	    USERNAME                 VARCHAR(100)       NULL,
+  	    CONSTRAINT task_table_pkey PRIMARY KEY (ID)
+  	);
 
     CREATE TABLE TEST_CASE_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
