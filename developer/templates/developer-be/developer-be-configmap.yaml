@@ -311,7 +311,7 @@ data:
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('fb9cc991-0025-4971-b89d-00da1b0b518b', 'Public framework', 'Message bus', 'OPENMEP', 'Message bus');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4466a11e-c213-40ef-9d28-1907b63b8844', 'Public framework', 'Gateway', 'OPENMEP', 'Gateway');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('e8d53fad-89b7-482d-9a08-7f8af925e9ac', 'Public framework', 'Multi-cloud capabilities', 'OPENMEP', 'Multi-cloud capabilities');
-	
+
 
 
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('8d93cb64-e9ff-468f-a5b1-160efa5c4f05', 'Face Recognition service plus', 'v1', 'provide the face recognition plus capabilities for apps', 'Huawei', 'ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', '7dd477d8-bcc0-4e2a-a48d-2b587a30026a', 'b8b5d055-1024-4ea8-8439-64de19875834', 9999, 'face-recognition-plus', 'http', '2020-11-20 00:00:00.000000', 'admin');
