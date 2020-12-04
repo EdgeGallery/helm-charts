@@ -53,7 +53,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /apm/v1/health
-              port: {{ .Values.expose.inventory.port }}
+              port: {{ .Values.expose.apm.port }}
               scheme: {{ .Values.readinessProbe.scheme}}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
