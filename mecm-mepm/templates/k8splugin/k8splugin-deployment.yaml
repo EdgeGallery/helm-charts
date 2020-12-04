@@ -37,6 +37,22 @@ spec:
         - image: {{ .Values.images.k8splugin.repository }}:{{ .Values.images.k8splugin.tag }}
           imagePullPolicy: {{ .Values.images.k8splugin.pullPolicy }}
           name: mecm-mepm-k8splugin
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.expose.k8splugin.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }} 
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.expose.k8splugin.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           env:
             - name: LOG_DIR
               value: /usr/app/log
@@ -87,5 +103,3 @@ spec:
           hostPath:
             path: /var/log/edgegallery/k8splugin
         {{- end }}
-
-
