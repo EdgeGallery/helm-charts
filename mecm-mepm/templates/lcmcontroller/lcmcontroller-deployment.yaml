@@ -50,7 +50,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /inventory/v1/health
+              path: /lcmcontroller/v1/health
               port: {{ .Values.expose.lcmcontroller.port }}
               scheme: {{ .Values.readinessProbe.scheme}}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
