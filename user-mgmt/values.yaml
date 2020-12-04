@@ -83,3 +83,19 @@ sms:
   templateId:
   signature:
   statusCallBack:
+
+# probe configuration parameters
+livenessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  FailureThreshold: 3
+readinessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5

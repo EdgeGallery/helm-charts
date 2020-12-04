@@ -40,6 +40,24 @@ spec:
           imagePullPolicy: {{ .Values.images.appstoreFe.pullPolicy }}
           ports:
             - containerPort: 8443
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path}}
+              port: {{ .Values.expose.appstoreFe.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path}}
+              port: {{ .Values.expose.appstoreFe.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
             - name: LOG_DIR
               value: /usr/app/log
