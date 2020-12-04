@@ -197,26 +197,26 @@ spec:
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
               readOnly: true
-          livenessProbe:
-            httpGet:
-              scheme: {{ .Values.livenessProbe.scheme }}
-              path: {{ .Values.livenessProbe.path }}
-              port: 8088 
-            initialDelaySeconds: {{ .Values.livenessProbe.iniDelayMEP }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.path }}
-              port: 8088
-              scheme: {{ .Values.readinessProbe.scheme }}
-            initialDelaySeconds: {{ .Values.readinessProbe.iniDelayMEP }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+#          livenessProbe:
+#            httpGet:
+#              scheme: {{ .Values.livenessProbe.scheme }}
+#              path: {{ .Values.livenessProbe.path }}
+#              port: 8088 
+#            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+#            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+#            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+#            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+#            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+#          readinessProbe:
+#            httpGet:
+#              path: {{ .Values.readinessProbe.path }}
+#              port: 8088
+#              scheme: {{ .Values.readinessProbe.scheme }}
+#            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+#            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+#            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+#            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+#            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
         - image: "{{ .Values.images.dns.repository }}:{{ .Values.images.dns.tag }}"
           imagePullPolicy: {{ .Values.images.dns.pullPolicy }}
           name: dns-server

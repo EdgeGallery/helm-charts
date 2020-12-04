@@ -67,7 +67,6 @@ livenessProbe:
   timeoutSeconds: 5
   successThreshold: 1
   FailureThreshold: 3
-  iniDelayMEP: 300
 
 readinessProbe:
   path: /health
@@ -78,4 +77,3 @@ readinessProbe:
   timeoutSeconds: 5
   successThreshold: 1
   FailureThreshold: 3
-  iniDelayMEP: 300
