@@ -224,7 +224,7 @@ data:
       "hosts" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "app_instance_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "work_load_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
-      "pods" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "pods" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "deploy_status" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "stage_status"  varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "lcm_token"  varchar(1000) COLLATE "pg_catalog"."default" DEFAULT NULL,
