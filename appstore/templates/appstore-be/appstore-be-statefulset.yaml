@@ -51,12 +51,6 @@ spec:
             - mountPath: /var/lib/postgresql/data
               name: appstore-be-postgres-pvc
             {{- end }}
-            - mountPath: /docker-entrypoint-initdb.d
-              name: appstore-be-postgres-initdb
-      volumes:
-        - name: appstore-be-postgres-initdb
-          configMap:
-            name: appstore-be-postgres-initdb-configmap
   {{- if .Values.global.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
