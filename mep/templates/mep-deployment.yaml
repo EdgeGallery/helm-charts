@@ -181,7 +181,6 @@ spec:
           imagePullPolicy: {{ .Values.images.mep.pullPolicy }}
           name: mepserver
           tty: true
-          args: ['sh']
           ports:
             - containerPort: 8088
           env:
@@ -193,6 +192,16 @@ spec:
               value: "edgegallery"
             - name: SSL_ROOT
               value: /usr/mep/ssl
+            - name: ROOT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mep-ssl
+                  key: root_key
+            - name: TLS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mep-ssl
+                  key: cert_pwd
           volumeMounts:
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
