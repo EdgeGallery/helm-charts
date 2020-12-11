@@ -39,6 +39,10 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
+  apprulemgr:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apprulemgr
+    tag: latest
+    pullPolicy: IfNotPresent
 persistence:
   enabled: false 
 expose:
@@ -50,6 +54,9 @@ expose:
     nodePort: 30205
   postgres:
     port: 5432
+  apprulemgr:
+    port: 8096
+    nodePort: 30206
 ssl:
   secretName: 
 mepm:
