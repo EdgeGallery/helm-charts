@@ -20,24 +20,24 @@ data:
   postgres.sql: |
     CREATE TABLE TASK_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
-        APPNAME                  VARCHAR(100)       NULL,
-        APPVERSION               VARCHAR(100)       NULL,
-        STATUS                   VARCHAR(100)       NULL,
+        APPNAME                  VARCHAR(200)       NULL,
+        APPVERSION               VARCHAR(200)       NULL,
+        STATUS                   VARCHAR(200)       NULL,
         TESTCASEDETAIL           TEXT               NULL,
         CREATETIME               TIMESTAMP          NULL,
         ENDTIME                  TIMESTAMP          NULL,
-        PROVIDERID               VARCHAR(100)       NULL,
-        PACKAGEPATH              VARCHAR(100)       NULL,
-        USERID                   VARCHAR(100)       NULL,
-        USERNAME                 VARCHAR(100)       NULL,
+        PROVIDERID               VARCHAR(200)       NULL,
+        PACKAGEPATH              VARCHAR(200)       NULL,
+        USERID                   VARCHAR(200)       NULL,
+        USERNAME                 VARCHAR(200)       NULL,
         CONSTRAINT task_table_pkey PRIMARY KEY (ID)
     );
 
     CREATE TABLE TEST_CASE_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
-        NAME                     VARCHAR(100)       NULL,
-        TYPE                     VARCHAR(100)       NULL,
-        CLASSNAME                VARCHAR(100)       NULL,
+        NAME                     VARCHAR(200)       NULL,
+        TYPE                     VARCHAR(200)       NULL,
+        CLASSNAME                VARCHAR(200)       NULL,
         CONTENT                  TEXT               NULL, 
         DESCRIPTION              TEXT               NULL,
         CONSTRAINT test_case_table_pkey PRIMARY KEY (ID)
