@@ -181,7 +181,6 @@ spec:
           imagePullPolicy: {{ .Values.images.mep.pullPolicy }}
           name: mepserver
           tty: true
-          args: ['sh']
           ports:
             - containerPort: 8088
           env:
@@ -193,30 +192,40 @@ spec:
               value: "edgegallery"
             - name: SSL_ROOT
               value: /usr/mep/ssl
+            - name: ROOT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mep-ssl
+                  key: root_key
+            - name: TLS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mep-ssl
+                  key: cert_pwd
           volumeMounts:
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
               readOnly: true
-#          livenessProbe:
-#            httpGet:
-#              scheme: {{ .Values.livenessProbe.scheme }}
-#              path: {{ .Values.livenessProbe.path }}
-#              port: 8088 
-#            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-#            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-#            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-#            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-#            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-#          readinessProbe:
-#            httpGet:
-#              path: {{ .Values.readinessProbe.path }}
-#              port: 8088
-#              scheme: {{ .Values.readinessProbe.scheme }}
-#            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-#            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-#            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-#            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-#            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              scheme: {{ .Values.livenessProbe.scheme }}
+              path: {{ .Values.livenessProbe.path }}
+              port: 8088 
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: 8088
+              scheme: {{ .Values.readinessProbe.scheme }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
         - image: "{{ .Values.images.dns.repository }}:{{ .Values.images.dns.tag }}"
           imagePullPolicy: {{ .Values.images.dns.pullPolicy }}
           name: dns-server
