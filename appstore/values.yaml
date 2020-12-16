@@ -73,3 +73,8 @@ readinessProbe:
   initialDelaySeconds: 45
   periodSeconds: 10
   timeoutSeconds: 5
+
+# poke config
+poke:
+  enabled: true
+  platformName: EdgeGallery AppStore
