@@ -132,3 +132,8 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
     tag: latest
     pullPolicy: Always
+
+# poke config
+poke:
+  enabled: true
+  platformName: EdgeGallery AppStore
