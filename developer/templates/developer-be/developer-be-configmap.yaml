@@ -282,13 +282,13 @@ data:
     ;
 
     CREATE TABLE IF NOT EXISTS "tbl_release_config" (
-         "release_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-         "project_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-         "guide_file_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-         "appinstance_id" varchar(255) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-         "capabilities_detail" text NOT NULL DEFAULT NULL,
+         "release_id" varchar(255) NOT NULL,
+         "project_id" varchar(255) NOT NULL,
+         "guide_file_id" varchar(255) DEFAULT NULL,
+         "appinstance_id" varchar(255) DEFAULT NULL,
+         "capabilities_detail" text  DEFAULT NULL,
          "atp_test" text DEFAULT NULL,
-         "test_status" varchar(255)  COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+         "test_status" varchar(255)  DEFAULT NULL,
          "create_time" timestamptz(0) NOT NULL DEFAULT NULL,
          CONSTRAINT "tbl_release_config_pkey" PRIMARY KEY ("release_id")
        )
