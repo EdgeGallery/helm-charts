@@ -158,8 +158,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
+            {{- end }}
+            {{- if .Values.poke.enabled }}
             - name: PLATFORM_NAME
               value: {{ .Values.poke.platformName }}
+            - name: PLATFORM_URL
+              value: {{ .Values.poke.platformUrl }}
             {{- end }}
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}
