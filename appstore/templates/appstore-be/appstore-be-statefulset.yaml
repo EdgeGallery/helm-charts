@@ -164,6 +164,8 @@ spec:
               value: {{ .Values.poke.platformName }}
             - name: PLATFORM_URL
               value: {{ .Values.poke.platformUrl }}
+            - name: ATP_REPORT_URL
+              value: {{ .Values.poke.atpReportUrl }}
             {{- end }}
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}

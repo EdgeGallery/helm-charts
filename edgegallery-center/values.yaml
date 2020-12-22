@@ -138,3 +138,4 @@ poke:
   enabled: true
   platformName: EdgeGallery AppStore
   platformUrl: http://127.0.0.1:8099
+  atpReportUrl: http://127.0.0.1:8073/atpreport?taskid=%s
