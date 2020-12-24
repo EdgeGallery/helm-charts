@@ -160,6 +160,7 @@ data:
       "project_type" varchar(10) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "icon_file_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "open_capability_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "deploy_platform" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL
       CONSTRAINT "tbl_app_project_pkey" PRIMARY KEY ("id")
     )
     ;
