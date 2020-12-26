@@ -76,6 +76,7 @@ data:
       "pluginsize" int4 NOT NULL DEFAULT NULL,
       "apifile" varchar(500) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
       "scorecount" int4 NOT NULL DEFAULT NULL,
+      "pluginfilehashcode" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       CONSTRAINT "tbl_plugin_pkey" PRIMARY KEY ("pluginid")
     )
     ;
