@@ -25,7 +25,5 @@ helm install nfs-client-provisioner --set nfs.server=<nfs_sever_ip> --set nfs.pa
 kubectl label node <node_name> node=edge
 helm install nginx-ingress-controller stable/nginx-ingress --set controller.kind=DaemonSet --set controller.nodeSelector.node=edge --set controller.hostNetwork=true
 ```
-## Edgegallery Installation
-* Center Node: [Edgegallery](https://github.com/EdgeGallery/helm-charts/tree/master/edgegallery)
-
-* Edge Node: [AppLCM](https://github.com/EdgeGallery/helm-charts/tree/master/applcm)
+## Edgegallery Installation（Offline）
+* Install Guide: [Install Guide](https://gitee.com/edgegallery/installer/blob/master/offline/README-cn.md)
