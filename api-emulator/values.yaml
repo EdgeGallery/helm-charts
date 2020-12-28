@@ -20,7 +20,7 @@ persistence:
   enabled: false
 expose:
   port: 8089
-  nodePort: 30089
+  nodePort: 32119
 ssl:
   enabled: false
   secretName:
