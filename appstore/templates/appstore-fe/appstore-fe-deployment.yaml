@@ -120,8 +120,3 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
-        {{- if .Values.global.persistence.enabled }}
-        - name: appstore-fe-log
-          hostPath:
-            path: /var/log/edgegallery/appstore-fe
-        {{- end }}
