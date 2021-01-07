@@ -174,7 +174,9 @@ spec:
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
             - name: appstore-be-workspace-pvc
-              mountPath: /home/appstore
+              mountPath: /usr/app/packages
+            - name: appstore-be-log-pvc
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
@@ -184,11 +186,6 @@ spec:
             items:
               - key: keystore.p12
                 path: keystore.p12
-        {{- end }}
-        {{- if .Values.global.persistence.enabled }}
-        - name: appstore-be-log
-          hostPath:
-            path: /var/log/edgegallery/appstore-be
         {{- end }}
   {{- if .Values.global.persistence.enabled }}
   volumeClaimTemplates:
@@ -200,4 +197,12 @@ spec:
         resources:
           requests:
             storage: 5Gi
+    - metadata:
+        name: appstore-be-log-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 1Gi
   {{- end }}
