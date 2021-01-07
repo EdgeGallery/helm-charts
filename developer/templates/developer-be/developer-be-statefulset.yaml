@@ -174,7 +174,7 @@ spec:
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-workspace-pvc
-              mountPath: /home/mec-developer/user
+              mountPath: /usr/app/user
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
