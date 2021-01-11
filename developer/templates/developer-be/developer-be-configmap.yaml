@@ -311,7 +311,6 @@ data:
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('293bebd8-a226-4df6-adff-2d4bed7b08d3', '数据库', '数据管理', 'OPENMEP', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('38d54f55-d981-47a3-824b-46f8f81d1091', '公共框架', '数据管理', 'OPENMEP', '数据管理');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('fb9cc991-0025-4971-b89d-00da1b0b518b', '公共框架', '消息总线', 'OPENMEP', '消息总线');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4466a11e-c213-40ef-9d28-1907b63b8844', '公共框架', '统一网关', 'OPENMEP', '统一网关');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('e8d53fad-89b7-482d-9a08-7f8af925e9ac', '公共框架', '多云功能', 'OPENMEP', '多云功能');
 
 
@@ -371,6 +370,11 @@ data:
 
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('ef6f8292-49e8-4b44-90c1-8418a5e63866', 'AI能力', '轻量级中文分词器', 'OPENMEP', '基于mmseg算法的轻量级中文分词器，集成了关键字提取，关键句子提取和文章自动摘要等功能。');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('27246b7e-ac4d-4613-9548-2607a25cb794', '轻量级中文分词器', 'v1', '基于mmseg算法的轻量级中文分词器，集成了关键字提取，关键句子提取和文章自动摘要等功能。', 'Huawei', 'ef6f8292-49e8-4b44-90c1-8418a5e63866', 'b1f85bcc-74f4-4e78-8545-53986f0156e7', '2099cd1-e2c4-454b-9ee6-d2d54846928b', 8425, 'natural-language-processing', 'http', '2020-11-20 00:00:00.000000', 'admin');
-    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('2099cd1-e2c4-454b-9ee6-d2d54846928b', 'distributed-database.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/2099cd1-e2c4-454b-9ee6-d2d54846928b');
-    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b1f85bcc-74f4-4e78-8545-53986f0156e7', 'distributed-database.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b1f85bcc-74f4-4e78-8545-53986f0156e7');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('2099cd1-e2c4-454b-9ee6-d2d54846928b', 'jcseg.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/2099cd1-e2c4-454b-9ee6-d2d54846928b');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b1f85bcc-74f4-4e78-8545-53986f0156e7', 'jcseg.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b1f85bcc-74f4-4e78-8545-53986f0156e7');
+    
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4466a11e-c213-40ef-9d28-1907b63b8844', '公共框架', '统一网关', 'OPENMEP', '提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能');
+    INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('b819227e-723f-48c8-b624-206b3531b9aa', '统一网关', '2.1', '提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能', 'Huawei', '4466a11e-c213-40ef-9d28-1907b63b8844', 'a719208e-1d30-4e00-b397-148308c3f6b0', '92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9', 8421, 'natural-language-processing', 'http', '2020-11-20 00:00:00.000000', 'admin');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9', 'apisix.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9');
+    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('a719208e-1d30-4e00-b397-148308c3f6b0', 'apisix.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/a719208e-1d30-4e00-b397-148308c3f6b0');
     -- workspace mep capability init end--
