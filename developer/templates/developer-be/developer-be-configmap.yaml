@@ -299,19 +299,21 @@ data:
 
     -- workspace mep capability init --
     
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', '平台基础服务', '服务治理', 'OPENMEP', 'EdgeGallery平台为APP提供服务注册、发现、订阅等相关功能。');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', '电信网络能力', '带宽管理', 'OPENMEP', 'EdgeGallery平台为APP提供网络宽带业务相关的功能');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', '电信网络能力', '位置服务', 'OPENMEP', '为APP提供定位服务，包括接入点信息，指定用户的位置信息等');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', '电信网络能力', 'UE标识', 'OPENMEP', 'UE标识');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', '电信网络能力', '流量规则', 'OPENMEP', '为MEC应用APP配置和修改流量规则信息。');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', 'AI能力', '人脸识别', 'OPENMEP', '上传照片进行人脸识别，返回待识别人脸所在的位置。');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('b97e4b44-e7b2-4246-9eaa-d5c8ad243114', 'AI能力', '卡证识别', 'OPENMEP', '身份证、银行卡等卡片识别');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('3af01bd2-7af7-4523-be4f-01d99d739e30', 'AI能力', '姿态识别', 'OPENMEP', '姿态识别');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('53be0614-5e3f-41e3-9edb-b6671ba9fe32', '视频处理', '编解码', 'OPENMEP', '编解码');
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('293bebd8-a226-4df6-adff-2d4bed7b08d3', '数据库', '数据管理', 'OPENMEP', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('38d54f55-d981-47a3-824b-46f8f81d1091', '公共框架', '数据管理', 'OPENMEP', '数据管理');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('fb9cc991-0025-4971-b89d-00da1b0b518b', '公共框架', '消息总线', 'OPENMEP', '消息总线');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('e8d53fad-89b7-482d-9a08-7f8af925e9ac', '公共框架', '多云功能', 'OPENMEP', '多云功能');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('b97e4b44-e7b2-4246-9eaa-d5c8ad243114', 'AI能力', '卡证识别', 'OPENMEP', '身份证、银行卡等卡片识别');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', '电信网络能力', 'UE标识', 'OPENMEP', 'UE标识');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('53be0614-5e3f-41e3-9edb-b6671ba9fe32', '视频处理', '编解码', 'OPENMEP', '编解码');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('3af01bd2-7af7-4523-be4f-01d99d739e30', 'AI能力', '姿态识别', 'OPENMEP', '姿态识别');
+    
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', '平台基础服务', '服务治理', 'OPENMEP', 'EdgeGallery平台为APP提供服务注册、发现、订阅等相关功能。');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', '电信网络能力', '带宽管理', 'OPENMEP', 'EdgeGallery平台为APP提供网络宽带业务相关的功能');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', '电信网络能力', '位置服务', 'OPENMEP', '为APP提供定位服务，包括接入点信息，指定用户的位置信息等');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', '电信网络能力', '流量规则', 'OPENMEP', '为MEC应用APP配置和修改流量规则信息。');
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', 'AI能力', '人脸识别', 'OPENMEP', '上传照片进行人脸识别，返回待识别人脸所在的位置。');
+ 
+    
 
 
 
@@ -364,6 +366,7 @@ data:
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b0b0f727-9964-48bc-9b04-2ed039c58d33', 'lossless-decompression.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b0b0f727-9964-48bc-9b04-2ed039c58d33');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('16532bf6-35cc-42e7-a77f-cbf6020c3667', 'lossless-decompression.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/16532bf6-35cc-42e7-a77f-cbf6020c3667');
     
+    INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('293bebd8-a226-4df6-adff-2d4bed7b08d3', '数据库', '数据管理', 'OPENMEP', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('7e00b0ed-9168-46be-a411-a786739be4d2', '分布式键值(key-value)数据库', 'v1', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。', 'Huawei', '293bebd8-a226-4df6-adff-2d4bed7b08d3', 'da823a31-f3c9-44f4-92d9-24bb2cded86c', '35249ffa-4998-4492-8440-fc9a52fd2fc7', 8425, 'key-value-database', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('35249ffa-4998-4492-8440-fc9a52fd2fc7', 'distributed-database.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/35249ffa-4998-4492-8440-fc9a52fd2fc7');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('da823a31-f3c9-44f4-92d9-24bb2cded86c', 'distributed-database.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/da823a31-f3c9-44f4-92d9-24bb2cded86c');
