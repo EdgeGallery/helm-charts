@@ -40,7 +40,10 @@ images:
 
 
 dnsserver:
-  command: []
+  command: [ ]
+  storageSize: 1Gi
+
+mep:
   storageSize: 1Gi
 
 postgres:
@@ -54,7 +57,7 @@ ssl:
 
 networkIsolation:
   ipamType: host-local
-  phyInterface: 
+  phyInterface:
     mp1: ens3
     mm5: ens3
 
@@ -77,3 +80,7 @@ readinessProbe:
   timeoutSeconds: 5
   successThreshold: 1
   FailureThreshold: 3
+
+mepConfig:
+  dnsAgentType: all
+  dataPlaneType: none

@@ -1,4 +1,5 @@
 {{- if .Values.global.persistence.enabled }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -11,4 +12,17 @@ spec:
   resources:
     requests:
       storage: {{ .Values.dnsserver.storageSize }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mep-datastore-pvc
+  namespace: mep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.mep.storageSize }}
 {{- end }}

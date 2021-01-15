@@ -114,7 +114,7 @@ spec:
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }} 
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
@@ -206,6 +206,13 @@ spec:
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
               readOnly: true
+            - name: mep-cfg
+              mountPath: /usr/mep/conf/mep/
+              readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/mep/data
+              name: mep-datastore
+            {{- end }}
           livenessProbe:
             httpGet:
               scheme: {{ .Values.livenessProbe.scheme }}
@@ -229,9 +236,9 @@ spec:
         - image: "{{ .Values.images.dns.repository }}:{{ .Values.images.dns.tag }}"
           imagePullPolicy: {{ .Values.images.dns.pullPolicy }}
           name: dns-server
-        {{- with .Values.dnsserver.command }}
+          {{- with .Values.dnsserver.command }}
           command: {{ .Values.dnsserver.command }}
-        {{- end }}
+          {{- end }}
           ports:
             - name: dns
               containerPort: 8053
@@ -336,9 +343,19 @@ spec:
               - key: mepauth.properties
                 path: mepauth.properties
                 mode: 0644
+        - name: mep-cfg
+          secret:
+            secretName: mep-config
+            items:
+              - key: config.yaml
+                path: config.yaml
+                mode: 0644
         {{- if .Values.global.persistence.enabled }}
         - name: dns-datastore
           persistentVolumeClaim:
             claimName: dns-datastore-pvc
+        - name: mep-datastore
+          persistentVolumeClaim:
+            claimName: mep-datastore-pvc
         {{- end }}
 
