@@ -175,6 +175,8 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-workspace-pvc
               mountPath: /usr/app/user
+            - name: developer-be-log-pvc
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
@@ -184,11 +186,6 @@ spec:
             items:
               - key: keystore.p12
                 path: keystore.p12
-        {{- end }}
-        {{- if .Values.global.persistence.enabled }}
-        - name: developer-log
-          hostPath:
-            path: /var/log/edgegallery/developer-be
         {{- end }}
   {{- if .Values.global.persistence.enabled }}
   volumeClaimTemplates:
@@ -200,4 +197,12 @@ spec:
         resources:
           requests:
             storage: 5Gi
+    - metadata:
+        name: developer-be-log-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: 1Gi
   {{- end }}

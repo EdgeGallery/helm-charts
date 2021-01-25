@@ -111,10 +111,6 @@ spec:
             - mountPath: /usr/app/ssl
               name: developer-fe-keystore
             {{- end }}
-            {{- if .Values.global.persistence.enabled }}
-            - name: developer-fe-log
-              mountPath: /var/log/developer-fe
-            {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-fe-keystore
@@ -124,8 +120,4 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
-        {{- if .Values.global.persistence.enabled }}
-        - name: developer-fe-log
-          hostPath:
-            path: /var/log/edgegallery/developer-fe
-        {{- end }}
+        
