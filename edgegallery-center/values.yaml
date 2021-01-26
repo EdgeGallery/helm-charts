@@ -67,9 +67,8 @@ global:
         clientSecret: te9Fmv%qaq
         clientUrl:
 
-usermgmt:
-  jwt:
-    secretName: user-mgmt-jwt-secret
+jwt:
+  secretName: user-mgmt-jwt-secret
 
 images:
   usermgmt:
