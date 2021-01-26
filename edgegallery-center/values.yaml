@@ -44,6 +44,7 @@ global:
       appstore: appstore.edgegallery.org
       mecm: mecm.edgegallery.org
       atp: atp.edgegallery.org
+      lab: lab.edgegallery.org
   ssl:
     enabled: false
     secretName: edgegallery-ssl-secret
@@ -64,6 +65,10 @@ global:
         clientUrl:
       atp:
         clientId: atp-fe
+        clientSecret: te9Fmv%qaq
+        clientUrl:
+      lab:
+        clientId: lab-fe
         clientSecret: te9Fmv%qaq
         clientUrl:
 
