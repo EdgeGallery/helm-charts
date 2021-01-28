@@ -165,7 +165,7 @@ data:
       CONSTRAINT "tbl_app_project_pkey" PRIMARY KEY ("id")
     )
     ;
-    
+
     CREATE TABLE IF NOT EXISTS "tbl_openmep_capability" (
       "group_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
       "one_level_name" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
@@ -200,13 +200,13 @@ data:
 
 
     CREATE TABLE IF NOT EXISTS "tbl_project_image" (
-      "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "name" varchar(100) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "version" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "project_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "type" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "port" int4 DEFAULT '-1'::integer,
-      "node_port" int4 DEFAULT '-1'::integer,
+      "id"  varchar(255) NOT NULL DEFAULT NULL,
+      "pod_name" varchar(255) NOT NULL DEFAULT NULL,
+      "pod_containers" text   NOT NULL DEFAULT NULL,
+      "project_id" varchar(255) NOT NULL DEFAULT NULL,
+      "svc_type" varchar(255)  DEFAULT NULL,
+      "svc_port" int4 DEFAULT NULL,
+      "svc_node_port" int4 DEFAULT NULL,
       CONSTRAINT "tbl_project_image_pkey" PRIMARY KEY ("id")
     )
     ;
@@ -298,7 +298,7 @@ data:
     -- workspace table end -----------------
 
     -- workspace mep capability init --
-    
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('38d54f55-d981-47a3-824b-46f8f81d1091', '公共框架', '数据管理', 'OPENMEP', '数据管理');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('fb9cc991-0025-4971-b89d-00da1b0b518b', '公共框架', '消息总线', 'OPENMEP', '消息总线');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('e8d53fad-89b7-482d-9a08-7f8af925e9ac', '公共框架', '多云功能', 'OPENMEP', '多云功能');
@@ -306,14 +306,14 @@ data:
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('72a1434d-fbb0-459b-9b92-ce1e02a121c2', '电信网络能力', 'UE标识', 'OPENMEP', 'UE标识');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('53be0614-5e3f-41e3-9edb-b6671ba9fe32', '视频处理', '编解码', 'OPENMEP', '编解码');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('3af01bd2-7af7-4523-be4f-01d99d739e30', 'AI能力', '姿态识别', 'OPENMEP', '姿态识别');
-    
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('c0db376b-ae50-48fc-b9f7-58a609e3ee12', '平台基础服务', '服务治理', 'OPENMEP', 'EdgeGallery平台为APP提供服务注册、发现、订阅等相关功能。');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('a6efaa2c-ad99-432f-9405-e28e90f44f15', '电信网络能力', '带宽管理', 'OPENMEP', 'EdgeGallery平台为APP提供网络宽带业务相关的功能');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('406593b4-c782-409c-8f46-a6fd5e1f6221', '电信网络能力', '位置服务', 'OPENMEP', '为APP提供定位服务，包括接入点信息，指定用户的位置信息等');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('d8f06d28-390c-4a06-905e-120f56279bbc', '电信网络能力', '流量规则', 'OPENMEP', '为MEC应用APP配置和修改流量规则信息。');
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('ab88bc3a-e1c0-4d0d-a4e5-242902f39b12', 'AI能力', '人脸识别', 'OPENMEP', '上传照片进行人脸识别，返回待识别人脸所在的位置。');
- 
-    
+
+
 
 
 
@@ -338,15 +338,15 @@ data:
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b0819798-e932-415c-95f5-dead04ef2fba', 'Location service.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b0819798-e932-415c-95f5-dead04ef2fba');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('5110740f-305c-4553-920e-2b11cd9f64c1', 'Traffic service.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/5110740f-305c-4553-920e-2b11cd9f64c1');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('c437b9ac-f2c6-41db-bf5e-f9d86d856c46', 'Mep-eco api introduction.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/c437b9ac-f2c6-41db-bf5e-f9d86d856c46');
-    
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('22fb0fb4-85ba-4b25-b613-819a57b5a25d', '视频处理', '视频监控', 'OPENMEP', '基于EdgeGallery平台提供人脸识别服务，开发的视频监控系统');
-    
-    
+
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4dba5f43-d802-4ec2-89c5-a2b5d3ffa5fd', '视频处理', '无损解压缩', 'OPENMEP', '无损解压缩服务提供端侧与边缘之间的无损解压缩服务，降低对传输带宽的诉求。');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('420bf209-b74a-4c37-99f6-6bcca97b0ee3', '无损解压缩', 'v1', '无损解压缩服务提供端侧与边缘之间的无损解压缩服务，降低对传输带宽的诉求', 'Huawei', '4dba5f43-d802-4ec2-89c5-a2b5d3ffa5fd', '16532bf6-35cc-42e7-a77f-cbf6020c3667', 'b0b0f727-9964-48bc-9b04-2ed039c58d33', 8425, 'natural-language-processing', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b0b0f727-9964-48bc-9b04-2ed039c58d33', 'lossless-decompression.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b0b0f727-9964-48bc-9b04-2ed039c58d33');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('16532bf6-35cc-42e7-a77f-cbf6020c3667', 'lossless-decompression.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/16532bf6-35cc-42e7-a77f-cbf6020c3667');
-    
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('293bebd8-a226-4df6-adff-2d4bed7b08d3', '数据库', '数据管理', 'OPENMEP', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('7e00b0ed-9168-46be-a411-a786739be4d2', '分布式键值(key-value)数据库', 'v1', '分布式键值(key-value)数据库，采用键值对(key-value)方式存储数据。', 'Huawei', '293bebd8-a226-4df6-adff-2d4bed7b08d3', 'da823a31-f3c9-44f4-92d9-24bb2cded86c', '35249ffa-4998-4492-8440-fc9a52fd2fc7', 8425, 'key-value-database', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('35249ffa-4998-4492-8440-fc9a52fd2fc7', 'distributed-database.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/35249ffa-4998-4492-8440-fc9a52fd2fc7');
@@ -356,7 +356,7 @@ data:
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('27246b7e-ac4d-4613-9548-2607a25cb794', '轻量级中文分词器', 'v1', '基于mmseg算法的轻量级中文分词器，集成了关键字提取，关键句子提取和文章自动摘要等功能。', 'Huawei', 'ef6f8292-49e8-4b44-90c1-8418a5e63866', 'b1f85bcc-74f4-4e78-8545-53986f0156e7', '2099cd1-e2c4-454b-9ee6-d2d54846928b', 8425, 'natural-language-processing', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('2099cd1-e2c4-454b-9ee6-d2d54846928b', 'jcseg.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/2099cd1-e2c4-454b-9ee6-d2d54846928b');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('b1f85bcc-74f4-4e78-8545-53986f0156e7', 'jcseg.yaml', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/b1f85bcc-74f4-4e78-8545-53986f0156e7');
-    
+
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, two_level_name, type, description) VALUES ('4466a11e-c213-40ef-9d28-1907b63b8844', '公共框架', '统一网关', 'OPENMEP', '提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, version, description, provider, group_id, api_file_id, guide_file_id, port, host, protocol, upload_time, user_id) VALUES ('b819227e-723f-48c8-b624-206b3531b9aa', '统一网关', '2.1', '提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能', 'Huawei', '4466a11e-c213-40ef-9d28-1907b63b8844', 'a719208e-1d30-4e00-b397-148308c3f6b0', '92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9', 8421, 'natural-language-processing', 'http', '2020-11-20 00:00:00.000000', 'admin');
     INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9', 'apisix.md', false, 'admin', '2020-01-01 00:00:00.000000', '/mep_capability/92b875b6-d6e4-4ad8-9a7f-17ffe06e79d9');
