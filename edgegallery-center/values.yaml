@@ -1,18 +1,3 @@
-############################################################################
-# Copyright 2020 Huawei Technologies Co., Ltd.
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#  http://www.apache.org/licenses/LICENSE-2.0
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-############################################################################
-
-
-## Global configuration
 global:
   servicecenter:
     enabled: true
@@ -29,12 +14,12 @@ global:
   mecm-meo:
     enabled: true
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
   ingress:
-    enabled: false
+    enabled: true
     tls:
-      enabled: false
+      enabled: true
       secretName: edgegallery-ingress-secret
     annotations:
       bodySize: 20m
@@ -46,35 +31,42 @@ global:
       atp: atp.edgegallery.org
       lab: lab.edgegallery.org
   ssl:
-    enabled: false
+    enabled: true
     secretName: edgegallery-ssl-secret
   oauth2:
-    authServerAddress:
+    authServerAddress: https://auth.edgegallery.org
     clients:
       appstore:
         clientId: appstore-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:
+        clientUrl: https://appstore.edgegallery.org
       developer:
         clientId: developer-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:
+        clientUrl: https://developer.edgegallery.org
       mecm:
         clientId: mecm-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:
+        clientUrl: https://mecm.edgegallery.org
       atp:
         clientId: atp-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:
+        clientUrl: https://atp.edgegallery.org
       lab:
         clientId: lab-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:
-
-usermgmt:
-  jwt:
-    secretName: user-mgmt-jwt-secret
+        clientUrl:https://lab.edgegallery.org
+jwt:
+  secretName: user-mgmt-jwt-secret
+  sms:
+    enabled: true
+    url: https://rtcsms.cn-north-1.myhuaweicloud.com:10743/sms/batchSendSms/v1
+    appKey: zES2FDR1z0sOM8jT8uFs0uUzP4Wl
+    appSecret: WBGhdH3JlQyu9JjX9wENW5flB7Gg
+    sender: '8820031341626'
+    templateId: 3f08b042a9d44cb8ad3c71c44e0f1cf8
+    signature: MEC
+    statusCallBack: MEC
 
 images:
   usermgmt:
@@ -137,6 +129,23 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
     tag: latest
     pullPolicy: Always
+
+  inventory:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-inventory
+    tag: latest
+    pullPolicy: Always
+  appo:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-appo
+    tag: latest
+    pullPolicy: Always
+  apm:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apm
+    tag: latest
+    pullPolicy: Always
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    tag: 12.3
+    pullPolicy: IfNotPresent
 
 # poke config
 poke:
