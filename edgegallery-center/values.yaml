@@ -55,7 +55,7 @@ global:
       lab:
         clientId: lab-fe
         clientSecret: te9Fmv%qaq
-        clientUrl:https://lab.edgegallery.org
+        clientUrl: https://lab.edgegallery.org
 jwt:
   secretName: user-mgmt-jwt-secret
   sms:
