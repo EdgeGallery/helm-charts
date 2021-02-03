@@ -154,7 +154,7 @@ data:
       "description" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "status" varchar(20) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
       "user_id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
-      "create_date" timestamptz(6) DEFAULT NULL::timestamp with time zone,
+      "create_date" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "last_test_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "version" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "capabilities" text COLLATE "pg_catalog"."default" DEFAULT NULL,
