@@ -186,6 +186,7 @@ data:
       "service_en" varchar(100) DEFAULT NULL,
       "version" varchar(100) DEFAULT NULL,
       "description" text DEFAULT NULL,
+      "description_en" text DEFAULT NULL,
       "provider" varchar(100) DEFAULT NULL,
       "group_id" varchar(50) DEFAULT NULL,
       "api_file_id" varchar(255) DEFAULT NULL,
