@@ -172,7 +172,7 @@ spec:
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
             - name: atp-workspace-pvc
-              mountPath: /usr/atp/testCase
+              mountPath: /usr/atp/file
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}

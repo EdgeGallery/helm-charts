@@ -47,6 +47,33 @@ data:
         CONSTRAINT test_case_table_pkey PRIMARY KEY (ID)
     );
 
+    CREATE TABLE TEST_SCENARIO_TABLE (
+        ID                       VARCHAR(200)       NOT NULL,
+        NAMECH                   VARCHAR(200)       NULL,
+        NAMEEN                   VARCHAR(200)       NULL,
+        DESCRIPTIONCh            TEXT               NULL,
+        DESCRIPTIONEN            TEXT               NULL, 
+        CONSTRAINT test_scenario_table_pkey PRIMARY KEY (ID)
+    );
+
+    CREATE TABLE TEST_SUITE_TABLE (
+        ID                       VARCHAR(200)       NOT NULL,
+        NAMECH                   VARCHAR(200)       NULL,
+        NAMEEN                   VARCHAR(200)       NULL,
+        DESCRIPTIONCh            TEXT               NULL,
+        DESCRIPTIONEN            TEXT               NULL, 
+        SCENARIOIDLIST           VARCHAR(255)       NULL,
+        CONSTRAINT test_suite_table_pkey PRIMARY KEY (ID)
+    );
+    
+    CREATE TABLE FILE_TABLE (
+        FILEID                   VARCHAR(200)       NOT NULL,
+        TYPE                     VARCHAR(200)       NOT NULL,
+        CREATETIME               TIMESTAMP          NULL,
+        FILEPATH                 VARCHAR(200)       NULL
+    );
+    alter table FILE_TABLE add constraint file_table_pkey unique(FILEID,TYPE);
+
     INSERT INTO public.test_case_table(
       id, name, hashCode,type, classname,  description,filePath,codeLanguage,expectResult,verificationModel)
       VALUES ('4d203173-1111-4f62-aabb-8ebcec357f87','Manifest File Path Validation','','complianceTest','SuffixTestCaseInner','Root path must contain the file which name ends of .mf','','java','there has .mf file in root path.','EdgeGallery,Mobile'),
