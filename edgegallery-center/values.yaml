@@ -73,19 +73,14 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/user-mgmt
     tag: latest
     pullPolicy: Always
-  postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
-    tag: 12.2
-    pullPolicy: IfNotPresent
   redis:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/redis
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/redis
     tag: 6.0.3
     pullPolicy: IfNotPresent
   initservicecenter:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
-    tag: latest
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
     pullPolicy: IfNotPresent
-
   appstoreBe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appstore-be
     tag: latest
@@ -94,7 +89,6 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appstore-fe
     tag: latest
     pullPolicy: Always
-
   developerBe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-be
     tag: latest
@@ -108,10 +102,9 @@ images:
     tag: latest
     pullPolicy: Always
   portingAdvisor:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/porting-advisor
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/porting-advisor
     tag: latest
     pullPolicy: IfNotPresent
-
   atp:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-be
     tag: latest
@@ -120,13 +113,12 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-fe
     tag: latest
     pullPolicy: Always
-
   mecmFe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
     tag: latest
     pullPolicy: Always
   service-center:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/service-center
     tag: latest
     pullPolicy: Always
 
@@ -143,7 +135,7 @@ images:
     tag: latest
     pullPolicy: Always
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
 
