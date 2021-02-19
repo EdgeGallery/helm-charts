@@ -23,11 +23,15 @@ data:
       	USERNAME            VARCHAR(50)       NOT NULL,
       	PASSWORD            VARCHAR(100)      NOT NULL,
       	COMPANY             VARCHAR(50)       NULL,
-      	TELEPHONENUMBER     VARCHAR(20)       NOT NULL,
+      	TELEPHONENUMBER     VARCHAR(20)       NULL,
+        MAILADDRESS         VARCHAR(50)       NULL,
       	GENDER              VARCHAR(10)       NULL,
       	isallowed           boolean           NOT NULL,
+      	CREATETIME          TIMESTAMP         NULL,
+      	MODIFYTIME          TIMESTAMP         NULL,
       	CONSTRAINT USERNAME UNIQUE (username),
-      	CONSTRAINT TELEPHONENUMBER UNIQUE (telephonenumber)
+      	CONSTRAINT TELEPHONENUMBER UNIQUE (telephonenumber),
+        CONSTRAINT MAILADDRESS UNIQUE (mailaddress)
     );
 
     CREATE TABLE if not exists tbl_tenant_role (
