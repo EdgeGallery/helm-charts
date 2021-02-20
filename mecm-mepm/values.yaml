@@ -36,7 +36,7 @@ images:
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   apprulemgr:

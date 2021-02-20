@@ -17,6 +17,6 @@ global:
     enabled: false
     secretName:
 images:
-  repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/service-center
+  repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/service-center
   tag: latest
   pullPolicy: IfNotPresent

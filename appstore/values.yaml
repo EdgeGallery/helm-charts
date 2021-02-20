@@ -37,12 +37,12 @@ images:
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/postgres
-    tag: 12.2
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    tag: 12.3
     pullPolicy: IfNotPresent
   initservicecenter:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/curl
-    tag: latest
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
     pullPolicy: IfNotPresent
 postgres:
   username: appstore

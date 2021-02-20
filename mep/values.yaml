@@ -26,11 +26,11 @@ images:
     tag: latest
     pullPolicy: IfNotPresent
   kong:
-    repository: kong
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/kong
     tag: 2.0.4-ubuntu
     pullPolicy: IfNotPresent
   postgres:
-    repository: postgres
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   dns:
