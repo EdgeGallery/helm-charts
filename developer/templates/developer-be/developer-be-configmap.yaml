@@ -257,6 +257,7 @@ data:
       "project_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "content" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "upload_time_stamp" bigint DEFAULT NULL,
+      "config_type" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       CONSTRAINT "tbl_helm_template_yaml_pkey" PRIMARY KEY ("file_id")
     )
     ;
