@@ -92,16 +92,18 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.mecm.secretName }}
                   key: postgresApmPassword
-            - name: EDGE_REPO_PASSWORD
+            - name: MECM_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.mecm.secretName }}
-                  key: edgeRepoPassword
-            - name: EDGE_REPO_USERNAME
+                  key: dockerRepoPassword
+            - name: MECM_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.mecm.secretName }}
-                  key: edgeRepoUserName
+                  key: dockerRepoUserName
+            - name: MECM_REPO_ENDPOINT
+              value: {{ .Values.mecm.repository.dockerRepoEndpoint }}              
           ports:
             - containerPort: 8092
           resources: {}
