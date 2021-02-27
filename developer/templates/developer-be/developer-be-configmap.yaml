@@ -301,7 +301,113 @@ data:
          CONSTRAINT "tbl_release_config_pkey" PRIMARY KEY ("release_id")
        )
        ;
+     CREATE TABLE IF NOT EXISTS "tbl_vm_regulation" (
+      "architecture" varchar(50) DEFAULT NULL,
+      "name_zh" varchar(50) NOT NULL DEFAULT NULL,
+      "name_en" varchar(50) NOT NULL DEFAULT NULL,
+      "scene_zh" varchar(255) DEFAULT NULL,
+      "scene_en" varchar(255) DEFAULT NULL,
+      "memory" int4  DEFAULT NULL,
+      "cpu" int4  DEFAULT NULL,
+      "system_disk" int4  DEFAULT NULL,
+      "data_disk" int4  DEFAULT NULL,
+      "gpu" varchar(50)  DEFAULT NULL,
+      "other_ability" varchar(255)  DEFAULT NULL
+    )
+    ;
+    CREATE TABLE IF NOT EXISTS "tbl_vm_network" (
+      "network_type" varchar(50) DEFAULT NULL,
+      "description_zh" varchar(255) DEFAULT NULL,
+      "description_en" varchar(255) DEFAULT NULL
+    )
+    ;
+    CREATE TABLE IF NOT EXISTS "tbl_vm_system" (
+      "type" varchar(50) DEFAULT NULL,
+      "operate_system" varchar(50) DEFAULT NULL,
+      "version" varchar(50) NOT NULL DEFAULT NULL,
+      "system_bit" varchar(50) DEFAULT NULL,
+      "system_disk" varchar(50)  DEFAULT NULL
+    )
+    ;
+    CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
+      "vm_id"  varchar(255) NOT NULL DEFAULT NULL,
+      "project_id" varchar(50) DEFAULT NULL,
+      "template_json" text DEFAULT NULL,
+      "vm_regulation_desc" varchar(512) DEFAULT NULL,
+      "vm_system_desc" varchar(512) NOT NULL DEFAULT NULL,
+      "vm_network_desc" varchar(512) DEFAULT NULL,
+      "vm_name" varchar(50)  DEFAULT NULL,
+      "vm_username" varchar(50)  DEFAULT NULL,
+      "host" varchar(512)  DEFAULT NULL,
+      "status" varchar(50)  DEFAULT NULL,
+      "stage_status" varchar(500)  DEFAULT NULL,
+      "lcm_token" varchar(1024)  DEFAULT NULL,
+      "vm_info" varchar(512)  DEFAULT NULL,
+      "package_id" varchar(50)  DEFAULT NULL,
+      "create_time"  timestamptz(6)  DEFAULT NULL,
+      "log" varchar(50)  DEFAULT NULL,
+      
+      CONSTRAINT "tbl_vm_create_config_pkey" PRIMARY KEY ("vm_id")
+    )
+    ;
     -- workspace table end -----------------
+    
+    -- workspace vm resources init --
+    
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '通用计算型-2', 'General Computing-2', '普通APP', 'Ordinary APP', 8, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '通用计算型-4', 'General Computing-4', '普通APP', 'Ordinary APP', 16, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '通用计算增强型-2', 'General Computing Enhancement-2', '普通APP', 'Ordinary APP', 16, 8, 50, 200, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '通用计算增强型-4', 'General Computing Enhancement-4', '普通APP', 'Ordinary APP', 32, 8, 50, 200, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '高I/O型-2', 'High I/O-2', '高I/O型APP', 'High I/O-APP', 32, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '高I/O型-4', 'High I/O-4', '高I/O型APP', 'High I/O-APP', 64, 8, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '大存储型', 'Large Storage', 'IoT数据采集', 'IoT Data Collection', 8, 4, 50, 1000, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', 'AI推理型-2', 'AI', '工业视觉、园区监控', 'Industrial Vision, Park Monitoring', 8, 4, 50, 200, '', '1*Atlas300C(16G)');
+    
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '通用计算型-2', 'General Computing-2', '普通APP', 'Ordinary APP', 8, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '通用计算型-4', 'General Computing-4', '普通APP', 'Ordinary APP', 16, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '通用计算增强型-2', 'General Computing Enhancement-2', '普通APP', 'Ordinary APP', 16, 8, 50, 200, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '通用计算增强型-4', 'General Computing Enhancement-4', '普通APP', 'Ordinary APP', 32, 8, 50, 200, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '高I/O型2', 'High I/O-2', '高I/O型APP', 'High I/O-APP', 32, 4, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '高I/O型4', 'High I/O-4', '高I/O型APP', 'High I/O-APP', 64, 8, 50, 100, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', '大存储型', 'Large Storage', 'IoT数据采集', 'IoT Data Collection', 8, 4, 50, 1000, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('ARM', 'AI推理型2', 'AI', '工业视觉、园区监控', 'Industrial Vision, Park Monitoring', 8, 4, 50, 200, '', '1*Atlas300C(16G)');
+    
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'ubuntu', '16.04', '64', '50');
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'ubuntu', '18.04', '64', '50');
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'centos', '6.5', '64', '50');
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'centos', '7.6', '64', '50');
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'window', '7', '64', '50');
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'window', '10', '64', '50');
+    
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
+    ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network');
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en)
+    VALUES ('Network_MEP', '与边缘计算平台之间的网络，当应用存在服务依赖或需要发布服务时，需要该网络', 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed');
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
+    ('Network_Internet', 'Internet网络', 'Internet Network');
+    
 
     -- workspace mep capability init --
 
