@@ -134,6 +134,10 @@ spec:
               value: "5432"
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
+            - name: DOMAIN_NAME
+              value: {{ .Values.imagelocation.domainname }}
+            - name: PROJECT
+              value: {{ .Values.imagelocation.project }}
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
