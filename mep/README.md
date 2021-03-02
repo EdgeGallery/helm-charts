@@ -128,12 +128,12 @@ helm repo add eg http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_ch
 ```
  ## Aio mode
   helm install mep-edgegallery eg/mep \
-  --set --set networkIsolation.ipamType=host-local \
+  --set networkIsolation.ipamType=host-local \
   --set networkIsolation.phyInterface.mp1=interface-2 \
   --set networkIsolation.phyInterface.mm5=interface-1
  ## muno mode
   helm install mep-edgegallery eg/mep \
-  --set --set networkIsolation.ipamType=whereabouts \
+  --set networkIsolation.ipamType=whereabouts \
   --set networkIsolation.phyInterface.mp1=interface-2 \
   --set networkIsolation.phyInterface.mm5=interface-1
 ```
