@@ -302,6 +302,7 @@ data:
        )
        ;
      CREATE TABLE IF NOT EXISTS "tbl_vm_regulation" (
+      "regulation_id" SERIAL,
       "architecture" varchar(50) DEFAULT NULL,
       "name_zh" varchar(50) NOT NULL DEFAULT NULL,
       "name_en" varchar(50) NOT NULL DEFAULT NULL,
@@ -322,11 +323,12 @@ data:
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_vm_system" (
+      "system_id" SERIAL,
       "type" varchar(50) DEFAULT NULL,
       "operate_system" varchar(50) DEFAULT NULL,
       "version" varchar(50) NOT NULL DEFAULT NULL,
       "system_bit" varchar(50) DEFAULT NULL,
-      "system_disk" varchar(50)  DEFAULT NULL
+      "system_disk" int4  DEFAULT NULL
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
@@ -343,7 +345,7 @@ data:
       "stage_status" varchar(500)  DEFAULT NULL,
       "lcm_token" varchar(1024)  DEFAULT NULL,
       "vm_info" varchar(512)  DEFAULT NULL,
-      "package_id" varchar(50)  DEFAULT NULL,
+      "app_instance_id" varchar(50)  DEFAULT NULL,
       "create_time"  timestamptz(6)  DEFAULT NULL,
       "log" varchar(50)  DEFAULT NULL,
       
@@ -389,17 +391,17 @@ data:
     ('ARM', 'AI推理型2', 'AI', '工业视觉、园区监控', 'Industrial Vision, Park Monitoring', 8, 4, 50, 200, '', '1*Atlas300C(16G)');
     
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'ubuntu', '16.04', '64', '50');
+    ('public', 'ubuntu', '16.04', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'ubuntu', '18.04', '64', '50');
+    ('public', 'ubuntu', '18.04', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'centos', '6.5', '64', '50');
+    ('public', 'centos', '6.5', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'centos', '7.6', '64', '50');
+    ('public', 'centos', '7.6', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'window', '7', '64', '50');
+    ('public', 'window', '7', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-    ('public', 'window', '10', '64', '50');
+    ('public', 'window', '10', '64', 50);
     
     INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
     ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network');
