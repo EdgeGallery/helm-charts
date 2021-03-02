@@ -302,10 +302,7 @@ data:
        )
        ;
      CREATE TABLE IF NOT EXISTS "tbl_vm_regulation" (
-<<<<<<< HEAD
       "regulation_id" SERIAL,
-=======
->>>>>>> 7703cdad27be64c437e4aa5e893427eea0db467e
       "architecture" varchar(50) DEFAULT NULL,
       "name_zh" varchar(50) NOT NULL DEFAULT NULL,
       "name_en" varchar(50) NOT NULL DEFAULT NULL,
@@ -326,19 +323,13 @@ data:
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_vm_system" (
-<<<<<<< HEAD
       "system_id" SERIAL,
-=======
->>>>>>> 7703cdad27be64c437e4aa5e893427eea0db467e
       "type" varchar(50) DEFAULT NULL,
       "operate_system" varchar(50) DEFAULT NULL,
       "version" varchar(50) NOT NULL DEFAULT NULL,
       "system_bit" varchar(50) DEFAULT NULL,
-<<<<<<< HEAD
       "system_disk" int4  DEFAULT NULL
-=======
       "system_disk" varchar(50)  DEFAULT NULL
->>>>>>> 7703cdad27be64c437e4aa5e893427eea0db467e
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
@@ -355,11 +346,8 @@ data:
       "stage_status" varchar(500)  DEFAULT NULL,
       "lcm_token" varchar(1024)  DEFAULT NULL,
       "vm_info" varchar(512)  DEFAULT NULL,
-<<<<<<< HEAD
       "app_instance_id" varchar(50)  DEFAULT NULL,
-=======
       "package_id" varchar(50)  DEFAULT NULL,
->>>>>>> 7703cdad27be64c437e4aa5e893427eea0db467e
       "create_time"  timestamptz(6)  DEFAULT NULL,
       "log" varchar(50)  DEFAULT NULL,
       
@@ -405,7 +393,6 @@ data:
     ('ARM', 'AI推理型2', 'AI', '工业视觉、园区监控', 'Industrial Vision, Park Monitoring', 8, 4, 50, 200, '', '1*Atlas300C(16G)');
     
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
-<<<<<<< HEAD
     ('public', 'ubuntu', '16.04', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'ubuntu', '18.04', '64', 50);
@@ -417,7 +404,6 @@ data:
     ('public', 'window', '7', '64', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'window', '10', '64', 50);
-=======
     ('public', 'ubuntu', '16.04', '64', '50');
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'ubuntu', '18.04', '64', '50');
@@ -429,7 +415,6 @@ data:
     ('public', 'window', '7', '64', '50');
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'window', '10', '64', '50');
->>>>>>> 7703cdad27be64c437e4aa5e893427eea0db467e
     
     INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
     ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network');
