@@ -329,7 +329,6 @@ data:
       "version" varchar(50) NOT NULL DEFAULT NULL,
       "system_bit" varchar(50) DEFAULT NULL,
       "system_disk" int4  DEFAULT NULL
-      "system_disk" varchar(50)  DEFAULT NULL
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
@@ -347,7 +346,6 @@ data:
       "lcm_token" varchar(1024)  DEFAULT NULL,
       "vm_info" varchar(512)  DEFAULT NULL,
       "app_instance_id" varchar(50)  DEFAULT NULL,
-      "package_id" varchar(50)  DEFAULT NULL,
       "create_time"  timestamptz(6)  DEFAULT NULL,
       "log" varchar(50)  DEFAULT NULL,
       
