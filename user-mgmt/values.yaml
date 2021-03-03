@@ -87,6 +87,12 @@ sms:
   templateId:
   signature:
   statusCallBack:
+mail:
+  enabled: false
+  host:
+  port: 25
+  sender:
+  authCode:
 
 # probe configuration parameters
 livenessProbe:
