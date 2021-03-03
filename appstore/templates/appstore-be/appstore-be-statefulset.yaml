@@ -138,6 +138,28 @@ spec:
                   key: postgresPassword
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: APPSTORE_REPO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: appstoreRepoPassword
+            - name: APPSTORE_REPO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: appstoreRepoUserName
+            - name: APPSTORE_REPO_ENDPOINT
+              value: {{ .Values.appstoreBe.repository.dockerRepoEndpoint }}
+            - name: DEV_REPO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: devRepoPassword
+            - name: DEV_REPO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: devRepoUserName   
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
@@ -178,6 +200,9 @@ spec:
             - name: appstore-be-log-pvc
               mountPath: /usr/app/log
             {{- end }}
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: appstore-be-keystore
@@ -187,6 +212,9 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
   {{- if .Values.global.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:

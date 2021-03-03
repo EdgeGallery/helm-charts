@@ -58,6 +58,11 @@ expose:
   postgres:
     port: 5432
 
+appstoreBe:
+  secretName:
+  repository:
+    dockerRepoEndpoint:
+ 
 # probe configuration parameters
 livenessProbe:
   path: /health
