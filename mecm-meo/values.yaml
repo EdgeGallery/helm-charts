@@ -65,7 +65,10 @@ mecm:
   pushImage: false
   docker:
     fsgroup:
-
+  repository:
+    dockerRepoEndpoint: 127.0.0.1:30003
+    sourceRepos:
+ 
 # probe configuration parameters
 livenessProbe:
 

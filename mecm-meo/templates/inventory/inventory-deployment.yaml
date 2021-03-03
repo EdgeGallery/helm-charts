@@ -88,6 +88,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.mecm.secretName }}
                   key: postgresPassword
+            - name: SOURCE_REPOS
+              value: {{ .Values.mecm.repository.sourceRepos }}
           ports:
             - containerPort: 8093
           resources: {}
