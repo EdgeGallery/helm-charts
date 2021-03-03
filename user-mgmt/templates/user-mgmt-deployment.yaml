@@ -147,20 +147,11 @@ spec:
               value: {{ quote .Values.mail.enabled }}
             {{- if .Values.mail.enabled }}
             - name: MAIL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mailHost
+              value: {{ quote .Values.mail.host }}
             - name: MAIL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mailPort
+              value: {{ quote .Values.mail.port }}
             - name: MAIL_SENDER
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mailSender
+              value: {{ quote .Values.mail.sender }}
             - name: MAIL_AUTH_CODE
               valueFrom:
                 secretKeyRef:
