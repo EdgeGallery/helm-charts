@@ -350,6 +350,12 @@ data:
       "system_disk" int4  DEFAULT NULL
     )
     ;
+    CREATE TABLE IF NOT EXISTS "tbl_vm_flavor" (
+      "architecture" varchar(50) DEFAULT NULL,
+      "flavor" varchar(50) DEFAULT NULL,
+      "constraints" varchar(50) DEFAULT NULL
+    )
+    ;
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
       "vm_id"  varchar(255) NOT NULL DEFAULT NULL,
       "project_id" varchar(50) DEFAULT NULL,
@@ -364,7 +370,7 @@ data:
       "vm_info" varchar(512)  DEFAULT NULL,
       "app_instance_id" varchar(50)  DEFAULT NULL,
       "create_time"  timestamptz(6)  DEFAULT NULL,
-      "log" varchar(50)  DEFAULT NULL,
+      "log" text  DEFAULT NULL,
       
       CONSTRAINT "tbl_vm_create_config_pkey" PRIMARY KEY ("vm_id")
     )
@@ -426,6 +432,12 @@ data:
     VALUES ('Network_MEP', '与边缘计算平台之间的网络，当应用存在服务依赖或需要发布服务时，需要该网络', 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed');
     INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
     ('Network_Internet', 'Internet网络', 'Internet Network');
+    
+    INSERT INTO tbl_vm_flavor (architecture, flavor, constraints) VALUES
+    ('X86', 'mgmt_egx86', 'az1.dc2');
+    INSERT INTO tbl_vm_flavor (architecture, flavor, constraints) VALUES
+    ('ARM', 'mgmt_egarm', 'az1.dc2');
+    
     
 
     -- workspace mep capability init --
