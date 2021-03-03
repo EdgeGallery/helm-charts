@@ -275,9 +275,28 @@ data:
       "port_range_min" int DEFAULT '-1'::integer,
       "port_range_max" int DEFAULT '-1'::integer,
       "port" int4 DEFAULT '-1'::integer,
+      "user_name" varchar(50) DEFAULT NULL,
+      "password" varchar(50) DEFAULT NULL
       "delete" bool DEFAULT NULL
     )
     ;
+    CREATE TABLE IF NOT EXISTS "tbl_host_log" (
+      "log_id" varchar(50) NOT NULL,
+      "host_ip" varchar(50) NOT NULL,
+      "user_name" varchar(50) DEFAULT NULL,
+      "user_id" varchar(50) DEFAULT NULL,
+      "project_id" varchar(50) DEFAULT NULL,
+      "project_name" varchar(50) DEFAULT NULL,
+      "app_instances_id" varchar(50) DEFAULT NULL,
+      "deploy_time" varchar(50) DEFAULT NULL,
+      "status" varchar(50) DEFAULT NULL,
+      "operation" varchar(50) DEFAULT NULL,
+      "host_id" varchar(50) DEFAULT NULL
+    )
+    ;
+    
+  
+
 
     CREATE TABLE IF NOT EXISTS "tbl_api_emulator" (
       "id" varchar(50) NOT NULL,
