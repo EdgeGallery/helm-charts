@@ -37,6 +37,10 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-dns-server
     tag: latest
     pullPolicy: IfNotPresent
+  elasticsearch:
+    repository: elasticsearch
+    tag: 7.9.0
+    pullPolicy: IfNotPresent
 
 
 dnsserver:
