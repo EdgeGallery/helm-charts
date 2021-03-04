@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mep-elasticsearch
+  namespace: mep
+  labels:
+    app: mep-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      app: mep-elasticsearch
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mep-elasticsearch
+    spec:
+      containers:
+        - name: mep-elasticsearch
+          image: {{ .Values.images.elasticsearch.repository }}:{{ .Values.images.elasticsearch.tag }}
+          imagePullPolicy: {{ .Values.images.elasticsearch.pullPolicy }}
+          ports:
+            - containerPort: 9200
+          env:
+            - name: discovery.type
+              value: "single-node"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mep-elasticsearch
+  namespace: mep
+  labels:
+    svc: mep-elasticsearch
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9200
+      targetPort: 9200
+      protocol: TCP
+  selector:
+    app: mep-elasticsearch

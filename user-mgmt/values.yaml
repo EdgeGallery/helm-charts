@@ -74,7 +74,7 @@ cors:
 redis:
   password: te9Fmv%qaq
   timeout: 1800
-  verificationTimeout: 60
+  verificationTimeout: 300
   maxTotal: 1000
   maxIdle: 50
   maxWaitMillis: 100000
