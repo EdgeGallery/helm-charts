@@ -134,10 +134,20 @@ spec:
               value: "5432"
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
-            - name: DOMAIN_NAME
+            - name: IMAGE_REPO_NAME
               value: {{ .Values.imagelocation.domainname }}
-            - name: PROJECT
+            - name: IMAGE_REPO_PROJECT
               value: {{ .Values.imagelocation.project }}
+            - name: IMAGE_REPO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: imageRepoPassword
+            - name: IMAGE_REPO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: imageRepoUsername
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:

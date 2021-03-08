@@ -62,6 +62,7 @@ expose:
     nodePort: 30092
   developerBe:
     port: 9082
+    nodePort: 30098
   postgres:
     port: 5432
 
@@ -82,5 +83,10 @@ readinessProbe:
   timeoutSeconds: 5
 
 imagelocation:
-  domainname: swr.ap-southeast-1.myhuaweicloud.com
-  project: edgegallery
+  domainname: 
+  project: developer
+  password: SGFyYm9yMTIzNDUK
+  username: admin
+  
+  
+  
