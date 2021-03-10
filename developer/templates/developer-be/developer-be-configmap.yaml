@@ -563,10 +563,6 @@ data:
     
     -- workspace 3GPP capability init --
     
-    INSERT INTO tbl_openmep_capability (group_id, one_level_name, one_level_name_en, two_level_name, two_level_name_en, type, description, description_en) VALUES ('4bc92750-85be-46e1-ac22-9424241e6ca5', 'ETSI', 'ETSI', '无线网络信息API MEC 012', 'Radio Network Information API MEC 012', 'OPENMEP', 'ETSI GS MEC 012 标准定义的无线网络信息API', 'The ETSI MEC ISG MEC012 Radio Network Information API described using OpenAPI');
-    INSERT INTO tbl_openmep_capability_detail (detail_id, service, service_en, version, description, description_en, provider, group_id, api_file_id, guide_file_id, guide_file_id_en, port, host, protocol, upload_time, user_id) VALUES ('a407b72d-e461-4bd3-8ab7-dea18bb90456', '无线网络信息API MEC 012', 'Radio Network Information API MEC 012', 'v2.1.1', 'ETSI GS MEC 012 标准定义的无线网络信息API', 'The ETSI MEC ISG MEC012 Radio Network Information API described using OpenAPI', 'ETSI', '4bc92750-85be-46e1-ac22-9424241e6ca5', 'a56461cb-7dd3-46f1-8d71-3677d098ee19', '', '', 8080, 'rni', 'http', '2021-03-04 00:00:00.000000', 'admin');
-    INSERT INTO tbl_uploaded_file (file_id, file_name, is_temp, user_id, upload_date, file_path) VALUES ('a56461cb-7dd3-46f1-8d71-3677d098ee19', 'RniAPI.json', false, 'admin', '2021-4-3 00:00:00.000000', '/mep_capability/RniAPI.json');
-    
     INSERT INTO tbl_openmep_capability (group_id, one_level_name, one_level_name_en, two_level_name, two_level_name_en, type, description, description_en) VALUES ('6aef3449-29d5-48a1-bde4-aa723ced62a9', '3GPP', '3GPP', '动态能力发布', 'Dynamic Capability Release', 'OPENMEP', '动态能力发布', 'Dynamic Capability Release');
     INSERT INTO tbl_openmep_capability_detail (detail_id, service, service_en, version, description, description_en, provider, group_id, api_file_id, guide_file_id, guide_file_id_en, port, host, protocol, upload_time, user_id) VALUES ('a407b72d-e461-4bd3-8ab7-dea18bb9041a', '动态能力发布', 'Dynamic Capability Release', 'v2.1.1', '动态能力发布', 'Dynamic Capability Release', '3GPP', '6aef3449-29d5-48a1-bde4-aa723ced62a9', '', '', '', 8080, '', 'http', '2021-03-04 00:00:00.000000', 'admin');
 
