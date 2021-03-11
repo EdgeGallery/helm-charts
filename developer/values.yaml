@@ -83,10 +83,10 @@ readinessProbe:
   timeoutSeconds: 5
 
 imagelocation:
-  domainname: 
+  domainname:
   project: developer
-  password: SGFyYm9yMTIzNDUK
-  username: admin
+  password:
+  username:
   
   
   
