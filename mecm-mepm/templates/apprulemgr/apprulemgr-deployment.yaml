@@ -29,6 +29,10 @@ spec:
       labels:
         app: mecm-mepm-apprulemgr
     spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;']
       containers:
         - image: {{ .Values.images.apprulemgr.repository }}:{{ .Values.images.apprulemgr.tag }}
           imagePullPolicy: {{ .Values.images.apprulemgr.pullPolicy }}
