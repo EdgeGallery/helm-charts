@@ -192,6 +192,9 @@ spec:
             - name: developer-be-log-pvc
               mountPath: /usr/app/log
             {{- end }}
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-be-keystore
@@ -201,6 +204,9 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
   {{- if .Values.global.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
