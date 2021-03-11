@@ -67,9 +67,9 @@ spec:
               value: mecm-mepm-k8splugin
             - name: K8S_PLUGIN_PORT
               value: "8095"
-            - name: OS_PLUGIN
+            - name: OPENSTACK_PLUGIN
               value: mecm-mepm-osplugin
-            - name: OS_PLUGIN_PORT
+            - name: OPENSTACK_PLUGIN_PORT
               value: "8234"
             - name: LISTEN_IP
               valueFrom:
