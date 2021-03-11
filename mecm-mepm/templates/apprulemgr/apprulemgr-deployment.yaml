@@ -59,6 +59,8 @@ spec:
               value: mep-mm5.mep
             - name: MEP_SERVER_PORT
               value: "80"
+            - name: APPRULEMGR_DB_ADAPTER
+              value: pgDb
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
@@ -68,6 +70,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.jwt.publicKeySecretName }}
                   key: publicKey
+            - name: APPRULEMGR_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mepm.secretName }}
+                  key: postgresRuleMgrPassword
+
           ports:
             - containerPort: 8096
           resources: {}
