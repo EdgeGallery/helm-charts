@@ -8,7 +8,7 @@ Deploy your own private Edgegallery.
 To add the Helm Edgegallery Charts for your local client, run `helm repo add`:
 
 ```
-$ helm repo add edgegallery https://gitee.com/edgegallery/helm-charts
+$ helm repo add edgegallery http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
 "edgegallery" has been added to your repositories
 ```
 
