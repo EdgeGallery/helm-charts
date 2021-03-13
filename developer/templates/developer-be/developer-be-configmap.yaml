@@ -235,6 +235,7 @@ data:
       "deploy_status" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "stage_status"  varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "lcm_token"  varchar(1000) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "package_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL
       CONSTRAINT "tbl_project_test_config_pkey" PRIMARY KEY ("test_id")
     )
     ;
@@ -369,6 +370,7 @@ data:
       "lcm_token" varchar(1024)  DEFAULT NULL,
       "vm_info" varchar(512)  DEFAULT NULL,
       "app_instance_id" varchar(50)  DEFAULT NULL,
+      "package_id" varchar(100)  DEFAULT NULL,
       "create_time"  timestamptz(6)  DEFAULT NULL,
       "log" text  DEFAULT NULL,
       
