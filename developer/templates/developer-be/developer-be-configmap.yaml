@@ -271,7 +271,8 @@ data:
       "architecture" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "status" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "protocol" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
-      "ip" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "lcm_ip" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+      "mec_host" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "os" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
       "port_range_min" int DEFAULT '-1'::integer,
       "port_range_max" int DEFAULT '-1'::integer,
@@ -339,7 +340,8 @@ data:
     CREATE TABLE IF NOT EXISTS "tbl_vm_network" (
       "network_type" varchar(50) DEFAULT NULL,
       "description_zh" varchar(255) DEFAULT NULL,
-      "description_en" varchar(255) DEFAULT NULL
+      "description_en" varchar(255) DEFAULT NULL,
+      "network_name" varchar(50) DEFAULT NULL
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_vm_system" (
