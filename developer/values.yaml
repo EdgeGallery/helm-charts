@@ -66,6 +66,13 @@ expose:
   postgres:
     port: 5432
 
+developer:
+  dockerRepo:
+    endpoint: 
+    project: developer
+    password: 
+    username:
+    
 # probe configuration parameters
 livenessProbe:
   path: /health
@@ -82,11 +89,7 @@ readinessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
 
-imagelocation:
-  domainname:
-  project: developer
-  password:
-  username:
+  
   
   
   

@@ -135,19 +135,19 @@ spec:
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
             - name: IMAGE_REPO_NAME
-              value: {{ .Values.imagelocation.domainname }}
+              value: {{ .Values.developer.dockerRepo.endpoint }}
             - name: IMAGE_REPO_PROJECT
-              value: {{ .Values.imagelocation.project }}
+              value: {{ .Values.developer.dockerRepo.project }}
             - name: IMAGE_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: developer-be-secret
-                  key: imageRepoPassword
+                  key: dockerRepoPassword
             - name: IMAGE_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: developer-be-secret
-                  key: imageRepoUsername
+                  key: dockerRepoUsername
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
