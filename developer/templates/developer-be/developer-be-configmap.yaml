@@ -235,7 +235,7 @@ data:
       "deploy_status" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "stage_status"  varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "lcm_token"  varchar(1000) COLLATE "pg_catalog"."default" DEFAULT NULL,
-      "package_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL
+      "package_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       CONSTRAINT "tbl_project_test_config_pkey" PRIMARY KEY ("test_id")
     )
     ;
@@ -450,12 +450,12 @@ data:
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'window', '10', '64bit', 50);
     
-    INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
-    ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network');
-    INSERT INTO tbl_vm_network (network_type, description_zh, description_en)
-    VALUES ('Network_MEP', '与边缘计算平台之间的网络，当应用存在服务依赖或需要发布服务时，需要该网络', 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed');
-    INSERT INTO tbl_vm_network (network_type, description_zh, description_en) VALUES
-    ('Network_Internet', 'Internet网络', 'Internet Network');
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en, network_name) VALUES
+    ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network', 'mec_network_n6');
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en, network_name)
+    VALUES ('Network_MEP', '与边缘计算平台之间的网络，当应用存在服务依赖或需要发布服务时，需要该网络', 'The network with the edge computing platform, when the application has service dependency or needs to publish the service, the network is needed', 'mec_network_mep');
+    INSERT INTO tbl_vm_network (network_type, description_zh, description_en, network_name) VALUES
+    ('Network_Internet', 'Internet网络', 'Internet Network', 'mec_network_internet');
     
     INSERT INTO tbl_vm_flavor (architecture, flavor, constraints) VALUES
     ('X86', 'mgmt_egx86', 'az1.dc2');
