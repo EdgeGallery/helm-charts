@@ -118,6 +118,16 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: clientId
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: clientSecret
             - name: LOG_DIR
               value: /usr/app/log
             - name: LISTEN_IP
