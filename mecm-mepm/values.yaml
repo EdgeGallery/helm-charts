@@ -43,6 +43,10 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apprulemgr
     tag: latest
     pullPolicy: IfNotPresent
+  mepmFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mepm-fe
+    tag: latest
+    pullPolicy: IfNotPresent
 persistence:
   enabled: false 
 expose:
