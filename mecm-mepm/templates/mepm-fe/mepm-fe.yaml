@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mepm-fe
+  namespace: default
+  labels:
+    app: mepm-fe
+spec:
+  selector:
+    matchLabels:
+      app: mepm-fe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mepm-fe
+    spec:
+      containers:
+        - name: mepm-fe
+          image: {{ .Values.images.mepmFe.repository }}:{{ .Values.images.mepmFe.tag }}
+          imagePullPolicy: {{ .Values.images.mepmFe.pullPolicy }}
+          ports:
+            - containerPort: 8200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mepm-fe
+  namespace: default
+  labels:
+    svc: mepm-fe
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.mepmFe.port }}
+      targetPort: 8200
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmFe.nodePort }}
+  selector:
+    app: mepm-fe
