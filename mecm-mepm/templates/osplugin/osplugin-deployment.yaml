@@ -1,0 +1,136 @@
+############################################################################
+# Copyright 2020 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mecm-mepm-osplugin
+  name: mecm-mepm-osplugin
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mecm-mepm-osplugin
+  template:
+    metadata:
+      labels:
+        app: mecm-mepm-osplugin
+    spec:
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;
+        image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+        imagePullPolicy: IfNotPresent
+        name: check-db-ready
+        resources: {}
+      containers:
+        - image: {{ .Values.images.osplugin.repository }}:{{ .Values.images.osplugin.tag }}
+          imagePullPolicy: {{ .Values.images.osplugin.pullPolicy }}
+          name: mecm-mepm-osplugin
+          livenessProbe:
+            tcpSocket:
+              port: 8234
+          env:
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresosPluginPassword
+                  name: {{ .Values.mepm.secretName }}
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: publicKey
+                  name: {{ .Values.jwt.publicKeySecretName }}       
+          ports:
+            - containerPort: 8234
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 8234
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/app/ssl
+              name: osplugin-certs
+              readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/app/log
+              name: log-dir
+            - mountPath: /usr/app/config
+              name: config-data
+              subPath: config
+            - mountPath: /usr/app/package
+              name: config-data
+              subPath: package
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: log-dir
+          emptyDir: {}
+        - name: config-data
+          persistentVolumeClaim:
+            claimName: osplugin-data-pvc
+        {{- end }}
+        - name: osplugin-certs
+          secret:
+            defaultMode: 420
+            items:
+              - key: ca.crt
+                mode: 420
+                path: ca.crt
+              - key: server_tls.crt
+                mode: 420
+                path: server_tls.crt
+              - key: server_tls.key
+                mode: 420
+                path: server_tls.key
+            secretName: {{ .Values.ssl.secretName }}
+          
+
+
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: osplugin-data
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /opt/osplugin-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: osplugin-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}
+
+
