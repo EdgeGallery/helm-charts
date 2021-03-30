@@ -404,6 +404,8 @@ data:
     -- workspace vm resources init --
     
     INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
+    ('X86', '通用计算型-2', 'General Computing-1', '普通APP', 'Ordinary APP', 1, 1, 50, 40, '', '');
+    INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
     ('X86', '通用计算型-2', 'General Computing-2', '普通APP', 'Ordinary APP', 8, 4, 50, 100, '', '');
     INSERT INTO tbl_vm_regulation (architecture, name_zh, name_en, scene_zh, scene_en, memory, cpu, system_disk, data_disk, gpu, other_ability) VALUES
     ('X86', '通用计算型-4', 'General Computing-4', '普通APP', 'Ordinary APP', 16, 4, 50, 100, '', '');
@@ -449,6 +451,8 @@ data:
     ('public', 'window', '7', '64bit', 50);
     INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
     ('public', 'window', '10', '64bit', 50);
+    INSERT INTO tbl_vm_system (type, operate_system, version, system_bit, system_disk) VALUES
+    ('public', 'cirros', '0.5.2', '64bit', 50);
     
     INSERT INTO tbl_vm_network (network_type, description_zh, description_en, network_name) VALUES
     ('Network_N6', 'N6网络，端侧设备在访问边缘应用时，需要通过该网络进行访问', 'N6 network, when end-side devices access edge applications, they need to access through this network', 'mec_network_n6');
@@ -458,9 +462,9 @@ data:
     ('Network_Internet', 'Internet网络', 'Internet Network', 'mec_network_internet');
     
     INSERT INTO tbl_vm_flavor (architecture, flavor, constraints) VALUES
-    ('X86', 'mgmt_egx86', 'az1.dc2');
+    ('X86', 'mgmt_egx86', 'nova');
     INSERT INTO tbl_vm_flavor (architecture, flavor, constraints) VALUES
-    ('ARM', 'mgmt_egarm', 'az1.dc2');
+    ('ARM', 'mgmt_egarm', 'nova');
     
     
 
