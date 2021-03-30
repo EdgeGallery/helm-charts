@@ -225,7 +225,7 @@ data:
       "deploy_file_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "private_host" bool DEFAULT FALSE,
       "platform" varchar(100) COLLATE "pg_catalog"."default" DEFAULT NULL,
-      "access_url" varchar(200) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "access_url" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "error_log" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "deploy_date" timestamptz(6) DEFAULT NULL,
       "hosts" varchar(500) COLLATE "pg_catalog"."default" DEFAULT NULL,
