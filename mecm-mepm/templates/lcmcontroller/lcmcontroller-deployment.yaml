@@ -63,6 +63,14 @@ spec:
               value: mepauth.mep
             - name: API_GW_PORT
               value: "10443"
+            - name: K8S_PLUGIN
+              value: mecm-mepm-k8splugin
+            - name: K8S_PLUGIN_PORT
+              value: "8095"
+            - name: OPENSTACK_PLUGIN
+              value: mecm-mepm-osplugin
+            - name: OPENSTACK_PLUGIN_PORT
+              value: "8234"
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
