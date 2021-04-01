@@ -71,6 +71,7 @@ spec:
             - mountPath: /usr/app/ssl
               name: osplugin-certs
               readOnly: true
+            {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/app/log
               name: log-dir
             - mountPath: /usr/app/config
@@ -79,12 +80,15 @@ spec:
             - mountPath: /usr/app/package
               name: config-data
               subPath: package
+            {{- end }}
       volumes:
+        {{- if .Values.global.persistence.enabled }}
         - name: log-dir
           emptyDir: {}
         - name: config-data
           persistentVolumeClaim:
             claimName: osplugin-data-pvc
+        {{- end }}
         - name: osplugin-certs
           secret:
             defaultMode: 420
@@ -101,7 +105,7 @@ spec:
             secretName: {{ .Values.ssl.secretName }}
           
 
-
+{{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -126,5 +130,5 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
+{{- end }}
 
