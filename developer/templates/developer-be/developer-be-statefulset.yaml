@@ -226,7 +226,7 @@ spec:
         storageClassName: {{ quote .Values.global.persistence.storageClassName }}
         resources:
           requests:
-            storage: 5Gi
+            storage: 50Gi
     - metadata:
         name: developer-be-log-pvc
       spec:

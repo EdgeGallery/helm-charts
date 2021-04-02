@@ -117,7 +117,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /opt/osplugin-data
+    path: /opt
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
