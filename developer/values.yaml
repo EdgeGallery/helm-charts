@@ -72,6 +72,9 @@ developer:
     project: developer
     password: 
     username:
+  vmImage:
+    username: ubuntu
+    password: 123456
     
 # probe configuration parameters
 livenessProbe:

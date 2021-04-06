@@ -153,6 +153,16 @@ spec:
                 secretKeyRef:
                   name: developer-be-secret
                   key: dockerRepoPassword
+            - name: VNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: vmImageUsername
+            - name: VNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: vmImagePassword
             - name: IMAGE_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
