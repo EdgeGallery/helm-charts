@@ -56,7 +56,7 @@ mep:
 
 postgres:
   username: kong
-  password: te9Fmv%qaq
+  password: 
   dbname: kongdb
 
 ssl:

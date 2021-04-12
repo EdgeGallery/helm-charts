@@ -63,6 +63,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP    
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -83,6 +88,9 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.ssl.secretName }}
                   key: keyAlias
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.jks
+            {{- end }}
             - name: APPO_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
