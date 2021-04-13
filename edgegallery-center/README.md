@@ -50,16 +50,16 @@ their default values. See values.yaml for all available options.
 | `global.oauth2.clients.mecm.clientUrl`         | MECM access address **required**              | ``                       |
 | `usermgmt.jwt.secretName`                      | Auth server jwt secret name                   | ``                       |
 | `usermgmt.postgres.username`                   | Auth server postgres database username        | `usermgmt`               |
-| `usermgmt.postgres.password`                   | Auth server postgres database password        | `********`             |
+| `usermgmt.postgres.password`                   | Auth server postgres database password        | `te9Fmv%qaq`             |
 | `usermgmt.expose.nodePort`                     | Auth server expose NodePort                   | `30067`                  |
 | `usermgmt.images.usermgmt.tag`                 | Auth server image tag                         | `0.2`                 |
 | `appstore.postgres.username`                   | Appstore postgres database username           | `appstore`               |
-| `appstore.postgres.password`                   | Appstore postgres database password           | `********`             |
+| `appstore.postgres.password`                   | Appstore postgres database password           | `te9Fmv%qaq`             |
 | `appstore.expose.appstoreFe.nodePort`          | Appstore front end expose NodePort            | `30091`                  |
 | `appstore.images.appstoreFe.tag`               | Appstore front end image tag                  | `0.2`                 |
 | `appstore.images.appstoreBe.tag`               | Appstore back end image tag                   | `0.2`                 |
 | `developer.postgres.username`                  | Developer postgres database username          | `developer`              |
-| `developer.postgres.password`                  | Developer postgres database password          | `********`             |
+| `developer.postgres.password`                  | Developer postgres database password          | `te9Fmv%qaq`             |
 | `developer.expose.developerFe.nodePort`        | Developer front end expose NodePort           | `30092`                  |
 | `developer.images.developerFe.tag`             | Developer front end image tag                 | `0.2`                 |
 | `developer.images.developerBe.tag`             | Developer back end image tag                  | `0.2`                 |
@@ -84,13 +84,13 @@ for usermgmt,and config public key for applcm,**the public key of applcm should 
 ## Generate a RSA keypair through openssl
 openssl genrsa -out rsa_private_key.pem 2048
 openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -passout pass:******** -out encrypted_rsa_private_key.pem
+openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -passout pass:te9Fmv%qaq -out encrypted_rsa_private_key.pem
 
 ## Create a jwt secret for usermgmt
 kubectl create secret generic user-mgmt-jwt-secret \
   --from-file=publicKey=rsa_public_key.pem \
   --from-file=encryptedPrivateKey=encrypted_rsa_private_key.pem \
-  --from-literal=encryptPassword=********
+  --from-literal=encryptPassword=te9Fmv%qaq
 
 ## Create a jwt public key secret for applcm
 kubectl create secret generic applcm-jwt-public-secret \
@@ -130,7 +130,7 @@ openssl x509 -req -days 365 -in ca.csr -extensions v3_ca -signkey ca.key -out ca
 
 ## Generate tls certificate
 openssl genrsa -out tls.key 2048
-openssl rsa -in tls.key -aes256 -passout pass:******** -out encryptedtls.key
+openssl rsa -in tls.key -aes256 -passout pass:te9Fmv%qaq -out encryptedtls.key
 openssl req -new -key tls.key -subj /C=CN/ST=Beijing/L=Biejing/O=edgegallery/CN=edgegallery.org -out tls.csr
 openssl x509 -req -in tls.csr -extensions v3_usr -CA ca.crt -CAkey ca.key -CAcreateserial -out tls.crt
 
@@ -162,18 +162,18 @@ If you want to enable SSL of internal service, need to provide a keystore secret
 ## Generate a keystore.p12 through keytool
 keytool -genkey -alias edgegallery \
   -dname "CN=edgegallery,OU=edgegallery,O=edgegallery,L=edgegallery,ST=edgegallery,C=CN" \
-  -storetype PKCS12 -keyalg RSA -keysize 2048 -storepass ******** -keystore keystore.p12 -validity 365
+  -storetype PKCS12 -keyalg RSA -keysize 2048 -storepass te9Fmv%qaq -keystore keystore.p12 -validity 365
 
 ## Create a keystore secret
 kubectl create secret generic edgegallery-ssl-secret \
   --from-file=keystore.p12=keystore.p12 \
-  --from-literal=keystorePassword=******** \
+  --from-literal=keystorePassword=te9Fmv%qaq \
   --from-literal=keystoreType=PKCS12 \
   --from-literal=keyAlias=edgegallery \
   --from-file=trust.cer=ca.crt \
   --from-file=server.cer=tls.crt \
   --from-file=server_key.pem=encryptedtls.key \
-  --from-literal=cert_pwd=********
+  --from-literal=cert_pwd=te9Fmv%qaq
 
 ## Installation
 helm install my-edgegallery edgegallery/edgegallery \
