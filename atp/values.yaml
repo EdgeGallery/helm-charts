@@ -26,7 +26,7 @@ global:
     clients:
       atp:
         clientId: atp-fe
-        clientSecret:
+        clientSecret: te9Fmv%qaq
 images:
   atpFe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/atp-fe
@@ -46,7 +46,7 @@ images:
     pullPolicy: IfNotPresent
 postgres:
   username: atp
-  password: 
+  password: te9Fmv%qaq
   dbname: atpdb
 expose:
   atpFe:

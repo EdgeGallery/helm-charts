@@ -26,7 +26,7 @@ global:
     clients:
       appstore:
         clientId: appstore-fe
-        clientSecret:
+        clientSecret: te9Fmv%qaq
 images:
   appstoreFe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appstore-fe
@@ -46,7 +46,7 @@ images:
     pullPolicy: IfNotPresent
 postgres:
   username: appstore
-  password: 
+  password: te9Fmv%qaq
   dbname: appstoredb
 expose:
   appstoreFe:

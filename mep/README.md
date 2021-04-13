@@ -10,7 +10,7 @@ Deploy MEP.
 
   export PG_ADMIN_PWD=admin-Pass123
   export KONG_PG_PWD=kong-Pass123
-  export CERT_PWD=********
+  export CERT_PWD=te9Fmv%qaq
 
   export MEP_CERTS_DIR=/tmp/.mep_tmp_cer
   export CERT_NAME=${CERT_NAME:-mepserver}
