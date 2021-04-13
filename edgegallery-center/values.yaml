@@ -38,23 +38,23 @@ global:
     clients:
       appstore:
         clientId: appstore-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl: https://appstore.edgegallery.org
       developer:
         clientId: developer-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl: https://developer.edgegallery.org
       mecm:
         clientId: mecm-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl: https://mecm.edgegallery.org
       atp:
         clientId: atp-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl: https://atp.edgegallery.org
       lab:
         clientId: lab-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl: https://lab.edgegallery.org
 jwt:
   secretName: user-mgmt-jwt-secret

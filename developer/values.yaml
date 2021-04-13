@@ -26,7 +26,7 @@ global:
     clients:
       developer:
         clientId: developer-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
 images:
   developerFe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-fe
@@ -54,7 +54,7 @@ images:
     pullPolicy: IfNotPresent
 postgres:
   username: developer
-  password: te9Fmv%qaq
+  password: 
   dbname: developerdb
 expose:
   developerFe:
@@ -74,7 +74,7 @@ developer:
     username:
   vmImage:
     username: ubuntu
-    password: 123456
+    password: 
     
 # probe configuration parameters
 livenessProbe:

@@ -25,7 +25,7 @@ global:
     clients:
       mecm:
         clientId: mecm
-        clientSecret: te9Fmv%qaq
+        clientSecret:
 images:
   lcmcontroller:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-applcm

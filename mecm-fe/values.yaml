@@ -26,7 +26,7 @@ global:
     clients:
       mecm:
         clientId: mecm-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
 images:
   mecmFe:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe

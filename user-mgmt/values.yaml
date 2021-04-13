@@ -25,23 +25,23 @@ global:
     clients:
       appstore:
         clientId: appstore-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl:
       developer:
         clientId: developer-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl:
       mecm:
         clientId: mecm-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl:
       atp:
         clientId: atp-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl:
       lab:
         clientId: lab-fe
-        clientSecret: te9Fmv%qaq
+        clientSecret:
         clientUrl:
 jwt:
   secretName:
@@ -67,12 +67,12 @@ images:
     pullPolicy: IfNotPresent
 postgres:
   username: usermgmt
-  password: te9Fmv%qaq
+  password: 
   dbname: usermgmtdb
 cors:
   allowOrigins: "*"
 redis:
-  password: te9Fmv%qaq
+  password: 
   timeout: 1800
   verificationTimeout: 300
   maxTotal: 1000
