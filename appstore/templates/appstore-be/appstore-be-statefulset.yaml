@@ -187,13 +187,13 @@ spec:
                   name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
             {{- end }}
-            {{- if .Values.app-share.enabled }}
+            {{- if .Values.appShare.enabled }}
             - name: PLATFORM_NAME
-              value: {{ .Values.app-share.platformName }}
+              value: {{ .Values.appShare.platformName }}
             - name: PLATFORM_URL
-              value: {{ .Values.app-share.platformUrl }}
+              value: {{ .Values.appShare.platformUrl }}
             - name: ATP_REPORT_URL
-              value: {{ .Values.app-share.atpReportUrl }}
+              value: {{ .Values.appShare.atpReportUrl }}
             {{- end }}
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}
