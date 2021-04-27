@@ -187,13 +187,13 @@ spec:
                   name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
             {{- end }}
-            {{- if .Values.poke.enabled }}
+            {{- if .Values.app-share.enabled }}
             - name: PLATFORM_NAME
-              value: {{ .Values.poke.platformName }}
+              value: {{ .Values.app-share.platformName }}
             - name: PLATFORM_URL
-              value: {{ .Values.poke.platformUrl }}
+              value: {{ .Values.app-share.platformUrl }}
             - name: ATP_REPORT_URL
-              value: {{ .Values.poke.atpReportUrl }}
+              value: {{ .Values.app-share.atpReportUrl }}
             {{- end }}
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}
