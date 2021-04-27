@@ -19,14 +19,14 @@ metadata:
   labels:
     svc: appstore-be-svc
 spec:
-  {{- if .Values.poke.enabled }}
+  {{- if .Values.app-share.enabled }}
   type: NodePort
   {{- end }}
   ports:
     - port: {{ .Values.expose.appstoreBe.port }}
       targetPort: 8099
       protocol: TCP
-      {{- if .Values.poke.enabled }}
+      {{- if .Values.app-share.enabled }}
       nodePort: {{ .Values.expose.appstoreBe.nodePort }}
       {{- end }}
   selector:
