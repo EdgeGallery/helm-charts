@@ -16,6 +16,7 @@ global:
   ingress:
     enabled: false
   ssl:
+    enabled: false
     secretName:
   persistence:
     enabled: false
