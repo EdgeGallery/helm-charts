@@ -18,7 +18,7 @@ metadata:
   name: appstore-be-postgres-initdb-configmap
 data:
   postgres.sql: |
-        create TABLE if not exists catalog_package_table (
+    create TABLE if not exists catalog_package_table (
         PACKAGEID                VARCHAR(200)       NOT NULL,
         PACKAGEADDRESS           VARCHAR(200)       NULL,
         ICONADDRESS              VARCHAR(200)       NULL,
