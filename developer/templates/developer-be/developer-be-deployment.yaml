@@ -11,70 +11,11 @@
 # limitations under the License.
 ############################################################################
 
-
 apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: developer-be-postgres
-spec:
-  serviceName: "developer-be-postgres-svc"
-  selector:
-    matchLabels:
-      app: developer-be-postgres
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: developer-be-postgres
-    spec:
-      containers:
-        - name: developer-be-postgres
-          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
-          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: developer-be-secret
-                  key: postgresUsername
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: developer-be-secret
-                  key: postgresPassword
-            - name: POSTGRES_DB
-              value: {{ .Values.postgres.dbname }}
-          volumeMounts:
-            {{- if .Values.global.persistence.enabled }}
-            - mountPath: /var/lib/postgresql/data
-              name: developer-be-postgres-pvc
-            {{- end }}
-            - mountPath: /docker-entrypoint-initdb.d
-              name: developer-be-postgres-initdb
-      volumes:
-        - name: developer-be-postgres-initdb
-          configMap:
-            name: developer-be-postgres-initdb-configmap
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: developer-be-postgres-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 1Gi
-  {{- end }}
----
-apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: developer-be
 spec:
-  serviceName: "developer-be-svc"
   selector:
     matchLabels:
       app: developer-be
@@ -207,10 +148,8 @@ spec:
               name: developer-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: developer-be-workspace-pvc
+            - name: developer-be-data
               mountPath: /usr/app/user
-            - name: developer-be-log-pvc
-              mountPath: /usr/app/log
             {{- end }}
             - mountPath: /var/run/docker.sock
               name: docker-sock
@@ -227,22 +166,23 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: developer-be-workspace-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 50Gi
-    - metadata:
-        name: developer-be-log-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 1Gi
-  {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: developer-be-data
+          persistentVolumeClaim:
+            claimName: developer-be-data-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+  
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: developer-be-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}
