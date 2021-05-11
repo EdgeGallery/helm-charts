@@ -79,8 +79,8 @@ readinessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
 
-# poke config
-poke:
+# appShare config
+appShare:
   enabled: true
   platformName: EdgeGallery AppStore
   platformUrl: http://127.0.0.1:8099

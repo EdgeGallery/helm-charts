@@ -19,7 +19,7 @@ global:
     enabled: false
     secretName:
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
   oauth2:
     authServerAddress:
@@ -60,6 +60,7 @@ expose:
   developerFe:
     port: 8443
     nodePort: 30092
+  # vnc
   developerBe:
     port: 9082
     nodePort: 30098
@@ -74,7 +75,9 @@ developer:
     username:
   vmImage:
     username: ubuntu
-    password: 
+    password:
+  toolChain:
+    enabled: false
     
 # probe configuration parameters
 livenessProbe:
