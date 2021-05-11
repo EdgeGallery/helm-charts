@@ -323,7 +323,7 @@ data:
        )
        ;
      CREATE TABLE IF NOT EXISTS "tbl_vm_regulation" (
-      "regulation_id" SERIAL,
+      "regulation_id" int4 NOT NULL,
       "architecture" varchar(50) DEFAULT NULL,
       "name_zh" varchar(50) NOT NULL DEFAULT NULL,
       "name_en" varchar(50) NOT NULL DEFAULT NULL,
@@ -334,14 +334,16 @@ data:
       "system_disk" int4  DEFAULT NULL,
       "data_disk" int4  DEFAULT NULL,
       "gpu" varchar(50)  DEFAULT NULL,
-      "other_ability" varchar(255)  DEFAULT NULL
+      "other_ability" varchar(255)  DEFAULT NULL,
+      CONSTRAINT "tbl_vm_regulation_pkey" PRIMARY KEY ("regulation_id")
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_vm_network" (
       "network_type" varchar(50) DEFAULT NULL,
       "description_zh" varchar(255) DEFAULT NULL,
       "description_en" varchar(255) DEFAULT NULL,
-      "network_name" varchar(50) DEFAULT NULL
+      "network_name" varchar(50) DEFAULT NULL,
+      CONSTRAINT "tbl_vm_network_pkey" PRIMARY KEY ("network_type")
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_vm_system" (
@@ -356,7 +358,8 @@ data:
     CREATE TABLE IF NOT EXISTS "tbl_vm_flavor" (
       "architecture" varchar(50) DEFAULT NULL,
       "flavor" varchar(50) DEFAULT NULL,
-      "constraints" varchar(50) DEFAULT NULL
+      "constraints" varchar(50) DEFAULT NULL,
+      CONSTRAINT "tbl_vm_flavor_pkey" PRIMARY KEY ("architecture")
     )
     ;
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
