@@ -19,7 +19,7 @@ global:
     enabled: false
     secretName:
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
   oauth2:
     authServerAddress:
@@ -59,9 +59,14 @@ expose:
     port: 5432
 
 appstoreBe:
-  secretName:
-  repository:
-    dockerRepoEndpoint:
+  dockerRepo:
+    endpoint:
+    appstore:
+      password:
+      username:
+    developer:
+      password:
+      username:
  
 # probe configuration parameters
 livenessProbe:
