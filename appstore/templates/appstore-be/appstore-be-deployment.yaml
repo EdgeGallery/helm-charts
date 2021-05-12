@@ -13,68 +13,10 @@
 
 
 apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: appstore-be-postgres
-spec:
-  serviceName: "appstore-be-postgres-svc"
-  selector:
-    matchLabels:
-      app: appstore-be-postgres
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: appstore-be-postgres
-    spec:
-      containers:
-        - name: appstore-be-postgres
-          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
-          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-be-secret
-                  key: postgresUsername
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-be-secret
-                  key: postgresPassword
-            - name: POSTGRES_DB
-              value: {{ .Values.postgres.dbname }}
-          volumeMounts:
-            {{- if .Values.global.persistence.enabled }}
-            - mountPath: /var/lib/postgresql/data
-              name: appstore-be-postgres-pvc
-            {{- end }}
-            - mountPath: /docker-entrypoint-initdb.d
-              name: appstore-be-postgres-initdb
-      volumes:
-        - name: appstore-be-postgres-initdb
-          configMap:
-            name: appstore-be-postgres-initdb-configmap
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: appstore-be-postgres-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-  {{- end }}
----
-apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: appstore-be
 spec:
-  serviceName: "appstore-be-svc"
   selector:
     matchLabels:
       app: appstore-be
@@ -147,24 +89,24 @@ spec:
             - name: APPSTORE_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
+                  name: appstore-be-secret
                   key: appstoreRepoPassword
             - name: APPSTORE_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
+                  name: appstore-be-secret
                   key: appstoreRepoUserName
             - name: APPSTORE_REPO_ENDPOINT
-              value: {{ .Values.appstoreBe.repository.dockerRepoEndpoint }}
+              value: {{ .Values.appstoreBe.dockerRepo.endpoint }}
             - name: DEV_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
+                  name: appstore-be-secret
                   key: devRepoPassword
             - name: DEV_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
+                  name: appstore-be-secret
                   key: devRepoUserName   
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
@@ -201,10 +143,8 @@ spec:
               name: appstore-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: appstore-be-workspace-pvc
+            - name: appstore-be-data
               mountPath: /usr/app/packages
-            - name: appstore-be-log-pvc
-              mountPath: /usr/app/log
             {{- end }}
             - mountPath: /var/run/docker.sock
               name: docker-sock
@@ -221,22 +161,22 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: appstore-be-workspace-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-    - metadata:
-        name: appstore-be-log-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 1Gi
-  {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: appstore-be-data
+          persistentVolumeClaim:
+            claimName: appstore-be-data-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appstore-be-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}
