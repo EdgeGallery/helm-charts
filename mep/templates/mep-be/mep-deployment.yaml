@@ -159,24 +159,24 @@ spec:
               readOnly: true
           livenessProbe:
             httpGet:
-              scheme: {{ .Values.livenessProbe.scheme }}
-              path: {{ .Values.livenessProbe.path }}
+              scheme: {{ .Values.mepAuthLivenessProbe.scheme }}
+              path: {{ .Values.mepAuthLivenessProbe.path }}
               port: 10443
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.mepAuthLivenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mepAuthLivenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.mepAuthLivenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.mepAuthLivenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.mepAuthLivenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.readinessProbe.path }}
+              path: {{ .Values.mepAuthReadinessProbe.path }}
               port: 10443
-              scheme: {{ .Values.readinessProbe.scheme }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+              scheme: {{ .Values.mepAuthReadinessProbe.scheme }}
+            initialDelaySeconds: {{ .Values.mepAuthReadinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.mepAuthReadinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.mepAuthReadinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.mepAuthReadinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.mepAuthReadinessProbe.failureThreshold }}
         - image: "{{ .Values.images.mep.repository }}:{{ .Values.images.mep.tag }}"
           imagePullPolicy: {{ .Values.images.mep.pullPolicy }}
           name: mepserver
