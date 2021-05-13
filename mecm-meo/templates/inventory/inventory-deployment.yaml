@@ -57,6 +57,8 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}              
             - name: LOG_DIR
               value: /usr/app/log
             - name: LISTEN_IP
