@@ -88,7 +88,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.ssl.secretName }}
                   key: keyAlias
-            - name: SSL_KEY_STORE_PATH
+            - name: SSL_KEY_STORE_JKS_PATH
               value: /usr/app/ssl/keystore.jks
             {{- end }}
             - name: INVENTORY_DB_PASSWORD
@@ -96,8 +96,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.mecm.secretName }}
                   key: postgresPassword
-            - name: SSL_KEY_STORE_PATH
-              value: /usr/app/ssl/keystore.jks
             - name: SOURCE_REPOS
               value: {{ .Values.mecm.repository.sourceRepos }}
           ports:
