@@ -77,7 +77,7 @@ livenessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
-  FailureThreshold: 3
+  failureThreshold: 3
 
 readinessProbe:
   path: /health
@@ -87,7 +87,27 @@ readinessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
-  FailureThreshold: 3
+  failureThreshold: 3
+
+mepAuthLivenessProbe:
+  path: /health
+  scheme: HTTPS
+  scheme_http: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 30
+
+mepAuthReadinessProbe:
+  path: /health
+  scheme: HTTPS
+  scheme_http: HTTP
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 30
 
 mepConfig:
   dnsAgentType: all
