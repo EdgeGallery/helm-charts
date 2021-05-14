@@ -44,6 +44,19 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
+  mecmFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
+    tag: latest
+    pullPolicy: IfNotPresent  
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/service-center
+    tag: latest
+    pullPolicy: IfNotPresent
+  curl:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
+    pullPolicy: IfNotPresent
+    
 persistence:
   enabled: true
 expose:
@@ -58,6 +71,9 @@ expose:
     nodePort: 30202
   postgres:
     port: 5432
+  mecmFe:
+    port: 8443
+    nodePort: 30093
 
 ssl:
   secretName: 
