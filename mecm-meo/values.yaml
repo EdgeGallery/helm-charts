@@ -16,8 +16,8 @@ global:
   ingress:
     enabled: false
   ssl:
-    enabled: true 
-    secretName:
+    enabled: true
+    secretName: edgegallery-ssl-secret
   persistence:
     enabled: false
     storageClassName: nfs-client
@@ -25,8 +25,9 @@ global:
     authServerAddress:
     clients:
       mecm:
-        clientId: mecm
-        clientSecret:
+        clientId: mecm-fe
+        clientSecret: 
+	clientUrl:
 images:
   inventory:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-inventory
@@ -75,10 +76,8 @@ expose:
     port: 8443
     nodePort: 30093
 
-ssl:
-  secretName: 
 mecm:
-  secretName: 
+  secretName: edgegallery-mecm-secret
   pushImage: false
   docker:
     fsgroup:
