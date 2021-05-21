@@ -16,8 +16,8 @@ global:
   ingress:
     enabled: false
   ssl:
-    enabled: false
-    secretName:
+    enabled: true
+    secretName: edgegallery-ssl-secret
   persistence:
     enabled: false
     storageClassName: nfs-client
@@ -25,8 +25,9 @@ global:
     authServerAddress:
     clients:
       mecm:
-        clientId: mecm
-        clientSecret:
+        clientId: mecm-fe
+        clientSecret: 
+        clientUrl: 
 images:
   inventory:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-inventory
@@ -44,6 +45,19 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
+  mecmFe:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
+    tag: latest
+    pullPolicy: IfNotPresent  
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/service-center
+    tag: latest
+    pullPolicy: IfNotPresent
+  curl:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
+    pullPolicy: IfNotPresent
+    
 persistence:
   enabled: true
 expose:
@@ -58,11 +72,12 @@ expose:
     nodePort: 30202
   postgres:
     port: 5432
+  mecmFe:
+    port: 8443
+    nodePort: 30093
 
-ssl:
-  secretName: 
 mecm:
-  secretName: 
+  secretName: edgegallery-mecm-secret
   pushImage: false
   docker:
     fsgroup:

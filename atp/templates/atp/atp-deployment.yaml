@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020-2021 Huawei Technologies Co., Ltd.
+# Copyright 2020 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -13,76 +13,18 @@
 
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: appstore-be-postgres
+  name: atp
 spec:
-  serviceName: "appstore-be-postgres-svc"
   selector:
     matchLabels:
-      app: appstore-be-postgres
+      app: atp
   replicas: 1
   template:
     metadata:
       labels:
-        app: appstore-be-postgres
-    spec:
-      containers:
-        - name: appstore-be-postgres
-          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
-          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-be-secret
-                  key: postgresUsername
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-be-secret
-                  key: postgresPassword
-            - name: POSTGRES_DB
-              value: {{ .Values.postgres.dbname }}
-          volumeMounts:
-            {{- if .Values.global.persistence.enabled }}
-            - mountPath: /var/lib/postgresql/data
-              name: appstore-be-postgres-pvc
-            {{- end }}
-            - mountPath: /docker-entrypoint-initdb.d
-              name: appstore-be-postgres-initdb
-      volumes:
-        - name: appstore-be-postgres-initdb
-          configMap:
-            name: appstore-be-postgres-initdb-configmap
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: appstore-be-postgres-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-  {{- end }}
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: appstore-be
-spec:
-  serviceName: "appstore-be-svc"
-  selector:
-    matchLabels:
-      app: appstore-be
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: appstore-be
+        app: atp
     spec:
       initContainers:
         - name: init-service-center
@@ -94,15 +36,15 @@ spec:
           imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
           command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
       containers:
-        - name: appstore-be
-          image: {{ .Values.images.appstoreBe.repository }}:{{ .Values.images.appstoreBe.tag }}
-          imagePullPolicy: {{ .Values.images.appstoreBe.pullPolicy }}
+        - name: atp
+          image: {{ .Values.images.atp.repository }}:{{ .Values.images.atp.tag }}
+          imagePullPolicy: {{ .Values.images.atp.pullPolicy }}
           ports:
-            - containerPort: 8099
+            - containerPort: 8073
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path}}
-              port: {{ .Values.expose.appstoreBe.port }}
+              port: {{ .Values.expose.atp.port }}
               scheme: {{ .Values.livenessProbe.scheme}}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
@@ -112,7 +54,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path}}
-              port: {{ .Values.expose.appstoreBe.port }}
+              port: {{ .Values.expose.atp.port }}
               scheme: {{ .Values.readinessProbe.scheme}}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
@@ -127,7 +69,7 @@ spec:
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
             - name: POSTGRES_IP
-              value: appstore-be-postgres-svc
+              value: atp-postgres-svc
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB_NAME
@@ -135,37 +77,15 @@ spec:
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: appstore-be-secret
+                  name: atp-secret
                   key: postgresUsername
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: appstore-be-secret
+                  name: atp-secret
                   key: postgresPassword
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
-            - name: APPSTORE_REPO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
-                  key: appstoreRepoPassword
-            - name: APPSTORE_REPO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
-                  key: appstoreRepoUserName
-            - name: APPSTORE_REPO_ENDPOINT
-              value: {{ .Values.appstoreBe.repository.dockerRepoEndpoint }}
-            - name: DEV_REPO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
-                  key: devRepoPassword
-            - name: DEV_REPO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
-                  key: devRepoUserName   
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
@@ -187,56 +107,40 @@ spec:
                   name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
             {{- end }}
-            {{- if .Values.appShare.enabled }}
-            - name: PLATFORM_NAME
-              value: {{ .Values.appShare.platformName }}
-            - name: PLATFORM_URL
-              value: {{ .Values.appShare.platformUrl }}
-            - name: ATP_REPORT_URL
-              value: {{ .Values.appShare.atpReportUrl }}
-            {{- end }}
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}
             - mountPath: /usr/app/ssl
-              name: appstore-be-keystore
+              name: atp-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: appstore-be-workspace-pvc
-              mountPath: /usr/app/packages
-            - name: appstore-be-log-pvc
-              mountPath: /usr/app/log
+            - name: atp-data
+              mountPath: /usr/atp/file
             {{- end }}
-            - mountPath: /var/run/docker.sock
-              name: docker-sock
-              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
-        - name: appstore-be-keystore
+        - name: atp-keystore
           secret:
             secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
-        - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
   {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: appstore-be-workspace-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-    - metadata:
-        name: appstore-be-log-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 1Gi
-  {{- end }}
+        - name: atp-data
+          persistentVolumeClaim:
+            claimName: atp-data-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: atp-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}

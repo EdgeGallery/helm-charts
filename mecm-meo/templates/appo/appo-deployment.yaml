@@ -57,6 +57,8 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}              
             - name: LOG_DIR
               value: /usr/app/log
             - name: LISTEN_IP
@@ -71,24 +73,24 @@ spec:
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.ssl.secretName }}
+                  name: {{ .Values.global.ssl.secretName }}
                   key: keystorePassword
             - name: SSL_TRUST_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.ssl.secretName }}
+                  name: {{ .Values.global.ssl.secretName }}
                   key: truststorePassword
             - name: SSL_KEY_STORE_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.ssl.secretName }}
+                  name: {{ .Values.global.ssl.secretName }}
                   key: keystoreType
             - name: SSL_KEY_ALIAS
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.ssl.secretName }}
+                  name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
-            - name: SSL_KEY_STORE_PATH
+            - name: SSL_KEY_STORE_JKS_PATH
               value: /usr/app/ssl/keystore.jks
             {{- end }}
             - name: APPO_DB_PASSWORD
@@ -113,7 +115,7 @@ spec:
 
         - name: appo-keystore
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: keystore.p12
                 path: keystore.p12
