@@ -41,10 +41,6 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/elasticsearch
     tag: 7.9.0
     pullPolicy: IfNotPresent
-  mepFe:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-fe
-    tag: latest
-    pullPolicy: IfNotPresent
 
 
 dnsserver:
