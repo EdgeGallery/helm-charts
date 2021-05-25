@@ -113,7 +113,3 @@ mepConfig:
   dnsAgentType: all
   dataPlaneType: none
 
-expose:
-  mepFe:
-    port: 8100
-    nodePort: 30095
