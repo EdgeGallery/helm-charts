@@ -21,8 +21,6 @@ metadata:
 spec:
   selector:
     app: mecm-mepm-lcmcontroller
-  type: NodePort
   ports:
     - port: {{ .Values.expose.lcmcontroller.port }}
       targetPort: 8094
-      nodePort: {{ .Values.expose.lcmcontroller.nodePort }}

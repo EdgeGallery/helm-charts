@@ -15,6 +15,8 @@
 global:
   ingress:
     enabled: false
+    tls:
+      secretName: mecm-mepm-ssl-secret
   ssl:
     secretName:
   persistence:
@@ -79,7 +81,7 @@ jwt:
   publicKeySecretName: 
 # probe configuration parameters
 livenessProbe:
-  scheme: HTTPS
+  scheme: HTTP
   initialDelaySeconds: 600
   periodSeconds: 60
   timeoutSeconds: 10
@@ -87,7 +89,7 @@ livenessProbe:
   FailureThreshold: 3
   
 readinessProbe:
-  scheme: HTTPS
+  scheme: HTTP
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5

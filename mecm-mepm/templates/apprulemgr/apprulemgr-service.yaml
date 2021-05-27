@@ -21,8 +21,6 @@ metadata:
 spec:
   selector:
     app: mecm-mepm-apprulemgr
-  type: NodePort
   ports:
     - port: {{ .Values.expose.apprulemgr.port }}
       targetPort: 8096
-      nodePort: {{ .Values.expose.apprulemgr.nodePort }}

@@ -65,6 +65,8 @@ spec:
               value: "80"
             - name: APPRULEMGR_DB_ADAPTER
               value: pgDb
+            - name: IS_HTTPS
+              value: "false"
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:

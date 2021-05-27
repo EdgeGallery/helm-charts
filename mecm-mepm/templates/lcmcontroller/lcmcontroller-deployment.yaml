@@ -71,6 +71,8 @@ spec:
               value: mecm-mepm-osplugin
             - name: OPENSTACK_PLUGIN_PORT
               value: "8234"
+            - name: IS_HTTPS
+              value: "false"
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mepm-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  # ingressClassName: nginx # use only with k8s version >= 1.18.0
+  tls:
+  - secretName: {{ .Values.global.ingress.tls.secretName }}
+  rules:
+  -  http:
+       paths:
+       - path: /lcmcontroller
+         backend:
+           serviceName: mecm-mepm-lcmcontroller
+           servicePort: 8094
+       - path: /apprulemgr
+         backend:
+           serviceName: mecm-mepm-apprulemgr
+           servicePort: 8096
