@@ -128,6 +128,9 @@ spec:
               readOnly: true
 
             {{- if .Values.global.persistence.enabled }}
+            - name: apm-data
+              mountPath: /usr/app/packages
+
             - name: apm-log
               mountPath: /usr/app/log
             {{- end }}
@@ -145,6 +148,9 @@ spec:
                 mode: 0644                
 
         {{- if .Values.global.persistence.enabled }}
+        - name: apm-data
+          persistentVolumeClaim:
+            claimName: apm-data-pvc
         - name: apm-log
           hostPath:
             path: /var/log/edgegallery/apm
@@ -153,3 +159,20 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
+
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apm-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}
+
+

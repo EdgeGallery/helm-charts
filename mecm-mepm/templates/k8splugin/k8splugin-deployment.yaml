@@ -78,8 +78,10 @@ spec:
             - mountPath: /usr/app/ssl
               name: k8splugin-certs
               readOnly: true
-
             {{- if .Values.global.persistence.enabled }}
+            - name: k8splugin-data
+              mountPath: /usr/app/artifacts
+
             - name: k8splugin-log
               mountPath: /usr/app/log
             {{- end }}
@@ -99,7 +101,26 @@ spec:
                 path: server_tls.key
                 mode: 0644
         {{- if .Values.global.persistence.enabled }}
+        - name: k8splugin-data
+          persistentVolumeClaim:
+            claimName: k8splugin-data-pvc
+
         - name: k8splugin-log
           hostPath:
             path: /var/log/edgegallery/k8splugin
         {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8splugin-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}
+

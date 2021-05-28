@@ -78,7 +78,7 @@ expose:
 
 mecm:
   secretName: edgegallery-mecm-secret
-  pushImage: false
+  pushImage: true
   docker:
     fsgroup:
   repository:

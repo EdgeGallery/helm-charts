@@ -53,7 +53,7 @@ spec:
               readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /var/lib/postgresql/data
-              name: mecm-postgres-pvc
+              name: mepm-postgres-data
             {{- end }}
 
       volumes:
@@ -63,17 +63,26 @@ spec:
             items:
               - key: postgres_init.sql
                 path: postgres_init.sql
-                mode: 0644   
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: mecm-postgres-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-  {{- end }}
+                mode: 0644
+        {{- if .Values.global.persistence.enabled }}
+        - name: mepm-postgres-data
+          persistentVolumeClaim:
+            claimName: mecm-postgres-data-pvc
+        {{- end }}
+
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mecm-postgres-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}
 
 
