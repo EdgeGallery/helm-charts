@@ -25,6 +25,15 @@ spec:
           env:
             - name: discovery.type
               value: "single-node"
+{{- if .Values.global.persistence.enabled }}
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: es-datastore
+      volumes:
+        - name: es-datastore
+          persistentVolumeClaim:
+            claimName: es-datastore-pvc
+{{- end }}
 ---
 apiVersion: v1
 kind: Service

@@ -50,10 +50,14 @@ dnsserver:
 mep:
   storageSize: 1Gi
 
+elasticsearch:
+  storageSize: 1Gi
+
 postgres:
   username: kong
   password: 
   dbname: kongdb
+  storageSize: 1Gi
 
 ssl:
   enabled: false

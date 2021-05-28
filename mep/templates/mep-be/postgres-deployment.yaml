@@ -57,6 +57,10 @@ spec:
             - name: pg-init
               mountPath: /docker-entrypoint-initdb.d/
               readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: pg-datastore
+            {{- end }}
           livenessProbe:
             exec:
               command:
@@ -97,3 +101,8 @@ spec:
               - key: init.sql
                 path: init.sql
                 mode: 0644
+        {{- if .Values.global.persistence.enabled }}
+        - name: pg-datastore
+          persistentVolumeClaim:
+            claimName: pg-datastore-pvc
+        {{- end }}
