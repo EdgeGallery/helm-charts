@@ -113,9 +113,9 @@ data:
 
     INSERT INTO public.test_suite_table(
       id, nameCh,nameEn, descriptionCh,descriptionEn,scenarioIdList)
-      VALUES ('522684bd-d6df-4b47-aab8-b43f1b4c19c0','遵从性测试','Compliance Test','遵从社区APPD标准、ETSI标准对应用包结构进行校验','Validate app package structure according to commnunity and ETSI standard','4d203111-1111-4f62-aabb-8ebcec357f87'),
-      ('6d04da1b-1f36-4295-920a-8074f7f9d942','沙箱测试','Sandbox Test','应用包部署测试','App package deployment test','4d203111-1111-4f62-aabb-8ebcec357f87'),
-      ('743abd93-57a3-499d-9591-fa7db86a4778','安全性测试','Security Test','应用包安全测试','App package security test','4d203111-1111-4f62-aabb-8ebcec357f87'),
+      VALUES ('522684bd-d6df-4b47-aab8-b43f1b4c19c0','通用遵从性测试','Common Compliance Test','遵从社区APPD标准、ETSI标准对应用包结构进行校验','Validate app package structure according to commnunity and ETSI standard','4d203111-1111-4f62-aabb-8ebcec357f87'),
+      ('6d04da1b-1f36-4295-920a-8074f7f9d942','通用沙箱测试','Common Sandbox Test','应用包部署测试','App package deployment test','4d203111-1111-4f62-aabb-8ebcec357f87'),
+      ('743abd93-57a3-499d-9591-fa7db86a4778','通用安全性测试','Common Security Test','应用包安全测试','App package security test','4d203111-1111-4f62-aabb-8ebcec357f87'),
       ('111684bd-d6df-4b47-aab8-b43f1b4c19c0','中国移动遵从性测试','China Mobile Compliance Test','遵从中国移动标准对应用包结构进行校验','Validate app package structure according to China Mobile standard','6fe8581c-b83f-40c2-8f5b-505478f9e30b'),
       ('1114da1b-1f36-4295-920a-8074f7f9d942','中国移动沙箱测试','China Mobile Sandbox Test','应用包部署测试中国移动版','App package deployment test China Mobile version','6fe8581c-b83f-40c2-8f5b-505478f9e30b'),
       ('222684bd-d6df-4b47-aab8-b43f1b4c19c0','中国联通遵从性测试','China Unicom Compliance Test','遵从中国联通标准对应用包结构进行校验','Validate app package structure according to China Unicom standard','e71718a5-864a-49e5-855a-5805a5e9f97d'),
