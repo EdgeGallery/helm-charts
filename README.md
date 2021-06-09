@@ -1,29 +1,29 @@
-# Edgegallery Helm Chart
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# Edgegallery 掌舵图
+[![许可证](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Deploy your own private Edgegallery.
+部署您自己的私人 Edgegallery。
 
-## How Do I Enable the Edgegallery Repository for Helm 3?
+## 如何为 Helm 3 启用 Edgegallery 存储库？
 
-To add the Helm Edgegallery Charts for your local client, run `helm repo add`:
+要为本地客户端添加 Helm Edgegallery 图表，请运行 `helm repo add`：
 
-```
-$ helm repo add edgegallery http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
-"edgegallery" has been added to your repositories
-```
+``
+$ helm repo 添加 edgegallery http://helm.edgegallery.org:30002/chartrepo/edgegallery_helm_chart
+“edgegallery”已添加到您的存储库中
+``
 
-## Prerequisites
+## 先决条件
 * Kubernetes 1.6+
-* Helm 3+
-* [If enabled] nfs server and RW access to it
-* [If enabled] nfs-client-provisioner for dynamic provisioning
-```
-helm install nfs-client-provisioner --set nfs.server=<nfs_sever_ip> --set nfs.path=<nfs_server_directory> stable/nfs-client-provisioner 
-```
-* [If enabled] nginx-ingress-controller for ingress
-```
-kubectl label node <node_name> node=edge
+* 掌舵 3+
+* [如果启用] nfs 服务器和对它的 RW 访问
+* [如果启用] nfs-client-provisioner 用于动态配置
+``
+helm install nfs-client-provisioner --set nfs.server=<nfs_sever_ip> --set nfs.path=<nfs_server_directory> stable/nfs-client-provisioner
+``
+* [如果启用] nginx-ingress-controller for ingress
+``
+kubectl 标签节点 <node_name> node=edge
 helm install nginx-ingress-controller stable/nginx-ingress --set controller.kind=DaemonSet --set controller.nodeSelector.node=edge --set controller.hostNetwork=true
-```
-## Edgegallery Installation（Offline）
-* Install Guide: [link](https://gitee.com/edgegallery/installer/blob/master/offline/README-cn.md)
+``
+## Edgegallery 安装（离线）
+* 安装指南：[链接](https://gitee.com/edgegallery/installer/blob/master/offline/README-cn.md)
