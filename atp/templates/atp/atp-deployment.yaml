@@ -91,6 +91,14 @@ spec:
             {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
+            - name: APM_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.apm }}
+            - name: APPO_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.appo }}
+            - name: INVENTORY_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.inventory }}
+            - name: APPSTORE_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.appstore }}
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:

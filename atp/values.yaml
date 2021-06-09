@@ -72,3 +72,8 @@ readinessProbe:
   initialDelaySeconds: 45
   periodSeconds: 10
   timeoutSeconds: 5
+serveraddress:
+  apm: https://mecm-apm:8092
+  appo: https://mecm-appo:8091
+  inventory: https://mecm-inventory:8093
+  appstore: https://appstore-be-svc:8099
