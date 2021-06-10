@@ -93,6 +93,8 @@ spec:
               value: {{ quote .Values.redis.timeout }}
             - name: REDIS_VERIFICATION_TIMEOUT
               value: {{ quote .Values.redis.verificationTimeout }}
+            - name: REDIS_IMG_VERIFICATION_TIMEOUT
+              value: {{ quote .Values.redis.imgVerificationTimeout }}
             - name: REDIS_MAX_TOTAL
               value: {{ quote .Values.redis.maxTotal }}
             - name: REDIS_MAX_IDLE
