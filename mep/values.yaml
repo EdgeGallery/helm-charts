@@ -41,7 +41,10 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/elasticsearch
     tag: 7.9.0
     pullPolicy: IfNotPresent
-
+  ntp:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/cturra/ntp
+    tag: latest
+    pullPolicy: IfNotPresent
 
 dnsserver:
   command: [ ]
@@ -112,4 +115,7 @@ mepAuthReadinessProbe:
 mepConfig:
   dnsAgentType: all
   dataPlaneType: none
+
+ntpConfig:
+  servers: "cn.pool.ntp.org, asia.pool.ntp.org, pool.ntp.org"
 
