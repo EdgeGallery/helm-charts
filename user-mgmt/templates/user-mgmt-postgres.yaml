@@ -13,11 +13,11 @@
 
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: user-mgmt-postgres
+  namespace: default
 spec:
-  serviceName: user-mgmt-postgres-svc
   selector:
     matchLabels:
       app: user-mgmt-postgres
@@ -49,7 +49,7 @@ spec:
           volumeMounts:
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /var/lib/postgresql/data
-              name: usermgmt-postgres-pvc
+              name: usermgmt-postgres-data
             {{- end }}
             - mountPath: /docker-entrypoint-initdb.d
               name: usermgmt-postgres-initdb
@@ -57,63 +57,23 @@ spec:
         - name: usermgmt-postgres-initdb
           configMap:
             name: usermgmt-postgres-initdb-configmap
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: usermgmt-postgres-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 5Gi
-  {{- end }}
+        {{- if .Values.global.persistence.enabled }}
+        - name: usermgmt-postgres-data
+          persistentVolumeClaim:
+            claimName: user-mgmt-postgres-pvc
+        {{- end }}
+
+{{- if .Values.global.persistence.enabled }}
 ---
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: user-mgmt-redis
+  name: user-mgmt-postgres-pvc
 spec:
-  serviceName: user-mgmt-redis-svc
-  selector:
-    matchLabels:
-      app: user-mgmt-redis
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: user-mgmt-redis
-    spec:
-      containers:
-        - name: user-mgmt-redis
-          image: {{ .Values.images.redis.repository }}:{{ .Values.images.redis.tag }}
-          imagePullPolicy: {{ .Values.images.redis.pullPolicy }}
-          command:
-            - "redis-server"
-          args:
-            - "/etc/redis/redis.conf"
-          ports:
-            - containerPort: 6379
-          volumeMounts:
-            - mountPath: /etc/redis
-              name: user-mgmt-redis-config
-          {{- if .Values.global.persistence.enabled }}
-            - mountPath: /data
-              name: usermgmt-redis-pvc
-          {{- end }}
-      volumes:
-        - name: user-mgmt-redis-config
-          secret:
-            secretName: user-mgmt-redis-secret
-            defaultMode: 0644
-  {{- if .Values.global.persistence.enabled }}
-  volumeClaimTemplates:
-    - metadata:
-        name: usermgmt-redis-pvc
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-        resources:
-          requests:
-            storage: 1Gi
-  {{- end }}
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 5Gi
+{{- end }}

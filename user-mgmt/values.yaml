@@ -75,6 +75,7 @@ redis:
   password: 
   timeout: 1800
   verificationTimeout: 300
+  imgVerificationTimeout: 180
   maxTotal: 1000
   maxIdle: 50
   maxWaitMillis: 100000
