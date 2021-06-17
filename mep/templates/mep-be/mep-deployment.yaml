@@ -202,8 +202,6 @@ spec:
                 secretKeyRef:
                   name: mep-ssl
                   key: cert_pwd
-            - name: NTP_SERVERS
-              value: {{ .Values.ntpConfig.servers }}
           volumeMounts:
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
