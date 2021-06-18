@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mep-ntp
+  namespace: mep
+  labels:
+    app: mep-ntp
+spec:
+  selector:
+    matchLabels:
+      app: mep-ntp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mep-ntp
+    spec:
+      containers:
+        - name: mep-ntp
+          image: {{ .Values.images.ntp.repository }}:{{ .Values.images.ntp.tag }}
+          imagePullPolicy: {{ .Values.images.ntp.pullPolicy }}
+          ports:
+            - containerPort: 123
+          env:
+            - name: NTP_SERVERS
+              value: {{ .Values.ntpConfig.servers }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mep-ntp
+  namespace: mep
+  labels:
+    svc: mep-ntp
+spec:
+  type: ClusterIP
+  ports:
+    - port: 123
+      targetPort: 123
+      protocol: UDP
+      name: ntp
+  selector:
+    app: mep-ntp
+
