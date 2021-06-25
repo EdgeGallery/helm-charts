@@ -58,7 +58,6 @@ elasticsearch:
 
 postgres:
   username: kong
-  password: 
   dbname: kongdb
   kongPass:
   storageSize: 1Gi
