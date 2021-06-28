@@ -98,9 +98,6 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: lcmcontroller-data
               mountPath: /usr/app/packages
-
-            - name: lcmcontroller-log
-              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -121,9 +118,6 @@ spec:
         - name: lcmcontroller-data
           persistentVolumeClaim:
             claimName: lcmcontroller-data-pvc
-        - name: lcmcontroller-log
-          hostPath:
-            path: /var/log/edgegallery/lcmcontroller
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
