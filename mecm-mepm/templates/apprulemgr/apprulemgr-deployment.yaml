@@ -90,11 +90,6 @@ spec:
             - mountPath: /usr/app/ssl/
               name: apprulemgr-certs
               readOnly: true
-
-            {{- if .Values.global.persistence.enabled }}
-            - name: apprulemgr-log
-              mountPath: /usr/app/log
-            {{- end }}
       volumes:
 
         - name: apprulemgr-certs
@@ -110,8 +105,4 @@ spec:
               - key: server_tls.key
                 path: server_tls.key
                 mode: 0644
-        {{- if .Values.global.persistence.enabled }}
-        - name: apprulemgr-log
-          hostPath:
-            path: /var/log/edgegallery/apprulemgr
-        {{- end }}
+
