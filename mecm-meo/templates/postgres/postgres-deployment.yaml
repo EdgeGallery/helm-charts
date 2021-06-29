@@ -59,10 +59,10 @@ spec:
       volumes:
         - name: postgres-initdb
           secret:
-            secretName: {{ .Values.mecm.secretName }}
+            secretName: meo-db-init-sql
             items:
-              - key: postgres_init.sql
-                path: postgres_init.sql
+              - key: init.sql
+                path: init.sql
                 mode: 0644
         {{- if .Values.global.persistence.enabled }}
         - name: mepm-postgres-data

@@ -84,6 +84,11 @@ mecm:
   repository:
     dockerRepoEndpoint: 127.0.0.1:30003
     sourceRepos:
+  postgres:
+    apmDbPass: 
+    appoDbPass: 
+    inventoryDbPass: 
+
  
 # probe configuration parameters
 livenessProbe:
