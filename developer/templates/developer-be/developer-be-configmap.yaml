@@ -18,7 +18,7 @@ metadata:
   name: developer-be-postgres-initdb-configmap
 data:
   postgres.sql: |
-    -- ----------------------------
+        -- ----------------------------
     -- plugin and app-test table start -----------------
     -- ----------------------------
     -- Table structure for tbl_appfunction
@@ -301,8 +301,6 @@ data:
         "operate_system" varchar(50) DEFAULT NULL,
         "version" varchar(50) NOT NULL DEFAULT NULL,
         "system_bit" varchar(50) DEFAULT NULL,
-        "file_name" varchar(128) DEFAULT NULL,
-        "file_md5" varchar(128) DEFAULT NULL,
         "system_disk" int4  DEFAULT NULL,
         "user_id" varchar(50) DEFAULT NULL,
         "user_name" varchar(50) DEFAULT NULL,
@@ -311,6 +309,8 @@ data:
         "system_format" varchar(50) DEFAULT NULL,
         "upload_time" timestamptz(6)  DEFAULT NULL,
         "system_path" varchar(128) DEFAULT NULL,
+        "file_name" varchar(128) DEFAULT NULL,
+        "file_md5" varchar(128) DEFAULT NULL,
         "status" varchar(50) DEFAULT NULL,
         CONSTRAINT "tbl_vm_system_uniqueName" UNIQUE ("system_name","user_id"),
         CONSTRAINT "tbl_vm_system_pkey" PRIMARY KEY ("system_id")
@@ -342,7 +342,7 @@ data:
       "vm_system_desc" text DEFAULT NULL,
       "vm_network_desc" text DEFAULT NULL,
       "vm_user_data" text DEFAULT NULL,
-      "vm_name" varchar(50) DEFAULT NULL,
+      "vm_name" varchar(500) DEFAULT NULL,
       "ak" text DEFAULT NULL,
       "sk" text DEFAULT NULL,
       "app_instance_id" varchar(50) DEFAULT NULL,
@@ -354,7 +354,7 @@ data:
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_create_config" (
       "vm_id"  varchar(255) NOT NULL DEFAULT NULL,
       "project_id" varchar(50) DEFAULT NULL,
-      "vm_name" varchar(50) DEFAULT NULL,
+      "vm_name" varchar(500) DEFAULT NULL,
       "host" text  DEFAULT NULL,
       "status" varchar(50)  DEFAULT NULL,
       "stage_status" varchar(500)  DEFAULT NULL,
@@ -370,14 +370,15 @@ data:
 
     CREATE TABLE IF NOT EXISTS "tbl_project_vm_image_config" (
       "vm_id"  varchar(255) NOT NULL DEFAULT NULL,
-      "image_id" varchar(50) DEFAULT NULL,
+      "image_id" varchar(500) DEFAULT NULL,
       "project_id" varchar(50) DEFAULT NULL,
-      "vm_name" varchar(50) NOT NULL DEFAULT NULL,
-      "image_name" varchar(50) DEFAULT NULL,
+      "vm_name" varchar(500) NOT NULL DEFAULT NULL,
+      "image_name" varchar(500) DEFAULT NULL,
       "app_instance_id" varchar(50)  DEFAULT NULL,
       "host_ip" varchar(50)  DEFAULT NULL,
       "sum_chunk_num" varchar(50)  DEFAULT NULL,
       "chunk_size" varchar(50)  DEFAULT NULL,
+      "checksum" varchar(500)  DEFAULT NULL,
       "stage_status" varchar(500)  DEFAULT NULL,
       "status" varchar(512)  DEFAULT NULL,
       "lcm_token" varchar(1024)  DEFAULT NULL,
