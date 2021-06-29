@@ -110,9 +110,6 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: appo-data
               mountPath: /usr/app/packages
-
-            - name: appo-log
-              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -131,10 +128,6 @@ spec:
         - name: appo-data
           persistentVolumeClaim:
             claimName: appo-data-pvc
-
-        - name: appo-log
-          hostPath:
-            path: /var/log/edgegallery/appo
         {{- end }}
 
 {{- if .Values.global.persistence.enabled }}
