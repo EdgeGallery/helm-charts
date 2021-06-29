@@ -130,9 +130,6 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: apm-data
               mountPath: /usr/app/packages
-
-            - name: apm-log
-              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -151,9 +148,6 @@ spec:
         - name: apm-data
           persistentVolumeClaim:
             claimName: apm-data-pvc
-        - name: apm-log
-          hostPath:
-            path: /var/log/edgegallery/apm
         {{- end }}
 
         - name: docker-sock

@@ -108,11 +108,6 @@ spec:
             - mountPath: /usr/app/ssl
               name: inventory-keystore
               readOnly: true
-
-            {{- if .Values.global.persistence.enabled }}
-            - name: inventory-log
-              mountPath: /usr/app/log
-            {{- end }}
       volumes:
 
         - name: inventory-keystore
@@ -125,11 +120,4 @@ spec:
               - key: keystore.jks
                 path: keystore.jks
                 mode: 0644
-
-        {{- if .Values.global.persistence.enabled }}
-        - name: inventory-log
-          hostPath:
-            path: /var/log/edgegallery/inventory
-        {{- end }}
-
 
