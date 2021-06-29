@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-system
+  namespace: default
+  labels:
+    app: file-system
+spec:
+  selector:
+    matchLabels:
+      app: file-system
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: file-system
+    spec:
+      containers:
+        - name: filesystem
+          image: {{ .Values.images.filesystem.repository }}:{{ .Values.images.filesystem.tag }}
+          imagePullPolicy: {{ .Values.images.filesystem.pullPolicy }}
+          ports:
+            - containerPort: 9500
+          env:
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USERNAME
+              value: {{ .Values.postgres.username }}
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.password }}
+            - name: POSTGRES_HOST
+              value: {{ .Values.postgres.host }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-system-svc
+  namespace: default
+  labels:
+    svc: file-system-svc
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.filesystem.port }}
+      targetPort: 9500
+      protocol: TCP
+      nodePort: {{ .Values.expose.filesystem.nodePort }}
+  selector:
+    app: file-system
+
