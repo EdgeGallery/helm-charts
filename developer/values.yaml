@@ -74,6 +74,7 @@ developer:
     password: 
     username:
   vmImage:
+    fileSystemAddress: 
     username: ubuntu
     password:
   toolChain:

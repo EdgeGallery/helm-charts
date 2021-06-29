@@ -89,6 +89,8 @@ spec:
               value: {{ .Values.developer.dockerRepo.endpoint }}
             - name: IMAGE_REPO_PROJECT
               value: {{ .Values.developer.dockerRepo.project }}
+            - name: FILESERVER_ADDRESS
+              value: {{ .Values.developer.vmImage.fileSystemAddress }}
             - name: IMAGE_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
