@@ -75,8 +75,15 @@ expose:
     nodePort: 30097
 ssl:
   secretName: 
+
 mepm:
-  secretName: 
+  secretName:
+  postgres:
+    lcmcontrollerDbPass: 
+    k8spluginDbPass: 
+    ospluginDbPass:  
+    apprulemgrDbPass:
+
 jwt:
   publicKeySecretName: 
 # probe configuration parameters
