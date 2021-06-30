@@ -18,7 +18,7 @@ metadata:
   name: developer-be-postgres-initdb-configmap
 data:
   postgres.sql: |
-        -- ----------------------------
+    -- ----------------------------
     -- plugin and app-test table start -----------------
     -- ----------------------------
     -- Table structure for tbl_appfunction
