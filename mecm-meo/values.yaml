@@ -86,6 +86,7 @@ mecm:
     dockerRepoEndpoint: 127.0.0.1:30003
     sourceRepos:
   postgres:
+    postgresPass:
     apmDbPass: 
     appoDbPass: 
     inventoryDbPass: 

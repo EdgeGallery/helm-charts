@@ -78,6 +78,7 @@ ssl:
 
 mepm:
   postgres:
+    postgresPass:
     lcmcontrollerDbPass: 
     k8spluginDbPass: 
     ospluginDbPass:  

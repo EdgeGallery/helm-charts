@@ -38,10 +38,7 @@ spec:
             - name: POSTGRES_USER
               value: root
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mepm.secretName }}
-                  key: postgresPassword
+              value: {{ .Values.mepm.postgres.postgresPass }}
             - name: POSTGRES_DB
               value: root
           ports:
