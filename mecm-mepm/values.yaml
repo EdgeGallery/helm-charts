@@ -77,12 +77,12 @@ ssl:
   secretName: 
 
 mepm:
-  secretName:
   postgres:
     lcmcontrollerDbPass: 
     k8spluginDbPass: 
     ospluginDbPass:  
     apprulemgrDbPass:
+    ospluginDbPass:
 
 jwt:
   publicKeySecretName: 

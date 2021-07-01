@@ -77,10 +77,7 @@ spec:
                   name: {{ .Values.jwt.publicKeySecretName }}
                   key: publicKey
             - name: APPRULEMGR_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mepm.secretName }}
-                  key: postgresRuleMgrPassword
+              value: {{ .Values.mepm.postgres.apprulemgrDbPass }}
 
           ports:
             - containerPort: 8096

@@ -78,10 +78,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP    
             - name: LCM_CNTLR_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mepm.secretName }}
-                  key: postgresLcmCntlrPassword
+              value: {{ .Values.mepm.postgres.lcmcontrollerDbPass }}
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

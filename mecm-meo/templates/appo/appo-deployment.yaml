@@ -94,10 +94,7 @@ spec:
               value: /usr/app/ssl/keystore.jks
             {{- end }}
             - name: APPO_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mecm.secretName }}
-                  key: postgresPassword
+              value: {{ .Values.mecm.postgres.appoDbPass }}
           ports:
             - containerPort: 8091
           resources: {}
