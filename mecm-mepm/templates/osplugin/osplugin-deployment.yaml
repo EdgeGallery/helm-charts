@@ -51,10 +51,7 @@ spec:
                   apiVersion: v1
                   fieldPath: status.podIP
             - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: postgresosPluginPassword
-                  name: {{ .Values.mepm.secretName }}
+              value: {{ .Values.mepm.postgres.ospluginDbPass }}
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

@@ -98,20 +98,11 @@ spec:
               value: /usr/app/ssl/keystore.jks
             {{- end }}
             - name: APM_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mecm.secretName }}
-                  key: postgresApmPassword
+              value: {{ .Values.mecm.postgres.apmDbPass }}
             - name: MECM_REPO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mecm.secretName }}
-                  key: dockerRepoPassword
+              value: {{ .Values.mecm.docker.dockerRepopassword }}
             - name: MECM_REPO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mecm.secretName }}
-                  key: dockerRepoUserName
+              value: {{ .Values.mecm.docker.dockerRepoUserName }}
             - name: MECM_REPO_ENDPOINT
               value: {{ .Values.mecm.repository.dockerRepoEndpoint }}              
           ports:

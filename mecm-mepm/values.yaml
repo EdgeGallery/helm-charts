@@ -77,7 +77,6 @@ ssl:
   secretName: 
 
 mepm:
-  secretName:
   postgres:
     lcmcontrollerDbPass: 
     k8spluginDbPass: 

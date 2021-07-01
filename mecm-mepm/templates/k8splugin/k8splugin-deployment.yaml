@@ -61,10 +61,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP    
             - name: K8S_PLUGIN_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mepm.secretName }}
-                  key: postgresk8sPluginPassword
+              value: {{ .Values.mepm.postgres.k8spluginDbPass }}
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

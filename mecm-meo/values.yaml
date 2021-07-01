@@ -77,10 +77,11 @@ expose:
     nodePort: 30093
 
 mecm:
-  secretName: edgegallery-mecm-secret
   pushImage: true
   docker:
     fsgroup:
+    dockerRepoUserName: admin
+    dockerRepopassword: 
   repository:
     dockerRepoEndpoint: 127.0.0.1:30003
     sourceRepos:

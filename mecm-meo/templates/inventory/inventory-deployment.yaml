@@ -94,10 +94,7 @@ spec:
               value: /usr/app/ssl/keystore.jks
             {{- end }}
             - name: INVENTORY_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mecm.secretName }}
-                  key: postgresPassword
+              value: {{ .Values.mecm.postgres.inventoryDbPass }}
             - name: SOURCE_REPOS
               value: {{ .Values.mecm.repository.sourceRepos }}
           ports:
