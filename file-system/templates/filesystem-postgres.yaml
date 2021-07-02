@@ -42,7 +42,32 @@ spec:
               value: {{ .Values.postgres.dbname }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.postgres.password }}
-  
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: filesystem-postgres-data
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: filesystem-postgres-data
+          persistentVolumeClaim:
+            claimName: filesystem-postgres-pvc
+        {{- end }}
+ 
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filesystem-postgres-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 5Gi
+{{- end }} 
 ---
 apiVersion: v1
 kind: Service

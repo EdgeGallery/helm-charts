@@ -11,7 +11,10 @@
 # limitations under the License.
 ############################################################################
 
-
+global:
+  persistence:
+    enabled: false
+    storageClassName: nfs-client
 images:
   filesystem:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/filesystem
@@ -25,14 +28,14 @@ images:
     
 postgres:
   username: postgres
-  password: 63ay*PB25
+  password: te9Fmv%qaq
   dbname: postgres
   host: filesystem-postgres
 
 expose:
   filesystem:
     port: 9500
-    nodePort: 30001
+    nodePort: 30090
   postgres:
     port: 5432
   

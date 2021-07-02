@@ -32,6 +32,32 @@ spec:
               value: {{ .Values.postgres.password }}
             - name: POSTGRES_HOST
               value: {{ .Values.postgres.host }}
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - name: file-system-data
+              mountPath: /usr/app/vmImage
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: file-system-data
+          persistentVolumeClaim:
+            claimName: file-system-data-pvc
+        {{- end }}
+
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: file-system-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 200Gi
+{{- end }}
 ---
 apiVersion: v1
 kind: Service
