@@ -173,7 +173,7 @@ data:
       "access_url" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "error_log" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "deploy_date" timestamptz(6) DEFAULT NULL,
-      "hosts" varchar(500) COLLATE "pg_catalog"."default" DEFAULT NULL,
+      "hosts" text COLLATE "pg_catalog"."default" DEFAULT NULL,
       "app_instance_id" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "work_load_id" varchar(255) COLLATE "pg_catalog"."default" DEFAULT NULL,
       "pods" text COLLATE "pg_catalog"."default" DEFAULT NULL,
