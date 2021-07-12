@@ -14,7 +14,7 @@
 
 global:
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
 images:
   mep:
