@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcheck
+  namespace: default
+  labels:
+    app: healthcheck
+spec:
+  selector:
+    matchLabels:
+      app: healthcheck
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: healthcheck
+    spec:
+      containers:
+        - name: healthcheck
+          image: {{ .Values.images.healthcheck.repository }}:{{ .Values.images.healthcheck.tag }}
+          imagePullPolicy: {{ .Values.images.healthcheck.pullPolicy }}
+          ports:
+            - containerPort: 9527
+          env:
+            - name: LOCAL_IP
+              value: {{ .Values.healthcheck.localIp }}
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthcheck-svc
+  namespace: default
+  labels:
+    svc: healthcheck-svc
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.healthcheck.port }}
+      targetPort: 9527
+      protocol: TCP
+      nodePort: {{ .Values.expose.healthcheck.nodePort }}
+  selector:
+    app: healthcheck
+
