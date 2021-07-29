@@ -387,7 +387,23 @@ data:
       CONSTRAINT "tbl_vm_image_config_pkey" PRIMARY KEY ("vm_id")
     )
     ;
-    
+
+    CREATE TABLE IF NOT EXISTS "tbl_container_image" (
+    "image_id" varchar(255) NOT NULL,
+    "image_name" varchar(255) NOT NULL,
+    "image_version" varchar(255) NOT NULL,
+    "user_id" varchar(255) NOT NULL,
+    "user_name" varchar(255) NOT NULL,
+    "upload_time" timestamptz(0) DEFAULT NULL,
+    "create_time" timestamptz(0) DEFAULT NULL,
+    "image_status" varchar(255) DEFAULT NULL,
+    "image_type" varchar(255) DEFAULT NULL,
+    "image_path" text DEFAULT NULL,
+    "file_md5" varchar(255) DEFAULT NULL,
+    "file_name" varchar(255) DEFAULT NULL,
+    CONSTRAINT  "tbl_container_image_uniqueName" UNIQUE ("image_name","image_version"),
+    CONSTRAINT "tbl_container_image_pkey" PRIMARY KEY ("image_id")
+    );
     
 
     
