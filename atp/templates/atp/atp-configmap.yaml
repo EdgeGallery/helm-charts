@@ -18,7 +18,6 @@ metadata:
   name: atp-postgres-initdb-configmap
 data:
   postgres.sql: |
-    DROP TABLE IF EXISTS TASK_TABLE;
 
     CREATE TABLE TASK_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
@@ -35,8 +34,6 @@ data:
         REPORTPATH               VARCHAR(200)       NULL,
         CONSTRAINT task_table_pkey PRIMARY KEY (ID)
     );
-
-    DROP TABLE IF EXISTS TEST_CASE_TABLE;
 
     CREATE TABLE TEST_CASE_TABLE (
        ID                       VARCHAR(200)       NOT NULL,
@@ -55,10 +52,9 @@ data:
        TESTSTEPCH               TEXT               NULL,
        TESTSTEPEN               TEXT               NULL,
        CREATETIME               TIMESTAMP          NULL,
+       CONFIGIDLIST             TEXT               NULL,
        CONSTRAINT test_case_table_pkey PRIMARY KEY (ID)
     );
-
-    DROP TABLE IF EXISTS TEST_SCENARIO_TABLE;
 
     CREATE TABLE TEST_SCENARIO_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
@@ -71,8 +67,6 @@ data:
         CONSTRAINT test_scenario_table_pkey PRIMARY KEY (ID)
     );
 
-    DROP TABLE IF EXISTS TEST_SUITE_TABLE;
-
     CREATE TABLE TEST_SUITE_TABLE (
        ID                       VARCHAR(200)       NOT NULL,
        NAMECH                   VARCHAR(200)       NULL,
@@ -84,8 +78,6 @@ data:
        CONSTRAINT test_suite_table_pkey PRIMARY KEY (ID)
     );
 
-    DROP TABLE IF EXISTS FILE_TABLE;
-
     CREATE TABLE FILE_TABLE (
        FILEID                   VARCHAR(200)       NOT NULL,
        TYPE                     VARCHAR(200)       NOT NULL,
@@ -93,8 +85,6 @@ data:
        FILEPATH                 VARCHAR(200)       NULL
     );
     alter table FILE_TABLE add constraint file_table_pkey unique(FILEID,TYPE);
-
-    DROP TABLE IF EXISTS CONTRIBUTION_TABLE;
 
     CREATE TABLE CONTRIBUTION_TABLE (
         ID                       VARCHAR(200)       NOT NULL,
@@ -107,6 +97,17 @@ data:
         FILEPATH                 VARCHAR(200)       NULL,
         CONSTRAINT contribution_table_pkey PRIMARY KEY (ID)
     );
+
+    CREATE TABLE CONFIG_TABLE (
+             ID                       VARCHAR(200)       NOT NULL,
+             NAMECH                   VARCHAR(200)       NULL,
+             NAMEEN                   VARCHAR(200)       NULL,
+             DESCRIPTIONCh            TEXT               NULL,
+             DESCRIPTIONEN            TEXT               NULL,
+             CONFIGURATION            TEXT               NOT NULL,
+             CREATETIME               TIMESTAMP          NULL,
+             CONSTRAINT config_table_pkey PRIMARY KEY (ID)
+     );
 
     INSERT INTO public.test_scenario_table(
       id, nameCh,nameEn, descriptionCh,descriptionEn,label,createTime)
