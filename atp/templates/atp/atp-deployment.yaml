@@ -133,7 +133,7 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
-  {{- if .Values.global.persistence.enabled }}
+        {{- if .Values.global.persistence.enabled }}
         - name: atp-data
           persistentVolumeClaim:
             claimName: atp-data-pvc
