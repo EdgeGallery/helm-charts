@@ -45,7 +45,7 @@ images:
     tag: 7.75.0
     pullPolicy: IfNotPresent
   appdtranstool:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appPkgTransTool
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appdtranstool
     tag: latest
     pullPolicy: IfNotPresent
 postgres:
