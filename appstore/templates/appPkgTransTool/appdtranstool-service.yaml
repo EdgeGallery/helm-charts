@@ -1,0 +1,16 @@
+{{- if .Values.appstoreBe.appdtranstool.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: appdtranstool-svc
+  labels:
+    svc: appdtranstool-svc
+spec:
+  ports:
+    - port: 8765
+      targetPort: 8765
+      protocol: TCP
+      nodePort: 30087
+  selector:
+    app: appdtranstool
+{{- end }}

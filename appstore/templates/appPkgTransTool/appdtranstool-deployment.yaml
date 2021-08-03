@@ -1,0 +1,50 @@
+{{- if .Values.appstoreBe.appdtranstool.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdtranstool
+spec:
+  selector:
+    matchLabels:
+      app: appdtranstool
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: appdtranstool
+    spec:
+      containers:
+        - name: appdtranstool
+          image: {{ .Values.images.appdtranstool.repository }}:{{ .Values.images.appdtranstool.tag }}
+          imagePullPolicy: {{ .Values.images.appdtranstool.pullPolicy }}
+          ports:
+            - containerPort: 8765
+          env:
+            - name: LOG_DIR
+              value: /usr/app/log
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - name: appdtranstool-log
+              mountPath: /usr/app/log
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: appdtranstool-log
+          persistentVolumeClaim:
+            claimName: appdtranstool-log-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appdtranstool-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}
+{{- end }}
