@@ -60,6 +60,10 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
+            - name: FILESYSTEM_ADDRESS
+              value: {{ .Values.appstoreBe.fileSystemAddress }}
+            - name: ATP_SERVER_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://atp-svc:8073
             - name: CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -117,7 +121,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: appstore-be-secret
-                  key: devRepoUserName   
+                  key: devRepoUserName
+            - name: EDGE_CERT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: certPwd
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
@@ -152,12 +161,17 @@ spec:
             - mountPath: /usr/app/ssl
               name: appstore-be-keystore
             {{- end }}
-            {{- if .Values.global.persistence.enabled }}
             - name: appstore-be-data
               mountPath: /usr/app/packages
+            {{- if .Values.global.persistence.enabled }}
+            - name: appstore-be-log
+              mountPath: /usr/app/log
             {{- end }}
             - mountPath: /var/run/docker.sock
               name: docker-sock
+              readOnly: true
+            - name: appstore-signature
+              mountPath: /usr/app/keys/
               readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
@@ -171,22 +185,35 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-        {{- if .Values.global.persistence.enabled }}
         - name: appstore-be-data
+          hostPath:
+            path: /edgegallery/data/packages
+        {{- if .Values.global.persistence.enabled }}
+        - name: appstore-be-log
           persistentVolumeClaim:
-            claimName: appstore-be-data-pvc
+            claimName: appstore-be-log-pvc
         {{- end }}
+        - name: appstore-signature
+          secret:
+            secretName: {{ .Values.appstoreBe.secretName }}
+            items:
+              - key: sign_p12
+                path: public.p12
+                mode: 0644
+              - key: sign_cer
+                path: public.cer
+                mode: 0644
 {{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: appstore-be-data-pvc
+  name: appstore-be-log-pvc
 spec:
   accessModes:
   - ReadWriteOnce
   storageClassName: {{ quote .Values.global.persistence.storageClassName }}
   resources:
     requests:
-      storage: 50Gi
+      storage: 1Gi
 {{- end }}
