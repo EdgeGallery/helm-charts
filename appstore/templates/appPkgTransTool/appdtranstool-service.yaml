@@ -6,6 +6,7 @@ metadata:
   labels:
     svc: appdtranstool-svc
 spec:
+  type: NodePort
   ports:
     - port: 8765
       targetPort: 8765
