@@ -44,6 +44,10 @@ images:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
     tag: 7.75.0
     pullPolicy: IfNotPresent
+  appdtranstool:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/appdtranstool
+    tag: latest
+    pullPolicy: IfNotPresent
 postgres:
   username: appstore
   password: 
@@ -59,6 +63,8 @@ expose:
     port: 5432
 
 appstoreBe:
+  fileSystemAddress:
+  secretName:
   dockerRepo:
     endpoint:
     appstore:
@@ -67,6 +73,8 @@ appstoreBe:
     developer:
       password:
       username:
+  appdtranstool:
+    enabled: false
  
 # probe configuration parameters
 livenessProbe:
