@@ -24,7 +24,7 @@ spec:
             - containerPort: 8200
           volumeMounts:
 
-            - mountPath: /etc/nginx
+            - mountPath: /etc/ssl
               name: mepmfe-certs
               readOnly: true
       volumes:
