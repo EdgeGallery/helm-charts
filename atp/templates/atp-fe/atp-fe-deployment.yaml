@@ -111,6 +111,10 @@ spec:
             - mountPath: /usr/app/ssl
               name: atp-fe-keystore
             {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - name: atp-fe-log
+              mountPath: /usr/app/log
+            {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: atp-fe-keystore
@@ -122,6 +126,20 @@ spec:
         {{- end }}
         {{- if .Values.global.persistence.enabled }}
         - name: atp-fe-log
-          hostPath:
-            path: /var/log/edgegallery/atp-fe
+          persistentVolumeClaim:
+            claimName: atp-fe-log-pvc
         {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: atp-fe-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}
