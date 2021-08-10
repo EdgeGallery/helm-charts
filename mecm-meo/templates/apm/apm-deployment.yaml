@@ -121,6 +121,8 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: apm-data
               mountPath: /usr/app/packages
+            - name: apm-log
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
 
@@ -139,6 +141,9 @@ spec:
         - name: apm-data
           persistentVolumeClaim:
             claimName: apm-data-pvc
+        - name: apm-log
+          persistentVolumeClaim:
+            claimName: apm-log-pvc
         {{- end }}
 
         - name: docker-sock
@@ -154,10 +159,20 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apm-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}
-
-

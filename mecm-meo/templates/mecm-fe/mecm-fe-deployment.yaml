@@ -109,6 +109,20 @@ spec:
         {{- end }}
         {{- if .Values.global.persistence.enabled }}
         - name: mecm-fe-log
-          hostPath:
-            path: /var/log/edgegallery/mecm-fe
+          persistentVolumeClaim:
+            claimName: mecm-fe-log-pvc
         {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mecm-fe-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}
