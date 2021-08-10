@@ -157,6 +157,10 @@ spec:
             - name: mepauth-properties
               mountPath: /usr/mep/mprop/
               readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/mep/log
+              name: mepauth-log
+            {{- end }}
           livenessProbe:
             httpGet:
               scheme: {{ .Values.mepAuthLivenessProbe.scheme }}
@@ -212,6 +216,8 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/mep/data
               name: mep-datastore
+            - mountPath: /usr/mep/log
+              name: mep-log
             {{- end }}
           livenessProbe:
             httpGet:
@@ -250,6 +256,8 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/mep/data
               name: dns-datastore
+            - mountPath: /usr/mep/log
+              name: dns-log
             {{- end }}
           livenessProbe:
             httpGet:
@@ -357,5 +365,13 @@ spec:
         - name: mep-datastore
           persistentVolumeClaim:
             claimName: mep-datastore-pvc
+        - name: mepauth-log
+          persistentVolumeClaim:
+            claimName: mepauth-log-pvc
+        - name: mep-log
+          persistentVolumeClaim:
+            claimName: mep-log-pvc
+        - name: dns-log
+          persistentVolumeClaim:
+            claimName: dns-log-pvc
         {{- end }}
-

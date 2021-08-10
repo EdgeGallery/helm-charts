@@ -20,7 +20,7 @@ global:
   ssl:
     secretName:
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
   oauth2:
     authServerAddress:
