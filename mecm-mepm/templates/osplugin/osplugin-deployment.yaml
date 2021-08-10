@@ -81,7 +81,8 @@ spec:
       volumes:
         {{- if .Values.global.persistence.enabled }}
         - name: log-dir
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: osplugin-log-pvc
         - name: config-data
           persistentVolumeClaim:
             claimName: osplugin-data-pvc
@@ -100,21 +101,7 @@ spec:
                 mode: 420
                 path: server_tls.key
             secretName: {{ .Values.ssl.secretName }}
-          
-
 {{- if .Values.global.persistence.enabled }}
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: osplugin-data
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-  - ReadWriteOnce
-  hostPath:
-    path: /opt
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -123,9 +110,20 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  volumeMode: Filesystem
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: osplugin-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
   resources:
     requests:
       storage: 1Gi
 {{- end }}
-

@@ -71,16 +71,16 @@ spec:
             - containerPort: 8095
           resources: {}
           volumeMounts:
-
             - mountPath: /usr/app/ssl
               name: k8splugin-certs
               readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - name: k8splugin-data
               mountPath: /usr/app/artifacts
+            - name: k8splugin-log
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
-
         - name: k8splugin-certs
           secret:
             secretName: {{ .Values.ssl.secretName }}
@@ -98,6 +98,9 @@ spec:
         - name: k8splugin-data
           persistentVolumeClaim:
             claimName: k8splugin-data-pvc
+        - name: k8splugin-log
+          persistentVolumeClaim:
+            claimName: k8splugin-log-pvc
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
@@ -108,9 +111,21 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8splugin-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}
 

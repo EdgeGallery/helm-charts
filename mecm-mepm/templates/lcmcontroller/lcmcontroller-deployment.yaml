@@ -88,16 +88,16 @@ spec:
             - containerPort: 8094
           resources: {}
           volumeMounts:
-
             - mountPath: /usr/app/ssl/
               name: lcmcontroller-certs
               readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - name: lcmcontroller-data
               mountPath: /usr/app/packages
+            - name: lcmcontroller-log
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
-
         - name: lcmcontroller-certs
           secret:
             secretName: {{ .Values.ssl.secretName }}
@@ -115,6 +115,9 @@ spec:
         - name: lcmcontroller-data
           persistentVolumeClaim:
             claimName: lcmcontroller-data-pvc
+        - name: lcmcontroller-log
+          persistentVolumeClaim:
+            claimName: lcmcontroller-log-pvc
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
@@ -125,8 +128,20 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lcmcontroller-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}

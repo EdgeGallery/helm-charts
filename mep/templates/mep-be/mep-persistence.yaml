@@ -51,4 +51,43 @@ spec:
   resources:
     requests:
       storage: {{ .Values.postgres.storageSize }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mep-log-pvc
+  namespace: mep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mepauth-log-pvc
+  namespace: mep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dns-log-pvc
+  namespace: mep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}

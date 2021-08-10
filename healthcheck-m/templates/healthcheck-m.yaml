@@ -24,6 +24,32 @@ spec:
           env:
             - name: LOCAL_IP
               value: {{ .Values.healthcheckm.localIp }}
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - name: healthcheck-m-log
+              mountPath: /usr/mep/log
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: healthcheck-m-log
+          persistentVolumeClaim:
+            claimName: healthcheck-m-log-pvc
+        {{- end }}
+
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: healthcheck-m-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}
           
 ---
 apiVersion: v1

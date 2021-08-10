@@ -83,12 +83,14 @@ spec:
             - containerPort: 8096
           resources: {}
           volumeMounts:
-
             - mountPath: /usr/app/ssl/
               name: apprulemgr-certs
               readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/app/log
+              name: apprulemgr-log
+            {{- end }}
       volumes:
-
         - name: apprulemgr-certs
           secret:
             secretName: {{ .Values.ssl.secretName }}
@@ -102,4 +104,22 @@ spec:
               - key: server_tls.key
                 path: server_tls.key
                 mode: 0644
-
+        {{- if .Values.global.persistence.enabled }}
+        - name: apprulemgr-log
+          persistentVolumeClaim:
+            claimName: apprulemgr-log-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apprulemgr-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

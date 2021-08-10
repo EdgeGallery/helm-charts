@@ -12,16 +12,19 @@
 ############################################################################
 
 
+global:
+  persistence:
+    enabled: true
+    storageClassName: nfs-client
+
 images:
   healthcheckm:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/healthcheck-m
     tag: latest
     pullPolicy: IfNotPresent
-  
-    
+
 healthcheckm:
   localIp: 192.168.100.106
-  
 
 expose:
   healthcheckm:
