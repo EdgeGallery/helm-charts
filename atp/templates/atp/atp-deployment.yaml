@@ -123,6 +123,8 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: atp-data
               mountPath: /usr/atp/file
+            - name: atp-log
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
@@ -137,6 +139,9 @@ spec:
         - name: atp-data
           persistentVolumeClaim:
             claimName: atp-data-pvc
+        - name: atp-log
+          persistentVolumeClaim:
+            claimName: atp-log-pvc
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
@@ -151,4 +156,16 @@ spec:
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: atp-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}

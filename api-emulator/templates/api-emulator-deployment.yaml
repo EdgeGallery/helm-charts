@@ -83,6 +83,21 @@ spec:
         {{- end }}
         {{- if .Values.persistence.enabled }}
         - name: api-emulator-log
-          hostPath:
-            path: /var/log/edgegallery/api-emulator
+          persistentVolumeClaim:
+            claimName: api-emulator-log-pvc
         {{- end }}
+
+{{- if .Values.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: api-emulator-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

@@ -18,6 +18,7 @@ image:
   pullPolicy: IfNotPresent
 persistence:
   enabled: false
+  storageClassName: nfs-client
 expose:
   port: 8089
   nodePort: 32119
