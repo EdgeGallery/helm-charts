@@ -19,7 +19,7 @@ global:
     enabled: true
     secretName: edgegallery-ssl-secret
   persistence:
-    enabled: false
+    enabled: true
     storageClassName: nfs-client
   oauth2:
     authServerAddress:

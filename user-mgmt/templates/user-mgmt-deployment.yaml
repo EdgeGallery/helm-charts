@@ -291,6 +291,20 @@ spec:
         {{- end }}
         {{- if .Values.global.persistence.enabled }}
         - name: usermgmt-log
-          hostPath:
-            path: /var/log/edgegallery/usermgmt
+          persistentVolumeClaim:
+            claimName: usermgmt-log-pvc
         {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usermgmt-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

@@ -101,12 +101,14 @@ spec:
             - containerPort: 8093
           resources: {}
           volumeMounts:
-
             - mountPath: /usr/app/ssl
               name: inventory-keystore
               readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/app/log
+              name: inventory-log
+            {{- end }}
       volumes:
-
         - name: inventory-keystore
           secret:
             secretName: {{ .Values.global.ssl.secretName }}
@@ -117,4 +119,22 @@ spec:
               - key: keystore.jks
                 path: keystore.jks
                 mode: 0644
-
+        {{- if .Values.global.persistence.enabled }}
+        - name: inventory-log
+          persistentVolumeClaim:
+            claimName: inventory-log-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: inventory-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

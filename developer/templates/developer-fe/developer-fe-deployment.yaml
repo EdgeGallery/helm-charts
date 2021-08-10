@@ -111,6 +111,10 @@ spec:
             - mountPath: /usr/app/ssl
               name: developer-fe-keystore
             {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/log/developer-fe
+              name: developer-fe-log
+            {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-fe-keystore
@@ -120,4 +124,22 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
-        
+        {{- if .Values.global.persistence.enabled }}
+        - name: developer-fe-log
+          persistentVolumeClaim:
+            claimName: developer-fe-log-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: developer-fe-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

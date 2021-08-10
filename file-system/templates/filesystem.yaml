@@ -36,12 +36,17 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: file-system-data
               mountPath: /usr/app/vmImage
+            - name: file-system-log
+              mountPath: /usr/app/log
             {{- end }}
       volumes:
         {{- if .Values.global.persistence.enabled }}
         - name: file-system-data
           persistentVolumeClaim:
             claimName: file-system-data-pvc
+        - name: file-system-log
+          persistentVolumeClaim:
+            claimName: file-system-log-pvc
         {{- end }}
 
 {{- if .Values.global.persistence.enabled }}
@@ -57,6 +62,18 @@ spec:
   resources:
     requests:
       storage: 200Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: file-system-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
 {{- end }}
 ---
 apiVersion: v1
