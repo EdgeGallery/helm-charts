@@ -64,6 +64,7 @@ expose:
 
 appstoreBe:
   fileSystemAddress:
+  hostPackagesPath:
   secretName:
   dockerRepo:
     endpoint:

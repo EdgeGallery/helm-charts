@@ -187,7 +187,7 @@ spec:
             path: /var/run/docker.sock
         - name: appstore-be-data
           hostPath:
-            path: /edgegallery/data/appstore/packages
+            path: {{ .Values.appstoreBe.hostPackagesPath }}
         {{- if .Values.global.persistence.enabled }}
         - name: appstore-be-log
           persistentVolumeClaim:
