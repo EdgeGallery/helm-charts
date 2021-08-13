@@ -68,6 +68,7 @@ expose:
     port: 5432
 
 developer:
+  secretName: edgegallery-signature-secret
   dockerRepo:
     endpoint: 
     project: developer
