@@ -121,6 +121,11 @@ spec:
                 secretKeyRef:
                   name: developer-be-secret
                   key: postgresPassword
+            - name: EDGE_CERT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.developer.secretName }}
+                  key: certPwd
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
             - name: SSL_ENABLED
@@ -158,6 +163,9 @@ spec:
             - mountPath: /var/run/docker.sock
               name: docker-sock
               readOnly: true
+            - name: package-signature
+              mountPath: /usr/app/keys/
+              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-be-keystore
@@ -178,6 +186,17 @@ spec:
           persistentVolumeClaim:
             claimName: developer-be-log-pvc
         {{- end }}
+        - name: package-signature
+          secret:
+            secretName: {{ .Values.developer.secretName }}
+            items:
+              - key: sign_p12
+                path: public.p12
+                mode: 0644
+              - key: sign_cer
+                path: public.cer
+                mode: 0644
+
 {{- if .Values.global.persistence.enabled }}
   
 ---
