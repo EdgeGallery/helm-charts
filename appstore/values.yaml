@@ -59,6 +59,7 @@ expose:
     port: 5432
 
 appstoreBe:
+  secretName:
   dockerRepo:
     endpoint:
     appstore:
