@@ -145,6 +145,7 @@ data:
       "app_id" varchar(255) DEFAULT NULL,
       "package_id" varchar(255) DEFAULT NULL,
       "user_id" varchar(255) DEFAULT NULL,
+      "experience_url" text DEFAULT NULL,
       CONSTRAINT "tbl_openmep_capability_detail_pkey" PRIMARY KEY ("detail_id")
     )
     ;
