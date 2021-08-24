@@ -145,7 +145,6 @@ data:
       "app_id" varchar(255) DEFAULT NULL,
       "package_id" varchar(255) DEFAULT NULL,
       "user_id" varchar(255) DEFAULT NULL,
-      "experience_url" text DEFAULT NULL,
       CONSTRAINT "tbl_openmep_capability_detail_pkey" PRIMARY KEY ("detail_id")
     )
     ;
@@ -403,6 +402,55 @@ data:
     "file_name" varchar(255) DEFAULT NULL,
     CONSTRAINT  "tbl_container_image_uniqueName" UNIQUE ("image_name","image_version"),
     CONSTRAINT "tbl_container_image_pkey" PRIMARY KEY ("image_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_app_project_capability" (
+    "project_id" varchar(50) NOT NULL,
+    "capability_id" varchar(50) NOT NULL,
+    CONSTRAINT "tbl_app_project_capability_pkey" PRIMARY KEY ("project_id","capability_id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_capability_group" (
+    "id" varchar(50) NOT NULL,
+    "name" varchar(255)  DEFAULT NULL,
+    "name_en" varchar(255) DEFAULT NULL,
+    "type" varchar(20) DEFAULT NULL,
+    "description" text DEFAULT NULL,
+    "description_en" text DEFAULT NULL,
+    "icon_file_id" varchar(50) DEFAULT NULL,
+    "author" varchar(50) DEFAULT NULL,
+    "create_time" bigint NOT NULL DEFAULT 0,
+    "update_time" bigint NOT NULL DEFAULT 0,
+    CONSTRAINT "tbl_capability_group_pkey" PRIMARY KEY ("id")
+    )
+    ;
+
+    CREATE TABLE IF NOT EXISTS "tbl_capability" (
+    "id" varchar(50) NOT NULL,
+    "name" varchar(100) DEFAULT NULL,
+    "name_en" varchar(100) DEFAULT NULL,
+    "version" varchar(100) DEFAULT NULL,
+    "description" text DEFAULT NULL,
+    "description_en" text DEFAULT NULL,
+    "provider" varchar(100) DEFAULT NULL,
+    "group_id" varchar(50) DEFAULT NULL,
+    "api_file_id" varchar(255) DEFAULT NULL,
+    "guide_file_id" varchar(255) DEFAULT NULL,
+    "guide_file_id_en" varchar(255) DEFAULT NULL,
+    "upload_time" varchar(50) NOT NULL,
+    "host" varchar(50) DEFAULT NULL,
+    "port" int4 DEFAULT NULL,
+    "protocol" varchar(20) DEFAULT NULL,
+    "app_id" varchar(255) DEFAULT NULL,
+    "package_id" varchar(255) DEFAULT NULL,
+    "user_id" varchar(255) DEFAULT NULL,
+    "select_count" integer NOT NULL DEFAULT 0,
+    "icon_file_id" varchar(50) DEFAULT NULL,
+    "author" varchar(50) DEFAULT NULL,
+    "experience_url" text DEFAULT NULL,
+    CONSTRAINT "tbl_capability_pkey" PRIMARY KEY ("id")
     )
     ;
     
