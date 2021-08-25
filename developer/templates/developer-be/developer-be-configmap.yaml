@@ -312,6 +312,8 @@ data:
         "file_name" varchar(128) DEFAULT NULL,
         "file_md5" varchar(128) DEFAULT NULL,
         "status" varchar(50) DEFAULT NULL,
+        "file_identifier" varchar(128) DEFAULT NULL,
+        "error_type" varchar(32) DEFAULT NULL,
         CONSTRAINT "tbl_vm_system_uniqueName" UNIQUE ("system_name","user_id"),
         CONSTRAINT "tbl_vm_system_pkey" PRIMARY KEY ("system_id")
         )
