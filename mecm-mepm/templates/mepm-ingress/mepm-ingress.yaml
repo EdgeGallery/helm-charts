@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: mepm-ingress
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "1024m"
 spec:
   # ingressClassName: nginx # use only with k8s version >= 1.18.0
@@ -12,6 +12,10 @@ spec:
   rules:
   -  http:
        paths:
+       - path: /mepmfe
+         backend:
+           serviceName: mepm-fe
+           servicePort: 8200
        - path: /lcmcontroller
          backend:
            serviceName: mecm-mepm-lcmcontroller
