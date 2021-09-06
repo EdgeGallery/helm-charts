@@ -70,9 +70,6 @@ expose:
   apprulemgr:
     port: 8096
     nodePort: 30206
-  mepmFe:
-    port: 8200
-    nodePort: 30097
 ssl:
   secretName: 
 

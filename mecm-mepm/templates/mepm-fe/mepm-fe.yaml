@@ -27,21 +27,6 @@ spec:
             - mountPath: /etc/ssl
               name: mepmfe-certs
               readOnly: true
-      volumes:
-
-        - name: mepmfe-certs
-          secret:
-            secretName: {{ .Values.ssl.secretName }}
-            items:
-              - key: ca.crt
-                path: ca.crt
-                mode: 0644
-              - key: server_tls.crt
-                path: server_tls.crt
-                mode: 0644
-              - key: server_tls.key
-                path: server_tls.key
-                mode: 0644
 ---
 apiVersion: v1
 kind: Service
@@ -56,6 +41,5 @@ spec:
     - port: {{ .Values.expose.mepmFe.port }}
       targetPort: 8200
       protocol: TCP
-      nodePort: {{ .Values.expose.mepmFe.nodePort }}
   selector:
     app: mepm-fe
