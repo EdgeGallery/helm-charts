@@ -60,6 +60,8 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
           env:
+            - name: APPD_ENABLED
+              value: {{ quote .Values.appstoreBe.appdtranstool.enabled }}
             - name: FILESYSTEM_ADDRESS
               value: {{ .Values.appstoreBe.fileSystemAddress }}
             - name: ATP_SERVER_ADDRESS
