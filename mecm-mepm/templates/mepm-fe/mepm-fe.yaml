@@ -22,11 +22,6 @@ spec:
           imagePullPolicy: {{ .Values.images.mepmFe.pullPolicy }}
           ports:
             - containerPort: 8200
-          volumeMounts:
-
-            - mountPath: /etc/ssl
-              name: mepmfe-certs
-              readOnly: true
 ---
 apiVersion: v1
 kind: Service
