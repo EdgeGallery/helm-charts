@@ -22,16 +22,49 @@ spec:
           env:
             - name: LOG_DIR
               value: /usr/app/log
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
           volumeMounts:
             {{- if .Values.global.persistence.enabled }}
             - name: appdtranstool-log
               mountPath: /usr/app/log
+            {{- end }}
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: appdtranstool-keystore
             {{- end }}
       volumes:
         {{- if .Values.global.persistence.enabled }}
         - name: appdtranstool-log
           persistentVolumeClaim:
             claimName: appdtranstool-log-pvc
+        {{- end }}
+        {{- if .Values.global.ssl.enabled }}
+        - name: appdtranstool-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
