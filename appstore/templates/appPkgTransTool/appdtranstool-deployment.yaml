@@ -22,6 +22,11 @@ spec:
           env:
             - name: LOG_DIR
               value: /usr/app/log
+            - name: EDGE_CERT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: certPwd
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
@@ -52,6 +57,9 @@ spec:
             - mountPath: /usr/app/ssl
               name: appdtranstool-keystore
             {{- end }}
+            - name: appdtranstool-signature
+              mountPath: /usr/app/keys/
+              readOnly: true
       volumes:
         {{- if .Values.global.persistence.enabled }}
         - name: appdtranstool-log
@@ -66,6 +74,16 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
+        - name: appdtranstool-signature
+          secret:
+            secretName: {{ .Values.appstoreBe.secretName }}
+            items:
+              - key: sign_p12
+                path: public.p12
+                mode: 0644
+              - key: sign_cer
+                path: public.cer
+                mode: 0644
 {{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1
