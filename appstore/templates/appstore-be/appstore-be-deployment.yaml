@@ -114,12 +114,6 @@ spec:
                   key: appstoreRepoUserName
             - name: APPSTORE_REPO_ENDPOINT
               value: {{ .Values.appstoreBe.dockerRepo.endpoint }}
-            - name: MEAO_HOST
-              value: {{ .Values.meao.meao_host }}
-            - name: MEAO_USER
-              value: {{ .Values.meao.meao_user }}
-            - name: MEAO_PASSWORD
-              value: {{ .Values.meao.meao_password }}
             - name: DEV_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
