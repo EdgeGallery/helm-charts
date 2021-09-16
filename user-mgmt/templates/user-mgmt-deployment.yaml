@@ -200,6 +200,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: labClientId
+            - name: OAUTH_EDGEGALLERY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientId
             - name: OAUTH_APPSTORE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -225,6 +230,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: labClientSecret
+            - name: OAUTH_EDGEGALLERY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientSecret
             - name: OAUTH_APPSTORE_CLIENT_URL
               valueFrom:
                 secretKeyRef:
@@ -250,6 +260,11 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: mecmClientUrl
+            - name: OAUTH_EDGEGALLERY_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientUrl
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
