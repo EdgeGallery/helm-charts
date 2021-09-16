@@ -34,7 +34,7 @@ images:
 expose:
   edgegalleryFe:
     port: 8443
-    nodePort: 30088
+    nodePort: 30095
  
 # probe configuration parameters
 livenessProbe:
