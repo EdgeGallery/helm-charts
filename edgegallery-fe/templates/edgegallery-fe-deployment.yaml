@@ -1,0 +1,122 @@
+############################################################################
+# Copyright 2021 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edgegallery-fe
+  namespace: default
+  labels:
+    app: edgegallery-fe
+spec:
+  selector:
+    matchLabels:
+      app: edgegallery-fe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: edgegallery-fe
+    spec:
+      initContainers:
+        - name: init-usermgmt
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
+      containers:
+        - name: edgegallery-fe
+          image: {{ .Values.images.edgegalleryFe.repository }}:{{ .Values.images.edgegalleryFe.tag }}
+          imagePullPolicy: {{ .Values.images.edgegalleryFe.pullPolicy }}
+          ports:
+            - containerPort: 8443
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path}}
+              port: {{ .Values.expose.edgegalleryFe.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path}}
+              port: {{ .Values.expose.edgegalleryFe.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
+          env:
+            - name: LOG_DIR
+              value: /usr/app/log
+            - name: LOG_FILE_NAME
+              value: edgegallery-fe
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: COOKIE_NAME
+              value: EDGEGALLERYFESESSIONID
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: edgegallery-fe-secret
+                  key: clientId
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: edgegallery-fe-secret
+                  key: clientSecret
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            - name: IS_SECURE_BACKEND
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: edgegallery-fe-keystore
+            {{- end }}
+      volumes:
+        {{- if .Values.global.ssl.enabled }}
+        - name: edgegallery-fe-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+        {{- end }}

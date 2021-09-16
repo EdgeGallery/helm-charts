@@ -43,6 +43,10 @@ global:
         clientId: lab-fe
         clientSecret:
         clientUrl:
+      edgegallery:
+        clientId: edgegallery-fe
+        clientSecret:
+        clientUrl:
 jwt:
   secretName:
 expose:
