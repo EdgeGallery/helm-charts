@@ -33,35 +33,34 @@ spec:
             - name: POSTGRES_HOST
               value: {{ .Values.postgres.host }}
           volumeMounts:
-            {{- if .Values.global.persistence.enabled }}
             - name: file-system-data
               mountPath: /usr/app/vmImage
+            {{- if .Values.global.persistence.enabled }}
             - name: file-system-log
               mountPath: /usr/app/log
             {{- end }}
+        - name: imageops
+          image: {{ .Values.images.imageops.repository }}:{{ .Values.images.imageops.tag }}
+          imagePullPolicy: {{ .Values.images.imageops.pullPolicy }}
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: imageops-data
+              mountPath: /usr/app/vmImage
       volumes:
-        {{- if .Values.global.persistence.enabled }}
         - name: file-system-data
-          persistentVolumeClaim:
-            claimName: file-system-data-pvc
+          hostPath:
+            path: {{ .Values.filesystem.hostVMImagePath }}
+        - name: imageops-data
+          hostPath:
+            path: {{ .Values.filesystem.hostVMImagePath }}
+        {{- if .Values.global.persistence.enabled }}
         - name: file-system-log
           persistentVolumeClaim:
             claimName: file-system-log-pvc
         {{- end }}
 
 {{- if .Values.global.persistence.enabled }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: file-system-data-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-  resources:
-    requests:
-      storage: 200Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
