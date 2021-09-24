@@ -30,27 +30,27 @@ global:
         clientSecret:
 images:
   lcmcontroller:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-applcm
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm
     tag: latest
     pullPolicy: IfNotPresent
   k8splugin:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-applcm-k8splugin
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm-k8splugin
     tag: latest
     pullPolicy: IfNotPresent
   osplugin:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-applcm-osplugin
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm-osplugin
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   apprulemgr:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apprulemgr
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-apprulemgr
     tag: latest
     pullPolicy: IfNotPresent
   mepmFe:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mepm-fe
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mepm-fe
     tag: latest
     pullPolicy: IfNotPresent
 persistence:

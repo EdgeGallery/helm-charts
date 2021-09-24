@@ -30,31 +30,31 @@ global:
         clientUrl: 
 images:
   inventory:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-inventory
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-inventory
     tag: latest
     pullPolicy: IfNotPresent
   appo:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-appo
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-appo
     tag: latest
     pullPolicy: IfNotPresent
   apm:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-apm
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-apm
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   mecmFe:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mecm-fe
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-fe
     tag: latest
     pullPolicy: IfNotPresent  
   initservicecenter:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/service-center
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/service-center
     tag: latest
     pullPolicy: IfNotPresent
   curl:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/curl
     tag: 7.75.0
     pullPolicy: IfNotPresent
     
