@@ -68,6 +68,8 @@ spec:
             - mountPath: /usr/app/ssl
               name: osplugin-certs
               readOnly: true
+            - mountPath: /usr/app/vmImage
+              name: vmimages-volume
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/app/log
               name: log-dir
@@ -78,7 +80,17 @@ spec:
               name: config-data
               subPath: package
             {{- end }}
+        - image: {{ .Values.images.imageops.repository }}:{{ .Values.images.imageops.tag }}
+          imagePullPolicy: {{ .Values.images.imageops.pullPolicy }}
+          name: mecm-mepm-imageops
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - mountPath: /usr/app/vmImage
+              name: vmimages-volume
       volumes:
+        - name: vmimages-volume
+          emptyDir: {}
         {{- if .Values.global.persistence.enabled }}
         - name: log-dir
           persistentVolumeClaim:
