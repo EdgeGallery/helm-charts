@@ -68,7 +68,7 @@ spec:
             - mountPath: /usr/app/ssl
               name: osplugin-certs
               readOnly: true
-            - mountPath: /tmp/osplugin
+            - mountPath: /usr/app/vmImage
               name: vmimages-volume
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/app/log
@@ -90,8 +90,7 @@ spec:
               name: vmimages-volume
       volumes:
         - name: vmimages-volume
-          hostPath:
-            path: {{ .Values.osplugin.hostVMImagePath }}
+          emptyDir: {}
         {{- if .Values.global.persistence.enabled }}
         - name: log-dir
           persistentVolumeClaim:
