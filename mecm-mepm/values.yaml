@@ -41,6 +41,10 @@ images:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm-osplugin
     tag: latest
     pullPolicy: IfNotPresent
+  imageops:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/imageops
+    tag: latest
+    pullPolicy: IfNotPresent
   postgres:
     repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
@@ -65,6 +69,8 @@ expose:
   osplugin:
     port: 8234
     nodePort: 30207
+  imageops:
+    port: 5000
   postgres:
     port: 5432
   apprulemgr:
