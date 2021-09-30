@@ -81,6 +81,8 @@ expose:
 ssl:
   secretName: 
 
+osplugin:
+  hostVMImagePath:
 mepm:
   postgres:
     postgresPass:

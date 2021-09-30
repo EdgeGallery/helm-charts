@@ -90,7 +90,8 @@ spec:
               name: vmimages-volume
       volumes:
         - name: vmimages-volume
-          emptyDir: {}
+          hostPath:
+            path: {{ .Values.osplugin.hostVMImagePath }}
         {{- if .Values.global.persistence.enabled }}
         - name: log-dir
           persistentVolumeClaim:
