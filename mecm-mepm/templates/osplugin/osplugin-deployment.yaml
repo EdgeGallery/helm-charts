@@ -69,7 +69,7 @@ spec:
               name: osplugin-certs
               readOnly: true
             - mountPath: /tmp/osplugin
-              name: vmImages-volume
+              name: vmimages-volume
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/app/log
               name: log-dir
@@ -87,9 +87,9 @@ spec:
             - containerPort: 5000
           volumeMounts:
             - mountPath: /usr/app/vmImage
-              name: vmImages-volume
+              name: vmimages-volume
       volumes:
-        - name: vmImages-volume
+        - name: vmimages-volume
           emptyDir: {}
         {{- if .Values.global.persistence.enabled }}
         - name: log-dir
