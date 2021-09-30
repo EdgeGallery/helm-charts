@@ -17,15 +17,22 @@ global:
     storageClassName: nfs-client
 images:
   filesystem:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/filesystem
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/filesystem
+    tag: latest
+    pullPolicy: IfNotPresent
+  imageops:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/imageops
     tag: latest
     pullPolicy: IfNotPresent
   
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
     
+filesystem:
+  hostVMImagePath:
+
 postgres:
   username: postgres
   password: te9Fmv%qaq
@@ -36,9 +43,7 @@ expose:
   filesystem:
     port: 9500
     nodePort: 30090
+  imageops:
+    port: 5000
   postgres:
     port: 5432
-  
-  
-  
-  
