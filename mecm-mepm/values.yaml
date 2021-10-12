@@ -82,6 +82,8 @@ mepm:
     k8spluginDbPass: 
     ospluginDbPass:  
     apprulemgrDbPass:
+  filesystem:
+    imagePushUrl:
 
 jwt:
   publicKeySecretName: 

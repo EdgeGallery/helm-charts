@@ -56,7 +56,9 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: publicKey
-                  name: {{ .Values.jwt.publicKeySecretName }}       
+                  name: {{ .Values.jwt.publicKeySecretName }}
+            - name: IMAGE_PUSH_URL
+              value: {{ .Values.mepm.filesystem.imagePushUrl }}
           ports:
             - containerPort: 8234
               protocol: TCP
