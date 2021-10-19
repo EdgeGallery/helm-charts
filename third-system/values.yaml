@@ -1,0 +1,72 @@
+############################################################################
+# Copyright 2021 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+
+global:
+  ingress:
+    enabled: false
+  ssl:
+    enabled: false
+    secretName:
+  persistence:
+    enabled: true
+    storageClassName: nfs-client
+  oauth2:
+    authServerAddress:
+    clients:
+      third-systym:
+        clientId:
+        clientSecret:
+images:
+  third-systym:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/thirdsystem
+    tag: latest
+    pullPolicy: IfNotPresent
+  postgres:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    tag: 12.3
+    pullPolicy: IfNotPresent
+  initservicecenter:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
+    pullPolicy: IfNotPresent
+postgres:
+  username: thirdsystem
+  password: 
+  dbname: thirdsystemdb
+expose:
+  atp:
+    port: 8097
+    nodePort: 30197
+  postgres:
+    port: 5432
+# probe configuration parameters
+livenessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  FailureThreshold: 3
+readinessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 45
+  periodSeconds: 10
+  timeoutSeconds: 5
+serveraddress:
+  apm: https://mecm-apm:8092
+  appo: https://mecm-appo:8091
+  inventory: https://mecm-inventory:8093
+  appstore: https://appstore-be-svc:8099
