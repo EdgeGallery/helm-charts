@@ -43,7 +43,7 @@ spec:
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path}}
-              port: {{ .Values.expose.developerFe.port }}
+              port: {{ .Values.expose.mecmFe.port }}
               scheme: {{ .Values.livenessProbe.scheme}}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
@@ -53,7 +53,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path}}
-              port: {{ .Values.expose.developerFe.port }}
+              port: {{ .Values.expose.mecmFe.port }}
               scheme: {{ .Values.readinessProbe.scheme}}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
