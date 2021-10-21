@@ -62,6 +62,10 @@ postgres:
   kongPass:
   storageSize: 1Gi
 
+mepauthProperties:
+  jwtPrivateKey:
+  secretKey:
+
 ssl:
   enabled: false
   secretName:
