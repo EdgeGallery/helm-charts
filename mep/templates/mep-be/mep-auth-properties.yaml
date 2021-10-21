@@ -26,7 +26,7 @@ stringData:
   mepauth.properties: |-
     JWT_PRIVATE_KEY={{ .Values.mepauthProperties.jwtPrivateKey }}
     ACCESS_KEY=QVUJMSUMgS0VZLS0tLS0
-    SECRET_KEY={{ .Values.mepauthProperties.secretKey }}
+    SECRET_KEY=DXPb4sqElKhcHe07Kw5uorayETwId1JOjjOIRomRs5wyszoCR5R7AtVa28KT3lSc
     APP_INST_ID=5abe4782-2c70-4e47-9a4e-0ee3a1a0fd1f
     KEY_COMPONENT=oikYVgrRbDZHZSaobOTo8ugCKsUSdVeMsg2d9b7Qr250q2HNBiET4WmecJ0MFavRA0cBzOWu8sObLha17auHoy6ULbAOgP50bDZapxOylTbr1kq8Z4m8uMztciGtq4e11GA0aEh0oLCR3kxFtV4EgOm4eZb7vmEQeMtBy4jaXl6miMJugoRqcfLo9ojDYk73lbCaP9ydUkO56fw8dUUYjeMvrzmIZPLdVjPm62R4AQFQ4CEs7vp6xafx9dRwPoym
     TRUSTED_LIST=

@@ -64,7 +64,6 @@ postgres:
 
 mepauthProperties:
   jwtPrivateKey:
-  secretKey:
 
 ssl:
   enabled: false
