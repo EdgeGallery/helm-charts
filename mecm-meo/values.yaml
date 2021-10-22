@@ -90,11 +90,10 @@ mecm:
     apmDbPass: 
     appoDbPass: 
     inventoryDbPass: 
-
  
 # probe configuration parameters
 livenessProbe:
-
+  path: /health
   scheme: HTTPS
   initialDelaySeconds: 600
   periodSeconds: 60
@@ -104,7 +103,7 @@ livenessProbe:
 readinessProbe:
 
   scheme: HTTPS
+  path: /health
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
-
