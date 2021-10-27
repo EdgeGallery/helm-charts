@@ -39,5 +39,45 @@ spec:
       targetPort: 9082
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.nodePort }}
+    - port: {{ .Values.expose.developerBe.vncPort1 }}
+      targetPort: 30111
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort1 }}
+    - port: {{ .Values.expose.developerBe.vncPort2 }}
+      targetPort: 30112
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort2 }}
+    - port: {{ .Values.expose.developerBe.vncPort3 }}
+      targetPort: 30113
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort3 }}
+    - port: {{ .Values.expose.developerBe.vncPort4 }}
+      targetPort: 30114
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort4 }}
+    - port: {{ .Values.expose.developerBe.vncPort5 }}
+      targetPort: 30115
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort5 }}
+    - port: {{ .Values.expose.developerBe.vncPort6 }}
+      targetPort: 30116
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort6 }}
+    - port: {{ .Values.expose.developerBe.vncPort7 }}
+      targetPort: 30117
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort7 }}
+    - port: {{ .Values.expose.developerBe.vncPort8 }}
+      targetPort: 30118
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort8 }}
+    - port: {{ .Values.expose.developerBe.vncPort9 }}
+      targetPort: 30119
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort9 }}
+    - port: {{ .Values.expose.developerBe.vncPort10 }}
+      targetPort: 30120
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort10 }}
   selector:
     app: developer-be
