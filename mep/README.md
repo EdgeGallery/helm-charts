@@ -8,8 +8,8 @@ Deploy MEP.
   set +o history
   set +x
 
-  export PG_ADMIN_PWD=admin-Pass123
-  export KONG_PG_PWD=kong-Pass123
+  export PG_ADMIN_PWD=********
+  export KONG_PG_PWD=********
   export CERT_PWD=********
 
   export MEP_CERTS_DIR=/tmp/.mep_tmp_cer
