@@ -36,10 +36,12 @@ spec:
   type: NodePort
   ports:
     - port: {{ .Values.expose.developerBe.port }}
+      name: develooer-be-svc
       targetPort: 9082
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.nodePort }}
     - port: {{ .Values.expose.developerBe.vncPort1 }}
+      name: vnc-port-1
       targetPort: 30111
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.vncNodePort1 }}

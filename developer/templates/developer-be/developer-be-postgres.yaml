@@ -51,12 +51,7 @@ spec:
             - mountPath: /var/lib/postgresql/data
               name: developer-be-postgres-data
             {{- end }}
-            - mountPath: /docker-entrypoint-initdb.d
-              name: developer-be-postgres-initdb
       volumes:
-        - name: developer-be-postgres-initdb
-          configMap:
-            name: developer-be-postgres-initdb-configmap
         {{- if .Values.global.persistence.enabled }}
         - name: developer-be-postgres-data
           persistentVolumeClaim:
