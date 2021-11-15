@@ -33,6 +33,9 @@ images:
 filesystem:
   hostVMImagePath:
 
+imageops:
+  timeout: 3600
+
 postgres:
   username: postgres
   password:

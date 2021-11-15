@@ -42,6 +42,9 @@ spec:
         - name: imageops
           image: {{ .Values.images.imageops.repository }}:{{ .Values.images.imageops.tag }}
           imagePullPolicy: {{ .Values.images.imageops.pullPolicy }}
+          env:
+            - name: IMAGEOPS_TIMEOUT
+              value: {{ .Values.imageops.timeout }}
           ports:
             - containerPort: 5000
           volumeMounts:
