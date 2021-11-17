@@ -46,7 +46,7 @@ spec:
             - containerPort: 5000
           env:
             - name: IMAGEOPS_TIMEOUT
-              value: {{ .Values.imageops.timeout }}
+              value: "{{ .Values.imageops.timeout }}"
           volumeMounts:
             - name: imageops-data
               mountPath: /usr/app/vmImage
