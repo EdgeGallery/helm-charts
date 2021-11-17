@@ -42,11 +42,11 @@ spec:
         - name: imageops
           image: {{ .Values.images.imageops.repository }}:{{ .Values.images.imageops.tag }}
           imagePullPolicy: {{ .Values.images.imageops.pullPolicy }}
+          ports:
+            - containerPort: 5000
           env:
             - name: IMAGEOPS_TIMEOUT
               value: {{ .Values.imageops.timeout }}
-          ports:
-            - containerPort: 5000
           volumeMounts:
             - name: imageops-data
               mountPath: /usr/app/vmImage

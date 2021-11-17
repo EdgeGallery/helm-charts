@@ -85,11 +85,11 @@ spec:
         - image: {{ .Values.images.imageops.repository }}:{{ .Values.images.imageops.tag }}
           imagePullPolicy: {{ .Values.images.imageops.pullPolicy }}
           name: mecm-mepm-imageops
+          ports:
+            - containerPort: 5000
           env:
             - name: IMAGEOPS_TIMEOUT
               value: {{ .Values.mepm.imageops.timeout }}
-          ports:
-            - containerPort: 5000
           volumeMounts:
             - mountPath: /usr/app/vmImage
               name: vmimages-volume
