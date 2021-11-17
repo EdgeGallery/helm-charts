@@ -90,6 +90,8 @@ mepm:
     apprulemgrDbPass:
   filesystem:
     imagePushUrl:
+  imageops:
+    timeout: 3600
 
 jwt:
   publicKeySecretName: 
