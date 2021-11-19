@@ -90,6 +90,7 @@ expose:
     port: 5432
 
 developer:
+  developerBeIp:
   secretName: edgegallery-signature-secret
   dockerRepo:
     endpoint: 
@@ -98,8 +99,6 @@ developer:
     username:
   vmImage:
     fileSystemAddress: 
-    username: ubuntu
-    password:
   toolChain:
     enabled: false
     
