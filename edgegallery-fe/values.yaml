@@ -18,6 +18,8 @@ global:
     secretName: edgegallery-ssl-secret
   oauth2:
     authServerAddress:
+    authServerAddressClientAccess:
+    redirectUriParam:
     clients:
       edgegalleryFe:
         clientId: edgegallery-fe
