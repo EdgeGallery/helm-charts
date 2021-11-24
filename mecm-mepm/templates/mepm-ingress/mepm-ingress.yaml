@@ -25,3 +25,7 @@ spec:
          backend:
            serviceName: mecm-mepm-apprulemgr
            servicePort: 8096
+       - path: /rescontroller
+         backend:
+           serviceName: mecm-mepm-rescontroller
+           servicePort: 8098

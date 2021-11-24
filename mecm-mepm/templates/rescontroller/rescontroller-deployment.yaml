@@ -1,0 +1,135 @@
+############################################################################
+# Copyright 2021 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mecm-mepm-rescontroller
+  namespace: default
+  labels:
+    app: mecm-mepm-rescontroller
+spec:
+  selector:
+    matchLabels:
+      app: mecm-mepm-rescontroller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-mepm-rescontroller
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;'] 
+      containers:
+        - image: {{ .Values.images.rescontroller.repository }}:{{ .Values.images.rescontroller.tag }}
+          imagePullPolicy: {{ .Values.images.rescontroller.pullPolicy }}
+          name: mecm-mepm-rescontroller
+          livenessProbe:
+            httpGet:
+              path: /rescontroller/v1/health
+              port: {{ .Values.expose.rescontroller.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+
+          readinessProbe:
+            httpGet:
+              path: /rescontroller/v1/health
+              port: {{ .Values.expose.rescontroller.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
+          env:
+            - name: LOG_DIR
+              value: /usr/app/log
+            - name: API_GW_ADDR
+              value: mepauth.mep
+            - name: API_GW_PORT
+              value: "10443"
+            - name: K8S_PLUGIN
+              value: mecm-mepm-k8splugin
+            - name: K8S_PLUGIN_PORT
+              value: "8095"
+            - name: OPENSTACK_PLUGIN
+              value: mecm-mepm-osplugin
+            - name: OPENSTACK_PLUGIN_PORT
+              value: "8234"
+            - name: IS_HTTPS
+              value: "false"
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP    
+            - name: LCM_CNTLR_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mepm.secretName }}
+                  key: postgresLcmCntlrPassword
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jwt.publicKeySecretName }}
+                  key: publicKey
+          ports:
+            - containerPort: 8094
+          resources: {}
+          volumeMounts:
+
+            - mountPath: /usr/app/ssl/
+              name: rescontroller-certs
+              readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - name: rescontroller-data
+              mountPath: /usr/app/packages
+            {{- end }}
+      volumes:
+
+        - name: rescontroller-certs
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: ca.crt
+                path: ca.crt
+                mode: 0644
+              - key: server_tls.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server_tls.key
+                path: server_tls.key
+                mode: 0644
+        {{- if .Values.global.persistence.enabled }}
+        - name: rescontroller-data
+          persistentVolumeClaim:
+            claimName: rescontroller-data-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rescontroller-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}  
+  resources:
+    requests:
+      storage: 50Gi
+{{- end }}

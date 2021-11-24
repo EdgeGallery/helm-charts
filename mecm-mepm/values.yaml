@@ -57,6 +57,10 @@ images:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mepm-fe
     tag: latest
     pullPolicy: IfNotPresent
+  rescontroller:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm-rescontroller
+    tag: latest
+    pullPolicy: IfNotPresent    
 persistence:
   enabled: false 
 expose:
@@ -78,6 +82,9 @@ expose:
     nodePort: 30206
   mepmFe:
     port: 8200
+  rescontroller:
+    port: 8098
+    nodePort: 30208
 ssl:
   secretName: 
 
