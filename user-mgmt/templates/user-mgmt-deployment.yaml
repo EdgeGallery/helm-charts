@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020 Huawei Technologies Co., Ltd.
+# Copyright 2020-2021 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -265,6 +265,36 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: edgegalleryClientUrl
+            - name: OAUTH_APPSTORE_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appstoreClientAccessUrl
+            - name: OAUTH_DEVELOPER_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientAccessUrl
+            - name: OAUTH_ATP_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientAccessUrl
+            - name: OAUTH_LAB_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: labClientAccessUrl
+            - name: OAUTH_MECM_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: mecmClientAccessUrl
+            - name: OAUTH_EDGEGALLERY_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientAccessUrl
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}

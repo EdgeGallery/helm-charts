@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020 Huawei Technologies Co., Ltd.
+# Copyright 2021 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,20 +15,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: developer-be-postgres
-  namespace: default
+  name: thirdsystem-postgres
 spec:
   selector:
     matchLabels:
-      app: developer-be-postgres
+      app: thirdsystem-postgres
   replicas: 1
   template:
     metadata:
       labels:
-        app: developer-be-postgres
+        app: thirdsystem-postgres
     spec:
       containers:
-        - name: developer-be-postgres
+        - name: thirdsystem-postgres
           image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
           imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
           ports:
@@ -37,25 +36,30 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: developer-be-secret
+                  name: thirdsystem-secret
                   key: postgresUsername
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: developer-be-secret
+                  name: thirdsystem-secret
                   key: postgresPassword
             - name: POSTGRES_DB
               value: {{ .Values.postgres.dbname }}
           volumeMounts:
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /var/lib/postgresql/data
-              name: developer-be-postgres-data
+              name: thirdsystem-postgres-data
             {{- end }}
+            - mountPath: /docker-entrypoint-initdb.d
+              name: thirdsystem-postgres-initdb
       volumes:
-        {{- if .Values.global.persistence.enabled }}
-        - name: developer-be-postgres-data
+        - name: thirdsystem-postgres-initdb
+          configMap:
+            name: thirdsystem-postgres-initdb-configmap
+       {{- if .Values.global.persistence.enabled }}
+        - name: thirdsystem-postgres-data
           persistentVolumeClaim:
-            claimName: developer-be-postgres-pvc
+            claimName: thirdsystem-postgres-pvc
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
   
@@ -63,7 +67,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: developer-be-postgres-pvc
+  name: thirdsystem-postgres-pvc
 spec:
   accessModes:
   - ReadWriteOnce

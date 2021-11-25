@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020-2021 Huawei Technologies Co., Ltd.
+# Copyright 2021 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,35 +15,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appstore-fe
-  namespace: default
-  labels:
-    app: appstore-fe
+  name: thirdsystem
 spec:
   selector:
     matchLabels:
-      app: appstore-fe
+      app: thirdsystem
   replicas: 1
   template:
     metadata:
       labels:
-        app: appstore-fe
+        app: thirdsystem
     spec:
       initContainers:
+        - name: init-service-center
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100/v4/default/registry/health; do echo waiting for service center; sleep 2; done"]
         - name: init-usermgmt
           image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
           imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
           command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
       containers:
-        - name: appstore-fe
-          image: {{ .Values.images.appstoreFe.repository }}:{{ .Values.images.appstoreFe.tag }}
-          imagePullPolicy: {{ .Values.images.appstoreFe.pullPolicy }}
+        - name: thirdsystem
+          image: {{ .Values.images.thirdsystem.repository }}:{{ .Values.images.thirdsystem.tag }}
+          imagePullPolicy: {{ .Values.images.thirdsystem.pullPolicy }}
           ports:
-            - containerPort: 8443
+            - containerPort: 8097
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path}}
-              port: {{ .Values.expose.appstoreFe.port }}
+              port: {{ .Values.expose.thirdsystem.port }}
               scheme: {{ .Values.livenessProbe.scheme}}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
@@ -53,7 +54,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path}}
-              port: {{ .Values.expose.appstoreFe.port }}
+              port: {{ .Values.expose.thirdsystem.port }}
               scheme: {{ .Values.readinessProbe.scheme}}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
@@ -61,39 +62,43 @@ spec:
           env:
             - name: LOG_DIR
               value: /usr/app/log
-            - name: LOG_FILE_NAME
-              value: appstore-fe
             - name: LISTEN_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: POSTGRES_IP
+              value: thirdsystem-postgres-svc
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: thirdsystem-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: thirdsystem-secret
+                  key: postgresPassword
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
-            - name: AUTH_SERVER_ADDRESS_CLIENTACCESS
-              value: {{ .Values.global.oauth2.authServerAddressClientAccess }}
-            - name: REDIRECT_URI_PARAM
-              value: {{ .Values.global.oauth2.redirectUriParam }}
-            - name: COOKIE_NAME
-              value: APPSTORESESSIONID
-            - name: CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-fe-secret
-                  key: clientId
-            - name: CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: appstore-fe-secret
-                  key: clientSecret
             - name: SSL_ENABLED
-              value: {{ quote .Values.global.ssl.enabled }}
-            - name: IS_SECURE_BACKEND
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
+            - name: APM_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.apm }}
+            - name: APPO_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.appo }}
+            - name: INVENTORY_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.inventory }}
+            - name: APPSTORE_SERVER_ADDRESS
+              value: {{ .Values.serveraddress.appstore }}
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -113,15 +118,17 @@ spec:
           volumeMounts:
             {{- if .Values.global.ssl.enabled }}
             - mountPath: /usr/app/ssl
-              name: appstore-fe-keystore
+              name: thirdsystem-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: appstore-fe-log
+            - name: thirdsystem-data
+              mountPath: /usr/thirdsystem/file
+            - name: thirdsystem-log
               mountPath: /usr/app/log
             {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
-        - name: appstore-fe-keystore
+        - name: thirdsystem-keystore
           secret:
             secretName: {{ .Values.global.ssl.secretName }}
             items:
@@ -129,16 +136,31 @@ spec:
                 path: keystore.p12
         {{- end }}
         {{- if .Values.global.persistence.enabled }}
-        - name: appstore-fe-log
+        - name: thirdsystem-data
           persistentVolumeClaim:
-            claimName: appstore-fe-log-pvc
+            claimName: thirdsystem-data-pvc
+        - name: thirdsystem-log
+          persistentVolumeClaim:
+            claimName: thirdsystem-log-pvc
         {{- end }}
 {{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: appstore-fe-log-pvc
+  name: thirdsystem-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: thirdsystem-log-pvc
 spec:
   accessModes:
   - ReadWriteOnce

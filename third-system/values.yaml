@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020-2021 Huawei Technologies Co., Ltd.
+# Copyright 2021 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -22,94 +22,39 @@ global:
     enabled: true
     storageClassName: nfs-client
   oauth2:
+    authServerAddress:
     clients:
-      appstore:
-        clientId: appstore-fe
+      third-systym:
+        clientId:
         clientSecret:
-        clientUrl:
-        clientAccessUrl:
-      developer:
-        clientId: developer-fe
-        clientSecret:
-        clientUrl:
-        clientAccessUrl:
-      mecm:
-        clientId: mecm-fe
-        clientSecret:
-        clientUrl:
-        clientAccessUrl:
-      atp:
-        clientId: atp-fe
-        clientSecret:
-        clientUrl:
-        clientAccessUrl:
-      lab:
-        clientId: lab-fe
-        clientSecret:
-        clientUrl:
-        clientAccessUrl:
-      edgegallery:
-        clientId: edgegallery-fe
-        clientSecret:
-        clientUrl:
-        clientAccessUrl:
-jwt:
-  secretName:
-expose:
-  port: 8067
-  nodePort: 30067
 images:
-  usermgmt:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/user-mgmt
+  third-systym:
+    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/thirdsystem
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   postgres:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
-    pullPolicy: IfNotPresent
-  redis:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/redis
-    tag: 6.0.3
     pullPolicy: IfNotPresent
   initservicecenter:
     repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
     tag: 7.75.0
     pullPolicy: IfNotPresent
 postgres:
-  username: usermgmt
+  username: thirdsystem
   password: 
-  dbname: usermgmtdb
-cors:
-  allowOrigins: "*"
-redis:
-  password: 
-  timeout: 1800
-  verificationTimeout: 300
-  imgVerificationTimeout: 180
-  maxTotal: 1000
-  maxIdle: 50
-  maxWaitMillis: 100000
-sms:
-  enabled: false
-  url:
-  appKey:
-  appSecret:
-  sender:
-  templateId:
-  signature:
-  statusCallBack:
-mail:
-  enabled: false
-  host:
-  port: 25
-  sender:
-  authCode:
-
+  dbname: thirdsystemdb
+expose:
+  atp:
+    port: 8097
+    nodePort: 30197
+  postgres:
+    port: 5432
 # probe configuration parameters
 livenessProbe:
   path: /health
   scheme: HTTPS
-  initialDelaySeconds: 30
+  initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
@@ -117,6 +62,11 @@ livenessProbe:
 readinessProbe:
   path: /health
   scheme: HTTPS
-  initialDelaySeconds: 15
+  initialDelaySeconds: 45
   periodSeconds: 10
   timeoutSeconds: 5
+serveraddress:
+  apm: https://mecm-apm:8092
+  appo: https://mecm-appo:8091
+  inventory: https://mecm-inventory:8093
+  appstore: https://appstore-be-svc:8099

@@ -91,21 +91,13 @@ spec:
               value: {{ .Values.developer.dockerRepo.project }}
             - name: FILESERVER_ADDRESS
               value: {{ .Values.developer.vmImage.fileSystemAddress }}
+            - name: DEVELOPER_IP
+              value: {{ .Values.developer.developerBeIp }}
             - name: IMAGE_REPO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: developer-be-secret
                   key: dockerRepoPassword
-            - name: VNC_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: developer-be-secret
-                  key: vmImageUsername
-            - name: VNC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: developer-be-secret
-                  key: vmImagePassword
             - name: IMAGE_REPO_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -157,6 +149,9 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-data
               mountPath: /usr/app/user
+            - name: developer-be-data
+              mountPath: /etc/nginx/conf.d
+              subPath: nginx
             - name: developer-be-log
               mountPath: /usr/app/log
             {{- end }}

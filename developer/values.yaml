@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2020 Huawei Technologies Co., Ltd.
+# Copyright 2020-2021 Huawei Technologies Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -23,33 +23,35 @@ global:
     storageClassName: nfs-client
   oauth2:
     authServerAddress:
+    authServerAddressClientAccess:
+    redirectUriParam:
     clients:
       developer:
         clientId: developer-fe
         clientSecret:
 images:
   developerFe:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-fe
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/developer-fe
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   developerBe:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/developer-be
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/developer-be
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   toolChain:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/tool-chain
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery//tool-chain
     tag: latest
     pullPolicy: IfNotPresent
   portingAdvisor:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/porting-advisor
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/porting-advisor
     tag: latest
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   initservicecenter:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/curl
     tag: 7.75.0
     pullPolicy: IfNotPresent
 postgres:
@@ -64,10 +66,31 @@ expose:
   developerBe:
     port: 9082
     nodePort: 30098
+    vncPort1: 30111
+    vncNodePort1: 30111
+    vncPort2: 30112
+    vncNodePort2: 30112
+    vncPort3: 30113
+    vncNodePort3: 30113
+    vncPort4: 30114
+    vncNodePort4: 30114
+    vncPort5: 30115
+    vncNodePort5: 30115
+    vncPort6: 30116
+    vncNodePort6: 30116
+    vncPort7: 30117
+    vncNodePort7: 30117
+    vncPort8: 30118
+    vncNodePort8: 30118
+    vncPort9: 30119
+    vncNodePort9: 30119
+    vncPort10: 30120
+    vncNodePort10: 30120
   postgres:
     port: 5432
 
 developer:
+  developerBeIp:
   secretName: edgegallery-signature-secret
   dockerRepo:
     endpoint: 
@@ -76,8 +99,6 @@ developer:
     username:
   vmImage:
     fileSystemAddress: 
-    username: ubuntu
-    password:
   toolChain:
     enabled: false
     

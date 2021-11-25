@@ -36,8 +36,59 @@ spec:
   type: NodePort
   ports:
     - port: {{ .Values.expose.developerBe.port }}
+      name: develooer-be-svc
       targetPort: 9082
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.nodePort }}
+    - port: {{ .Values.expose.developerBe.vncPort1 }}
+      name: vnc-port-1
+      targetPort: 30111
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort1 }}
+    - port: {{ .Values.expose.developerBe.vncPort2 }}
+      name: vnc-port-2
+      targetPort: 30112
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort2 }}
+    - port: {{ .Values.expose.developerBe.vncPort3 }}
+      name: vnc-port-3
+      targetPort: 30113
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort3 }}
+    - port: {{ .Values.expose.developerBe.vncPort4 }}
+      name: vnc-port-4
+      targetPort: 30114
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort4 }}
+    - port: {{ .Values.expose.developerBe.vncPort5 }}
+      name: vnc-port-5
+      targetPort: 30115
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort5 }}
+    - port: {{ .Values.expose.developerBe.vncPort6 }}
+      name: vnc-port-6
+      targetPort: 30116
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort6 }}
+    - port: {{ .Values.expose.developerBe.vncPort7 }}
+      name: vnc-port-7
+      targetPort: 30117
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort7 }}
+    - port: {{ .Values.expose.developerBe.vncPort8 }}
+      name: vnc-port-8
+      targetPort: 30118
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort8 }}
+    - port: {{ .Values.expose.developerBe.vncPort9 }}
+      name: vnc-port-9
+      targetPort: 30119
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort9 }}
+    - port: {{ .Values.expose.developerBe.vncPort10 }}
+      name: vnc-port-10
+      targetPort: 30120
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.vncNodePort10 }}
   selector:
     app: developer-be
