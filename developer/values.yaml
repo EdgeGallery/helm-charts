@@ -38,6 +38,10 @@ images:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/developer-be
     tag: latest
     pullPolicy: Always
+  commonServiceCbb:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/common-service-cbb
+    tag: latest
+    pullPolicy: Always
   toolChain:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery//tool-chain
     tag: latest
@@ -66,6 +70,8 @@ expose:
   developerBe:
     port: 9082
     nodePort: 30098
+    commonCbbPort: 30101
+    commonCbbNodePort: 30101
     vncPort1: 30111
     vncNodePort1: 30111
     vncPort2: 30112
@@ -118,6 +124,11 @@ readinessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
 
+# reverse proxy port range
+reverseProxy:
+  port:
+    min: 30111
+    max: 30120
   
   
   
