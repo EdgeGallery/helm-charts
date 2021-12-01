@@ -186,9 +186,9 @@ spec:
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
             - name: MIN_PROXY_PORT
-              value: {{ .Values.reverseProxy.port.min }}
+              value: \"{{ .Values.reverseProxy.port.min }}\"
             - name: MAX_PROXY_PORT
-              value: {{ .Values.reverseProxy.port.max }}
+              value: \"{{ .Values.reverseProxy.port.max }}\"
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
