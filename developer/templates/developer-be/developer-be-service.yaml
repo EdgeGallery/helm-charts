@@ -41,7 +41,7 @@ spec:
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.nodePort }}
     - port: {{ .Values.expose.developerBe.commonCbbPort }}
-      name: develooer-be-svc
+      name: common-cbb-svc
       targetPort: 30101
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.commonCbbNodePort }}
