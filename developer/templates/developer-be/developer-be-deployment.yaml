@@ -186,9 +186,9 @@ spec:
             - name: POSTGRES_DB_NAME
               value: {{ .Values.postgres.dbname }}
             - name: MIN_PROXY_PORT
-              value: \"{{ .Values.reverseProxy.port.min }}\"
+              value: "{{ .Values.reverseProxy.port.min }}"
             - name: MAX_PROXY_PORT
-              value: \"{{ .Values.reverseProxy.port.max }}\"
+              value: "{{ .Values.reverseProxy.port.max }}"
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -199,6 +199,8 @@ spec:
                 secretKeyRef:
                   name: developer-be-secret
                   key: postgresPassword
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
