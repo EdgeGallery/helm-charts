@@ -53,6 +53,11 @@ global:
         clientSecret:
         clientUrl:
         clientAccessUrl:
+      appmgmt:
+        clientId: app-mgmt-fe
+        clientSecret:
+        clientUrl:
+        clientAccessUrl:
 jwt:
   secretName:
 expose:
@@ -104,6 +109,9 @@ mail:
   port: 25
   sender:
   authCode:
+externalIam:
+  enabled: false
+  endpoint:
 
 # probe configuration parameters
 livenessProbe:
