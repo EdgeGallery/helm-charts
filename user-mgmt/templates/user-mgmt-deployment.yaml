@@ -181,6 +181,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.jwt.secretName }}
                   key: encryptPassword
+            - name: OAUTH_APPSTORE_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.appstore.enabled }}
             {{- if .Values.global.oauth2.clients.appstore.enabled }}
             - name: OAUTH_APPSTORE_CLIENT_ID
               valueFrom:
@@ -203,6 +205,8 @@ spec:
                   name: user-mgmt-secret
                   key: appstoreClientAccessUrl
             {{- end }}
+            - name: OAUTH_DEVELOPER_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.developer.enabled }}
             {{- if .Values.global.oauth2.clients.developer.enabled }}
             - name: OAUTH_DEVELOPER_CLIENT_ID
               valueFrom:
@@ -225,6 +229,8 @@ spec:
                   name: user-mgmt-secret
                   key: developerClientAccessUrl
             {{- end }}
+            - name: OAUTH_MECM_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.mecm.enabled }}
             {{- if .Values.global.oauth2.clients.mecm.enabled }}
             - name: OAUTH_MECM_CLIENT_ID
               valueFrom:
@@ -247,6 +253,8 @@ spec:
                   name: user-mgmt-secret
                   key: mecmClientAccessUrl
             {{- end }}
+            - name: OAUTH_ATP_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.atp.enabled }}
             {{- if .Values.global.oauth2.clients.atp.enabled }}
             - name: OAUTH_ATP_CLIENT_ID
               valueFrom:
@@ -269,6 +277,8 @@ spec:
                   name: user-mgmt-secret
                   key: atpClientAccessUrl
             {{- end }}
+            - name: OAUTH_LAB_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.lab.enabled }}
             {{- if .Values.global.oauth2.clients.lab.enabled }}
             - name: OAUTH_LAB_CLIENT_ID
               valueFrom:
@@ -291,6 +301,8 @@ spec:
                   name: user-mgmt-secret
                   key: labClientAccessUrl
             {{- end }}
+            - name: OAUTH_EDGEGALLERY_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.edgegallery.enabled }}
             {{- if .Values.global.oauth2.clients.edgegallery.enabled }}
             - name: OAUTH_EDGEGALLERY_CLIENT_ID
               valueFrom:
@@ -313,6 +325,8 @@ spec:
                   name: user-mgmt-secret
                   key: edgegalleryClientAccessUrl
             {{- end }}
+            - name: OAUTH_APPMGMT_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.appmgmt.enabled }}
             {{- if .Values.global.oauth2.clients.appmgmt.enabled }}
             - name: OAUTH_APPMGMT_CLIENT_ID
               valueFrom:
