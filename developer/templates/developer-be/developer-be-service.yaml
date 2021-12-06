@@ -40,6 +40,11 @@ spec:
       targetPort: 9082
       protocol: TCP
       nodePort: {{ .Values.expose.developerBe.nodePort }}
+    - port: {{ .Values.expose.developerBe.commonCbbPort }}
+      name: common-cbb-svc
+      targetPort: 30101
+      protocol: TCP
+      nodePort: {{ .Values.expose.developerBe.commonCbbNodePort }}
     - port: {{ .Values.expose.developerBe.vncPort1 }}
       name: vnc-port-1
       targetPort: 30111

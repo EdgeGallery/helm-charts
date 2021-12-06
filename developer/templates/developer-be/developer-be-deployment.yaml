@@ -79,6 +79,8 @@ spec:
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
             - name: APPSTORE_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
+            - name: HTTP_PROTOCOL
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}
             - name: POSTGRES_IP
               value: developer-be-postgres-svc
             - name: POSTGRES_PORT
@@ -161,6 +163,84 @@ spec:
             - name: package-signature
               mountPath: /usr/app/keys/
               readOnly: true
+        - name: common-service-cbb
+          image: {{ .Values.images.commonServiceCbb.repository }}:{{ .Values.images.commonServiceCbb.tag }}
+          imagePullPolicy: {{ .Values.images.commonServiceCbb.pullPolicy }}
+          ports:
+            - containerPort: 30101
+          env:
+            - name: LOG_DIR
+              value: /usr/app/log
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: APPSTORE_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
+            - name: POSTGRES_IP
+              value: developer-be-postgres-svc
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: MIN_PROXY_PORT
+              value: "{{ .Values.reverseProxy.port.min }}"
+            - name: MAX_PROXY_PORT
+              value: "{{ .Values.reverseProxy.port.max }}"
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: developer-be-secret
+                  key: postgresPassword
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: developer-be-keystore
+            {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - name: common-service-cbb-data
+              mountPath: /usr/app/user
+            - name: common-service-cbb-log
+              mountPath: /usr/app/log
+            - name: common-service-cbb-nginx
+              mountPath: /etc/nginx/conf.d
+            {{- end }}
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+            - name: package-signature
+              mountPath: /usr/app/keys/
+              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-be-keystore
@@ -180,6 +260,15 @@ spec:
         - name: developer-be-log
           persistentVolumeClaim:
             claimName: developer-be-log-pvc
+        - name: common-service-cbb-data
+          persistentVolumeClaim:
+            claimName: common-service-cbb-data-pvc
+        - name: common-service-cbb-log
+          persistentVolumeClaim:
+            claimName: common-service-cbb-log-pvc
+        - name: common-service-cbb-nginx
+          persistentVolumeClaim:
+            claimName: common-service-cbb-nginx-pvc
         {{- end }}
         - name: package-signature
           secret:
@@ -211,6 +300,43 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: developer-be-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+      
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: common-service-cbb-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: common-service-cbb-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: common-service-cbb-nginx-pvc
 spec:
   accessModes:
   - ReadWriteOnce
