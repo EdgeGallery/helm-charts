@@ -24,36 +24,43 @@ global:
   oauth2:
     clients:
       appstore:
+        enabled: true
         clientId: appstore-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       developer:
+        enabled: true
         clientId: developer-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       mecm:
+        enabled: true
         clientId: mecm-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       atp:
+        enabled: true
         clientId: atp-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       lab:
+        enabled: false
         clientId: lab-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       edgegallery:
+        enabled: true
         clientId: edgegallery-fe
         clientSecret:
         clientUrl:
         clientAccessUrl:
       appmgmt:
+        enabled: false
         clientId: app-mgmt-fe
         clientSecret:
         clientUrl:

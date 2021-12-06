@@ -181,146 +181,174 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.jwt.secretName }}
                   key: encryptPassword
+            - name: OAUTH_APPSTORE_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.appstore.enabled }}
+            {{- if .Values.global.oauth2.clients.appstore.enabled }}
             - name: OAUTH_APPSTORE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: appstoreClientId
-            - name: OAUTH_DEVELOPER_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: developerClientId
-            - name: OAUTH_MECM_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mecmClientId
-            - name: OAUTH_ATP_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: atpClientId
-            - name: OAUTH_LAB_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: labClientId
-            - name: OAUTH_EDGEGALLERY_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: edgegalleryClientId
-            - name: OAUTH_APPMGMT_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: appmgmtClientId
             - name: OAUTH_APPSTORE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: appstoreClientSecret
-            - name: OAUTH_DEVELOPER_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: developerClientSecret
-            - name: OAUTH_MECM_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mecmClientSecret
-            - name: OAUTH_ATP_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: atpClientSecret
-            - name: OAUTH_LAB_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: labClientSecret
-            - name: OAUTH_EDGEGALLERY_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: edgegalleryClientSecret
-            - name: OAUTH_APPMGMT_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: appmgmtClientSecret
             - name: OAUTH_APPSTORE_CLIENT_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: appstoreClientUrl
-            - name: OAUTH_DEVELOPER_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: developerClientUrl
-            - name: OAUTH_ATP_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: atpClientUrl
-            - name: OAUTH_LAB_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: labClientUrl
-            - name: OAUTH_MECM_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: mecmClientUrl
-            - name: OAUTH_EDGEGALLERY_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: edgegalleryClientUrl
-            - name: OAUTH_APPMGMT_CLIENT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: user-mgmt-secret
-                  key: appmgmtClientUrl
             - name: OAUTH_APPSTORE_CLIENT_ACCESS_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: appstoreClientAccessUrl
+            {{- end }}
+            - name: OAUTH_DEVELOPER_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.developer.enabled }}
+            {{- if .Values.global.oauth2.clients.developer.enabled }}
+            - name: OAUTH_DEVELOPER_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientId
+            - name: OAUTH_DEVELOPER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientSecret
+            - name: OAUTH_DEVELOPER_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: developerClientUrl
             - name: OAUTH_DEVELOPER_CLIENT_ACCESS_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: developerClientAccessUrl
-            - name: OAUTH_ATP_CLIENT_ACCESS_URL
+            {{- end }}
+            - name: OAUTH_MECM_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.mecm.enabled }}
+            {{- if .Values.global.oauth2.clients.mecm.enabled }}
+            - name: OAUTH_MECM_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
-                  key: atpClientAccessUrl
-            - name: OAUTH_LAB_CLIENT_ACCESS_URL
+                  key: mecmClientId
+            - name: OAUTH_MECM_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
-                  key: labClientAccessUrl
+                  key: mecmClientSecret
+            - name: OAUTH_MECM_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: mecmClientUrl
             - name: OAUTH_MECM_CLIENT_ACCESS_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: mecmClientAccessUrl
+            {{- end }}
+            - name: OAUTH_ATP_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.atp.enabled }}
+            {{- if .Values.global.oauth2.clients.atp.enabled }}
+            - name: OAUTH_ATP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientId
+            - name: OAUTH_ATP_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientSecret
+            - name: OAUTH_ATP_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientUrl
+            - name: OAUTH_ATP_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: atpClientAccessUrl
+            {{- end }}
+            - name: OAUTH_LAB_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.lab.enabled }}
+            {{- if .Values.global.oauth2.clients.lab.enabled }}
+            - name: OAUTH_LAB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: labClientId
+            - name: OAUTH_LAB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: labClientSecret
+            - name: OAUTH_LAB_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: labClientUrl
+            - name: OAUTH_LAB_CLIENT_ACCESS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: labClientAccessUrl
+            {{- end }}
+            - name: OAUTH_EDGEGALLERY_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.edgegallery.enabled }}
+            {{- if .Values.global.oauth2.clients.edgegallery.enabled }}
+            - name: OAUTH_EDGEGALLERY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientId
+            - name: OAUTH_EDGEGALLERY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientSecret
+            - name: OAUTH_EDGEGALLERY_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: edgegalleryClientUrl
             - name: OAUTH_EDGEGALLERY_CLIENT_ACCESS_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: edgegalleryClientAccessUrl
+            {{- end }}
+            - name: OAUTH_APPMGMT_ENABLED
+              value: {{ quote .Values.global.oauth2.clients.appmgmt.enabled }}
+            {{- if .Values.global.oauth2.clients.appmgmt.enabled }}
+            - name: OAUTH_APPMGMT_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appmgmtClientId
+            - name: OAUTH_APPMGMT_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appmgmtClientSecret
+            - name: OAUTH_APPMGMT_CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-secret
+                  key: appmgmtClientUrl
             - name: OAUTH_APPMGMT_CLIENT_ACCESS_URL
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-secret
                   key: appmgmtClientAccessUrl
+            {{- end }}
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
