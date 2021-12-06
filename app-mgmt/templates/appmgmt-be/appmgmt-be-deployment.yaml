@@ -11,4 +11,181 @@
 # limitations under the License.
 ############################################################################
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appmgmt-be
+spec:
+  selector:
+    matchLabels:
+      app: appmgmt-be
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: appmgmt-be
+    spec:
+      initContainers:
+        - name: init-service-center
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100/v4/default/registry/health; do echo waiting for service center; sleep 2; done"]
+        - name: init-usermgmt
+          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
+          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
+          command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
+      containers:
+        - name: appmgmt-be
+          image: {{ .Values.images.appmgmtBe.repository }}:{{ .Values.images.appmgmtBe.tag }}
+          imagePullPolicy: {{ .Values.images.appmgmtBe.pullPolicy }}
+          ports:
+            - containerPort: 9028
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path}}
+              port: {{ .Values.expose.appmgmtBe.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path}}
+              port: {{ .Values.expose.appmgmtBe.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
+          env:
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: clientId
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: clientSecret
+            - name: LOG_DIR
+              value: /usr/app/log
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: HTTP_PROTOCOL
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}
+            - name: POSTGRES_IP
+              value: appmgmt-be-postgres-svc
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.postgres.dbname }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: postgresPassword
+#            - name: EDGE_CERT_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: {{ .Values.appmgmt.secretName }}
+#                  key: certPwd
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
+            - mountPath: /usr/app/ssl
+              name: appmgmt-be-keystore
+            {{- end }}
+            {{- if .Values.global.persistence.enabled }}
+            - name: appmgmt-be-data
+              mountPath: /usr/app/user
+            - name: appmgmt-be-data
+              mountPath: /etc/nginx/conf.d
+              subPath: nginx
+            - name: appmgmt-be-log
+              mountPath: /usr/app/log
+            {{- end }}
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        {{- if .Values.global.ssl.enabled }}
+        - name: appmgmt-be-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+        {{- end }}
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+        {{- if .Values.global.persistence.enabled }}
+        - name: appmgmt-be-data
+          persistentVolumeClaim:
+            claimName: appmgmt-be-data-pvc
+        - name: appmgmt-be-log
+          persistentVolumeClaim:
+            claimName: appmgmt-be-log-pvc
+        {{- end }}
 
+  {{- if .Values.global.persistence.enabled }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appmgmt-be-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appmgmt-be-log-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+
+  {{- end }}

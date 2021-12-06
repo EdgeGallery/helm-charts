@@ -12,12 +12,25 @@
 ############################################################################
 
 global:
+  ingress:
+    enabled: false
+  ssl:
+    enabled: false
+    secretName:
   persistence:
     enabled: true
     storageClassName: nfs-client
+  oauth2:
+    authServerAddress:
+    authServerAddressClientAccess:
+    redirectUriParam:
+    clients:
+      appmgmt:
+        clientId: app-mgmt-fe
+        clientSecret:
 images:
   appmgmtBe:
-    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/appmgmt-be
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/app-mgmt-be
     tag: latest
     pullPolicy: Always
   postgres:
@@ -32,8 +45,27 @@ postgres:
   host: appmgmt-postgres
 
 expose:
-  appmgmtBe:
-    port: 9082
+  appmgmtFe:
+    port: 8443
     nodePort: 30097
+  appmgmtBe:
+    port: 9028
+    nodePort: 30018
   postgres:
     port: 5432
+
+# probe configuration parameters
+livenessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  FailureThreshold: 3
+readinessProbe:
+  path: /health
+  scheme: HTTPS
+  initialDelaySeconds: 45
+  periodSeconds: 10
+  timeoutSeconds: 5

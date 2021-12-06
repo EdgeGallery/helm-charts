@@ -69,8 +69,6 @@ spec:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
-            - name: AUTH_SERVER_ADDRESS
-              value: {{ .Values.global.oauth2.authServerAddress }}
             - name: AUTH_SERVER_ADDRESS_CLIENTACCESS
               value: {{ .Values.global.oauth2.authServerAddressClientAccess }}
             - name: REDIRECT_URI_PARAM
