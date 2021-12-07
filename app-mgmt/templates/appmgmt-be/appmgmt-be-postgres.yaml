@@ -1,0 +1,74 @@
+############################################################################
+# Copyright 2021 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appmgmt-be-postgres
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: appmgmt-be-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: appmgmt-be-postgres
+    spec:
+      containers:
+        - name: appmgmt-be-postgres
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: postgresUsername
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: appmgmt-be-secret
+                  key: postgresPassword
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.dbname }}
+          volumeMounts:
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /var/lib/postgresql/data
+              name: appmgmt-be-postgres-data
+            {{- end }}
+      volumes:
+        {{- if .Values.global.persistence.enabled }}
+        - name: appmgmt-be-postgres-data
+          persistentVolumeClaim:
+            claimName: appmgmt-be-postgres-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+  
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appmgmt-be-postgres-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 5Gi
+{{- end }}
