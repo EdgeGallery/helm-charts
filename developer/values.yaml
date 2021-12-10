@@ -42,14 +42,6 @@ images:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/common-service-cbb
     tag: latest
     pullPolicy: Always
-  toolChain:
-    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery//tool-chain
-    tag: latest
-    pullPolicy: IfNotPresent
-  portingAdvisor:
-    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/porting-advisor
-    tag: latest
-    pullPolicy: IfNotPresent
   postgres:
     repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
@@ -105,8 +97,6 @@ developer:
     username:
   vmImage:
     fileSystemAddress: 
-  toolChain:
-    enabled: false
     
 # probe configuration parameters
 livenessProbe:

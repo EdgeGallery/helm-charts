@@ -77,8 +77,6 @@ spec:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
-            - name: APPSTORE_ADDRESS
-              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
             - name: HTTP_PROTOCOL
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}
             - name: POSTGRES_IP
@@ -120,6 +118,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.developer.secretName }}
                   key: certPwd
+            - name: EDGE_CERT_PATH
+              value: /usr/app/keys/public.p12
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
             - name: SSL_ENABLED
@@ -151,11 +151,10 @@ spec:
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-data
               mountPath: /usr/app/user
-            - name: developer-be-data
-              mountPath: /etc/nginx/conf.d
-              subPath: nginx
+              subPath: developer-be-date
             - name: developer-be-log
               mountPath: /usr/app/log
+              subPath: developer-be-log
             {{- end }}
             - mountPath: /var/run/docker.sock
               name: docker-sock
@@ -177,8 +176,6 @@ spec:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
-            - name: APPSTORE_ADDRESS
-              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
             - name: POSTGRES_IP
               value: developer-be-postgres-svc
             - name: POSTGRES_PORT
@@ -228,19 +225,16 @@ spec:
               name: developer-be-keystore
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
-            - name: common-service-cbb-data
+            - name: developer-be-data
               mountPath: /usr/app/user
-            - name: common-service-cbb-log
+              subPath: common-service-cbb/user
+            - name: developer-be-log
               mountPath: /usr/app/log
-            - name: common-service-cbb-nginx
+              subPath: common-service-cbb-log
+            - name: developer-be-data
               mountPath: /etc/nginx/conf.d
+              subPath: common-service-cbb/nginx
             {{- end }}
-            - mountPath: /var/run/docker.sock
-              name: docker-sock
-              readOnly: true
-            - name: package-signature
-              mountPath: /usr/app/keys/
-              readOnly: true
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: developer-be-keystore
@@ -260,15 +254,6 @@ spec:
         - name: developer-be-log
           persistentVolumeClaim:
             claimName: developer-be-log-pvc
-        - name: common-service-cbb-data
-          persistentVolumeClaim:
-            claimName: common-service-cbb-data-pvc
-        - name: common-service-cbb-log
-          persistentVolumeClaim:
-            claimName: common-service-cbb-log-pvc
-        - name: common-service-cbb-nginx
-          persistentVolumeClaim:
-            claimName: common-service-cbb-nginx-pvc
         {{- end }}
         - name: package-signature
           secret:
@@ -308,40 +293,4 @@ spec:
     requests:
       storage: 1Gi
       
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: common-service-cbb-data-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-  resources:
-    requests:
-      storage: 50Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: common-service-cbb-log-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: common-service-cbb-nginx-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
-  resources:
-    requests:
-      storage: 1Gi
 {{- end }}
