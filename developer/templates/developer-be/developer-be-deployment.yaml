@@ -174,8 +174,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
-            - name: SC_ADDRESS
-              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
             - name: POSTGRES_IP
               value: developer-be-postgres-svc
             - name: POSTGRES_PORT
