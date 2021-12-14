@@ -19,10 +19,12 @@ metadata:
   labels:
     svc: thirdsystem-svc
 spec:
+  type: NodePort
   ports:
     - port: {{ .Values.expose.thirdsystem.port }}
-      targetPort: 8073
+      targetPort: 8097
       protocol: TCP
+      nodePort: {{ .Values.expose.thirdsystem.nodePort }}
   selector:
     app: thirdsystem
 ---
