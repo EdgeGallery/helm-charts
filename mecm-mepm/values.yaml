@@ -60,7 +60,19 @@ images:
   rescontroller:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-applcm-rescontroller
     tag: latest
-    pullPolicy: IfNotPresent    
+    pullPolicy: IfNotPresent
+  commonServiceCbb:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/common-service-cbb
+    tag: latest
+    pullPolicy: IfNotPresent
+  commonWebssh:
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/common-webssh
+    tag: latest
+    pullPolicy: IfNotPresent
+  initservicecenter:
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/curl
+    tag: 7.75.0
+    pullPolicy: IfNotPresent
 persistence:
   enabled: false 
 expose:
@@ -85,6 +97,31 @@ expose:
   rescontroller:
     port: 8098
     nodePort: 30208
+  mepmTools:
+    websshPort: 8888
+    websshNodePort: 30209
+    commonCbbPort: 30101
+    commonCbbNodePort: 30210
+    vncPort1: 30211
+    vncNodePort1: 30211
+    vncPort2: 30212
+    vncNodePort2: 30212
+    vncPort3: 30213
+    vncNodePort3: 30213
+    vncPort4: 30214
+    vncNodePort4: 30214
+    vncPort5: 30215
+    vncNodePort5: 30215
+    vncPort6: 30216
+    vncNodePort6: 30216
+    vncPort7: 30217
+    vncNodePort7: 30217
+    vncPort8: 30218
+    vncNodePort8: 30218
+    vncPort9: 30219
+    vncNodePort9: 30219
+    vncPort10: 30220
+    vncNodePort10: 30220
 ssl:
   secretName: 
 
@@ -95,6 +132,7 @@ mepm:
     k8spluginDbPass: 
     ospluginDbPass:  
     apprulemgrDbPass:
+    mepmtoolsDbPass:
   filesystem:
     imagePushUrl:
   imageops:
@@ -116,3 +154,9 @@ readinessProbe:
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
+
+# reverse proxy port range
+reverseProxy:
+  port:
+    min: 30111
+    max: 30120
