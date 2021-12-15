@@ -67,9 +67,9 @@ images:
 persistence:
   enabled: true
 expose:
-  inventory:
-    port: 8102
-    nodePort: 30302
+  north:
+    port: 8103
+    nodePort: 30303
   inventory:
     port: 8093
     nodePort: 30203
