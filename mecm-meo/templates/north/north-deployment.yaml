@@ -1,0 +1,140 @@
+############################################################################
+# Copyright 2020 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mecm-north
+  namespace: default
+  labels:
+    app: mecm-north
+spec:
+  selector:
+    matchLabels:
+      app: mecm-north
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mecm-north
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
+          command: ['sh', '-c', 'until pg_isready -h  mecm-postgres -p 5432; do echo waiting for database; sleep 2; done;'] 
+      containers:
+        - image: {{ .Values.images.north.repository }}:{{ .Values.images.north.tag }}
+          imagePullPolicy: {{ .Values.images.north.pullPolicy }}
+          name: mecm-north
+          livenessProbe:
+            httpGet:
+              path: /north/v1/health
+              port: {{ .Values.expose.north.port }}
+              scheme: {{ .Values.livenessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
+            successThreshold: {{ .Values.livenessProbe.successThreshold}}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold}}
+
+          readinessProbe:
+            httpGet:
+              path: /north/v1/health
+              port: {{ .Values.expose.north.port }}
+              scheme: {{ .Values.readinessProbe.scheme}}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
+          env:
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}              
+            - name: LOG_DIR
+              value: /usr/app/log
+            - name: LISTEN_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SC_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            {{- if .Values.global.ssl.enabled }}
+            - name: SSL_KEY_STORE_PATH
+              value: /usr/app/ssl/keystore.p12                  
+            - name: SSL_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystorePassword
+            - name: SSL_TRUST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: truststorePassword
+            - name: SSL_KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keystoreType
+            - name: SSL_KEY_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.ssl.secretName }}
+                  key: keyAlias
+            - name: SSL_KEY_STORE_JKS_PATH
+              value: /usr/app/ssl/keystore.jks
+            {{- end }}
+            - name: north_DB_PASSWORD
+              value: {{ .Values.mecm.postgres.northDbPass }}
+            - name: SOURCE_REPOS
+              value: {{ .Values.mecm.repository.sourceRepos }}
+          ports:
+            - containerPort: 8103
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/app/ssl
+              name: north-keystore
+              readOnly: true
+            {{- if .Values.global.persistence.enabled }}
+            - mountPath: /usr/app/log
+              name: north-log
+            {{- end }}
+      volumes:
+        - name: north-keystore
+          secret:
+            secretName: {{ .Values.global.ssl.secretName }}
+            items:
+              - key: keystore.p12
+                path: keystore.p12
+                mode: 0644
+              - key: keystore.jks
+                path: keystore.jks
+                mode: 0644
+        {{- if .Values.global.persistence.enabled }}
+        - name: north-log
+          persistentVolumeClaim:
+            claimName: north-log-pvc
+        {{- end }}
+{{- if .Values.global.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: north-log-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ quote .Values.global.persistence.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{- end }}

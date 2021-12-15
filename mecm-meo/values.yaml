@@ -31,6 +31,10 @@ global:
         clientSecret: 
         clientUrl: 
 images:
+  north:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-north
+    tag: latest
+    pullPolicy: IfNotPresent
   inventory:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-inventory
     tag: latest
@@ -64,6 +68,9 @@ persistence:
   enabled: true
 expose:
   inventory:
+    port: 8102
+    nodePort: 30302
+  inventory:
     port: 8093
     nodePort: 30203
   appo:
@@ -92,6 +99,7 @@ mecm:
     apmDbPass: 
     appoDbPass: 
     inventoryDbPass: 
+    northDbPass: 
 
  
 # probe configuration parameters
