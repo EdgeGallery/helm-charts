@@ -1,0 +1,98 @@
+############################################################################
+# Copyright 2020 Huawei Technologies Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#  http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+############################################################################
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mepm-tools-postgres-svc
+  labels:
+    app: mepm-tools-postgres-svc
+spec:
+  selector:
+    app: mepm-postgres
+  ports:
+    - port: {{ .Values.expose.postgres.port }}
+      targetPort: 5432
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mepm-tools-svc
+  labels:
+    svc: mepm-tools-svc
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.mepmTools.websshPort }}
+      name: common-web-ssh
+      targetPort: 8888
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.websshNodePort }}
+    - port: {{ .Values.expose.mepmTools.commonCbbPort }}
+      name: common-cbb-svc
+      targetPort: 30101
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.commonCbbNodePort }}
+    - port: {{ .Values.expose.mepmTools.vncPort1 }}
+      name: vnc-port-1
+      targetPort: 30211
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort1 }}
+    - port: {{ .Values.expose.mepmTools.vncPort2 }}
+      name: vnc-port-2
+      targetPort: 30212
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort2 }}
+    - port: {{ .Values.expose.mepmTools.vncPort3 }}
+      name: vnc-port-3
+      targetPort: 30213
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort3 }}
+    - port: {{ .Values.expose.mepmTools.vncPort4 }}
+      name: vnc-port-4
+      targetPort: 30214
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort4 }}
+    - port: {{ .Values.expose.mepmTools.vncPort5 }}
+      name: vnc-port-5
+      targetPort: 30215
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort5 }}
+    - port: {{ .Values.expose.mepmTools.vncPort6 }}
+      name: vnc-port-6
+      targetPort: 30216
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort6 }}
+    - port: {{ .Values.expose.mepmTools.vncPort7 }}
+      name: vnc-port-7
+      targetPort: 30217
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort7 }}
+    - port: {{ .Values.expose.mepmTools.vncPort8 }}
+      name: vnc-port-8
+      targetPort: 30218
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort8 }}
+    - port: {{ .Values.expose.mepmTools.vncPort9 }}
+      name: vnc-port-9
+      targetPort: 30219
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort9 }}
+    - port: {{ .Values.expose.mepmTools.vncPort10 }}
+      name: vnc-port-10
+      targetPort: 30220
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.vncNodePort10 }}
+  selector:
+    app: mepm-tools
