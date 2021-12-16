@@ -93,7 +93,7 @@ spec:
             - name: SSL_KEY_STORE_JKS_PATH
               value: /usr/app/ssl/keystore.jks
             {{- end }}
-            - name: north_DB_PASSWORD
+            - name: NORTH_DB_PASSWORD
               value: {{ .Values.mecm.postgres.northDbPass }}
             - name: SOURCE_REPOS
               value: {{ .Values.mecm.repository.sourceRepos }}
