@@ -29,10 +29,6 @@ spec:
         - name: check-db-ready
           image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
           command: ['sh', '-c', 'until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;']
-        - name: init-usermgmt
-          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
-          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
-          command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
       containers:
         - name: common-service-cbb
           image: {{ .Values.images.commonServiceCbb.repository }}:{{ .Values.images.commonServiceCbb.tag }}
