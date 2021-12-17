@@ -95,11 +95,6 @@ spec:
                 secretKeyRef:
                   name: appmgmt-be-secret
                   key: postgresPassword
-#            - name: EDGE_CERT_PASSWORD
-#              valueFrom:
-#                secretKeyRef:
-#                  name: {{ .Values.appmgmt.secretName }}
-#                  key: certPwd
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
             - name: SSL_ENABLED
