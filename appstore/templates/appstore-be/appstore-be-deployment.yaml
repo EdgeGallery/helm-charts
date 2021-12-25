@@ -66,6 +66,10 @@ spec:
               value: {{ .Values.appstoreBe.fileSystemAddress }}
             - name: ATP_SERVER_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://atp-svc:8073
+            - name: MECM_NORTH_URL
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-north:8103
+            - name: THIRD_SYSTEM_URL
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://thirdsystem-svc:8097
             - name: CLIENT_ID
               valueFrom:
                 secretKeyRef:
