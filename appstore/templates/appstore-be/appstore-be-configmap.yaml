@@ -49,6 +49,7 @@ data:
         STARTEXPTIME             VARCHAR(100)       NULL,
         EXPERIENCEABLEIP         VARCHAR(100)       NULL,
         MECHOST                  VARCHAR(100)       NULL,
+        EXPERIENCESTATUS         INT       NULL,
         CONSTRAINT catalog_package_table_pkey PRIMARY KEY (PACKAGEID)
     );
 
@@ -184,25 +185,6 @@ data:
         CONSTRAINT PACKAGE_SUBSCRIBE_FILTER_TABLE_PKEY PRIMARY KEY (ID)
     );
 
-    CREATE TABLE IF NOT EXISTS THIRD_SYSTEM_TABLE (
-        ID VARCHAR(100) NOT NULL,
-        SYSTEM_NAME VARCHAR(100) DEFAULT NULL,
-        SYSTEM_TYPE VARCHAR(100) DEFAULT NULL,
-        VERSION VARCHAR(100) DEFAULT NULL,
-        URL VARCHAR(100) DEFAULT NULL,
-        IP VARCHAR(100) DEFAULT NULL,
-        PORT VARCHAR(100) DEFAULT NULL,
-        REGION VARCHAR(100) DEFAULT NULL,
-        USERNAME VARCHAR(100) DEFAULT NULL,
-        PASSWORD VARCHAR(100) DEFAULT NULL,
-        PRODUCT VARCHAR(100) DEFAULT NULL,
-        VENDOR VARCHAR(100) DEFAULT NULL,
-        TOKEN_TYPE VARCHAR(100) DEFAULT NULL,
-        ICON TEXT DEFAULT NULL,
-        STATUS VARCHAR(100) DEFAULT NULL,
-        CONSTRAINT THIRD_SYSTEM_TABLE_PKEY PRIMARY KEY (ID)
-    );
-
     CREATE TABLE IF NOT EXISTS PACKAGE_UPLOAD_PROGRESS_TABLE (
         ID VARCHAR(100) NOT NULL,
         PACKAGE_ID VARCHAR(100) DEFAULT NULL,
@@ -220,34 +202,15 @@ data:
         USERNAME                 VARCHAR(100)       NOT NULL,
         APPID                    VARCHAR(200)       NOT NULL,
         APPPACKAGEID             VARCHAR(200)       NOT NULL,
+        APPNAME                  VARCHAR(100)       NULL,
         ORDERTIME                TIMESTAMP          NOT NULL,
         OPERATETIME              TIMESTAMP          NULL,
         STATUS                   VARCHAR(50)        NOT NULL,
         MECM_HOSTIP              VARCHAR(1024)      NULL,
-        MECM_APPID               VARCHAR(200)       NULL,
+        MECM_HOSTCITY            VARCHAR(1024)      NULL,
         MECM_APPPACKAGEID        VARCHAR(200)       NULL,
-        MECM_INSTANCEID          VARCHAR(200)       NULL,
+        DETAILCN                 text               DEFAULT NULL,
+        DETAILEN                 text               DEFAULT NULL,
         CONSTRAINT app_order_pkey PRIMARY KEY (ORDERID),
         CONSTRAINT app_order_uniqueOrderNum UNIQUE (ORDERNUM)
-    );
-
-    create TABLE if not exists app_bill (
-        BILLID                  VARCHAR(200)       NOT NULL,
-        ORDERID                 VARCHAR(200)       NOT NULL,
-        CREATETIME              TIMESTAMP          NOT NULL,
-        USERID                  VARCHAR(100)       NOT NULL,
-        USERNAME                VARCHAR(100)       NOT NULL,
-        BILLTYPE                VARCHAR(5)         NOT NULL,
-        BILLSUBTYPE             VARCHAR(20)        NOT NULL,
-        BILLAMOUNT              NUMERIC(10,2)      NULL,
-        OPERATORFEE             NUMERIC(10,2)      NULL,
-        SUPPLIERFEE             NUMERIC(10,2)      NULL,
-        CONSTRAINT app_bill_pkey PRIMARY KEY (BILLID),
-        CONSTRAINT app_bill_fk_orderid foreign key(ORDERID) references app_order(ORDERID)
-    );
-
-    create TABLE if not exists app_split_config (
-        APPID                 VARCHAR(200)       NOT NULL,
-        SPLITRATIO            NUMERIC(3,2)       NULL,
-        CONSTRAINT app_split_config_pkey PRIMARY KEY (APPID)
     );
