@@ -24,7 +24,7 @@ images:
     pullPolicy: IfNotPresent
 
 healthcheck:
-  localIp: 119.8.47.5
+  localIp: 
 
 expose:
   healthcheck:
