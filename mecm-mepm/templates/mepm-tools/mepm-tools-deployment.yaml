@@ -69,7 +69,21 @@ spec:
           imagePullPolicy: {{ .Values.images.commonWebssh.pullPolicy }}
           ports:
             - containerPort: 30209
+          volumeMounts:
+            - mountPath: /code/ssl/
+              name: mepm-tools-certs
+              readOnly: true
       volumes:
+        - name: mepm-tools-certs
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: server_tls.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server_tls.key
+                path: server_tls.key
+                mode: 0644
         {{- if .Values.global.ssl.enabled }}
         - name: mepm-tools-keystore
           secret:
