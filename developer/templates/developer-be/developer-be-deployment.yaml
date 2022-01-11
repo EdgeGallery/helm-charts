@@ -222,6 +222,9 @@ spec:
             - mountPath: /usr/app/ssl
               name: developer-be-keystore
             {{- end }}
+            - mountPath: /usr/app/certs
+              name: developer-be-certs
+              readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-data
               mountPath: /usr/app/user
@@ -242,6 +245,16 @@ spec:
               - key: keystore.p12
                 path: keystore.p12
         {{- end }}
+        - name: developer-be-certs
+          secret:
+            secretName: {{ .Values.developer.ssl.certName }}
+            items:
+              - key: server.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server.key
+                path: server_tls.key
+                mode: 0644
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock

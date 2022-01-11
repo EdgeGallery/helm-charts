@@ -95,6 +95,8 @@ developer:
     project: developer
     password: 
     username:
+  ssl:
+    certName:
   vmImage:
     fileSystemAddress: 
     
