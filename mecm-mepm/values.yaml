@@ -158,5 +158,5 @@ readinessProbe:
 # reverse proxy port range
 reverseProxy:
   port:
-    min: 30111
-    max: 30120
+    min: 30211
+    max: 30220
