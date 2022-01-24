@@ -26,4 +26,4 @@ kubectl 标签节点 <node_name> node=edge
 helm install nginx-ingress-controller stable/nginx-ingress --set controller.kind=DaemonSet --set controller.nodeSelector.node=edge --set controller.hostNetwork=true
 ``
 ## Edgegallery 安装（离线）
-* 安装指南：[链接](https://gitee.com/edgegallery/installer/blob/master/offline/README-cn.md)
+* 安装指南：[链接](https://gitee.com/edgegallery/installer/blob/Release-v1.5/ansible_install/README-cn.md)
