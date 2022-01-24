@@ -26,4 +26,4 @@ kubectl label node <node_name> node=edge
 helm install nginx-ingress-controller stable/nginx-ingress --set controller.kind=DaemonSet --set controller.nodeSelector.node=edge --set controller.hostNetwork=true
 ```
 ## Edgegallery Installation（Offline）
-* Install Guide: [link](https://gitee.com/edgegallery/installer/blob/master/ansible_install/README-cn.md)
+* Install Guide: [link](https://gitee.com/edgegallery/installer/blob/Release-v1.5/ansible_install/README-cn.md)
