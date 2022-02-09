@@ -44,7 +44,7 @@ spec:
             httpGet:
               path: {{ .Values.livenessProbe.path}}
               port: {{ .Values.expose.appmgmtFe.port }}
-              scheme: {{ .Values.livenessProbe.scheme}}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
@@ -54,7 +54,7 @@ spec:
             httpGet:
               path: {{ .Values.readinessProbe.path}}
               port: {{ .Values.expose.appmgmtFe.port }}
-              scheme: {{ .Values.readinessProbe.scheme}}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
