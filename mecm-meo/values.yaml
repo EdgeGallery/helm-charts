@@ -105,15 +105,12 @@ mecm:
 # probe configuration parameters
 livenessProbe:
   path: /health
-  scheme: HTTPS
   initialDelaySeconds: 600
   periodSeconds: 60
   timeoutSeconds: 10
   successThreshold: 1
   FailureThreshold: 3
 readinessProbe:
-
-  scheme: HTTPS
   path: /health
   initialDelaySeconds: 15
   periodSeconds: 10
