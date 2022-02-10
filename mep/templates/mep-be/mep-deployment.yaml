@@ -163,7 +163,7 @@ spec:
             {{- end }}
           livenessProbe:
             httpGet:
-              scheme: {{ .Values.mepAuthLivenessProbe.scheme }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
               path: {{ .Values.mepAuthLivenessProbe.path }}
               port: 10443
             initialDelaySeconds: {{ .Values.mepAuthLivenessProbe.initialDelaySeconds }}
@@ -175,7 +175,7 @@ spec:
             httpGet:
               path: {{ .Values.mepAuthReadinessProbe.path }}
               port: 10443
-              scheme: {{ .Values.mepAuthReadinessProbe.scheme }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.mepAuthReadinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.mepAuthReadinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.mepAuthReadinessProbe.timeoutSeconds }}
@@ -221,7 +221,7 @@ spec:
             {{- end }}
           livenessProbe:
             httpGet:
-              scheme: {{ .Values.livenessProbe.scheme }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
               path: {{ .Values.livenessProbe.path }}
               port: 8088 
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
@@ -233,7 +233,7 @@ spec:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
               port: 8088
-              scheme: {{ .Values.readinessProbe.scheme }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
@@ -261,7 +261,7 @@ spec:
             {{- end }}
           livenessProbe:
             httpGet:
-              scheme: {{ .Values.livenessProbe.scheme_http }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
               path: {{ .Values.livenessProbe.path }}
               port: 8080
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
@@ -273,7 +273,7 @@ spec:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
               port: 8080
-              scheme: {{ .Values.readinessProbe.scheme_http }}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
