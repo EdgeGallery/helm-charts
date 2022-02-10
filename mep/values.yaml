@@ -77,8 +77,6 @@ networkIsolation:
 
 livenessProbe:
   path: /health
-  scheme: HTTPS
-  scheme_http: HTTP
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
@@ -87,8 +85,6 @@ livenessProbe:
 
 readinessProbe:
   path: /health
-  scheme: HTTPS
-  scheme_http: HTTP
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
@@ -97,8 +93,6 @@ readinessProbe:
 
 mepAuthLivenessProbe:
   path: /health
-  scheme: HTTPS
-  scheme_http: HTTP
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
@@ -107,8 +101,6 @@ mepAuthLivenessProbe:
 
 mepAuthReadinessProbe:
   path: /health
-  scheme: HTTPS
-  scheme_http: HTTP
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
