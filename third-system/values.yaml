@@ -53,7 +53,6 @@ expose:
 # probe configuration parameters
 livenessProbe:
   path: /health
-  scheme: HTTPS
   initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
@@ -61,12 +60,11 @@ livenessProbe:
   FailureThreshold: 3
 readinessProbe:
   path: /health
-  scheme: HTTPS
   initialDelaySeconds: 45
   periodSeconds: 10
   timeoutSeconds: 5
 serveraddress:
-  apm: https://mecm-apm:8092
-  appo: https://mecm-appo:8091
-  inventory: https://mecm-inventory:8093
-  appstore: https://appstore-be-svc:8099
+  apm:  http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-apm:8092
+  appo:  http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-appo:8091
+  inventory:  http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-inventory:8093
+  appstore:  http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
