@@ -25,7 +25,7 @@ spec:
     app: mep
   type: NodePort
   ports:
-    {{- if .Values.ssl.enabled }}
+    {{- if .Values.global.ssl.enabled }}
     - port: 8443
       nodePort: 30443
       name: api-gw
