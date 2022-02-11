@@ -17,7 +17,7 @@ global:
     enabled: true
     storageClassName: nfs-client
   ssl:
-    enabled: false
+    enabled: true
     secretName:
 
 images:

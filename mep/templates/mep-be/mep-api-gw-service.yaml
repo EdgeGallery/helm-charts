@@ -25,6 +25,12 @@ spec:
     app: mep
   type: NodePort
   ports:
+    {{- if .Values.global.ssl.enabled }}
     - port: 8443
       nodePort: 30443
       name: api-gw
+    {{- else }}
+    - port: 8000
+      nodePort: 30443
+      name: api-gw
+    {{- end }}
