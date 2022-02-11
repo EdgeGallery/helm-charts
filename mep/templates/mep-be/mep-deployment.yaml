@@ -289,6 +289,17 @@ spec:
               - key: kong.conf
                 path: kong.conf
                 mode: 0644
+        - name: kong-plugins
+          secret:
+            secretName: kong-secret
+            items:
+              - key: handler.lua
+                path: handler.lua
+                mode: 0644
+              - key: schema.lua
+                path: schema.lua
+                mode: 0644
+        {{- if .Values.global.ssl.enabled }}
         - name: kong-certs
           secret:
             secretName: mepauth-secret
@@ -301,16 +312,6 @@ spec:
                 mode: 0644
               - key: ca.crt
                 path: ca.crt
-                mode: 0644
-        - name: kong-plugins
-          secret:
-            secretName: kong-secret
-            items:
-              - key: handler.lua
-                path: handler.lua
-                mode: 0644
-              - key: schema.lua
-                path: schema.lua
                 mode: 0644
         - name: mep-certs
           secret:
@@ -338,6 +339,7 @@ spec:
               - key: ca.crt
                 path: ca.crt
                 mode: 0644
+        {{- end }}
         - name: mepauth-jwt
           secret:
             secretName: mepauth-secret
