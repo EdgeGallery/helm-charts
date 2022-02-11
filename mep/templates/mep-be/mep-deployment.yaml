@@ -136,6 +136,8 @@ spec:
               value: "8444"
             - name: MEPAUTH_CERT_DOMAIN_NAME
               value: "edgegallery"
+            - name: SSL_ENABLED
+              value: {{ .Values.ssl.enabled }}
             - name: MEPAUTH_DB_NAME
               value: kong
             - name: MEPAUTH_DB_HOST
@@ -194,6 +196,8 @@ spec:
               value: "8444"
             - name: MEPSERVER_CERT_DOMAIN_NAME
               value: "edgegallery"
+            - name: SSL_ENABLED
+              value: {{ .Values.ssl.enabled }}
             - name: SSL_ROOT
               value: /usr/mep/ssl
             - name: ROOT_KEY
