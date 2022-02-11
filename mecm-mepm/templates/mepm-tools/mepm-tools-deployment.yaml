@@ -29,10 +29,6 @@ spec:
         - name: check-db-ready
           image: {{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}
           command: ['sh', '-c', 'until pg_isready -h  mepm-postgres -p 5432; do echo waiting for database; sleep 2; done;']
-        - name: init-usermgmt
-          image: {{ .Values.images.initservicecenter.repository }}:{{ .Values.images.initservicecenter.tag }}
-          imagePullPolicy: {{ .Values.images.initservicecenter.pullPolicy }}
-          command: ['sh', '-c', "until curl -k -f {{ .Values.global.oauth2.authServerAddress }}; do echo waiting for auth server; sleep 2; done"]
       containers:
         - name: common-service-cbb
           image: {{ .Values.images.commonServiceCbb.repository }}:{{ .Values.images.commonServiceCbb.tag }}
@@ -68,12 +64,30 @@ spec:
                   key: postgresPassword
             - name: AUTH_SERVER_ADDRESS
               value: {{ .Values.global.oauth2.authServerAddress }}
+          volumeMounts:
+            - mountPath: /usr/app/certs/
+              name: mepm-tools-certs
+              readOnly: true
         - name: common-webssh
           image: {{ .Values.images.commonWebssh.repository }}:{{ .Values.images.commonWebssh.tag }}
           imagePullPolicy: {{ .Values.images.commonWebssh.pullPolicy }}
           ports:
             - containerPort: 30209
+          volumeMounts:
+            - mountPath: /code/ssl/
+              name: mepm-tools-certs
+              readOnly: true
       volumes:
+        - name: mepm-tools-certs
+          secret:
+            secretName: {{ .Values.ssl.secretName }}
+            items:
+              - key: server_tls.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server_tls.key
+                path: server_tls.key
+                mode: 0644
         {{- if .Values.global.ssl.enabled }}
         - name: mepm-tools-keystore
           secret:

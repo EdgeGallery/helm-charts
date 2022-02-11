@@ -31,6 +31,10 @@ global:
         clientSecret: 
         clientUrl: 
 images:
+  north:
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-north
+    tag: latest
+    pullPolicy: IfNotPresent
   inventory:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mecm-inventory
     tag: latest
@@ -63,6 +67,9 @@ images:
 persistence:
   enabled: true
 expose:
+  north:
+    port: 8103
+    nodePort: 30303
   inventory:
     port: 8093
     nodePort: 30203
@@ -92,20 +99,18 @@ mecm:
     apmDbPass: 
     appoDbPass: 
     inventoryDbPass: 
+    northDbPass: 
 
  
 # probe configuration parameters
 livenessProbe:
   path: /health
-  scheme: HTTPS
   initialDelaySeconds: 600
   periodSeconds: 60
   timeoutSeconds: 10
   successThreshold: 1
   FailureThreshold: 3
 readinessProbe:
-
-  scheme: HTTPS
   path: /health
   initialDelaySeconds: 15
   periodSeconds: 10

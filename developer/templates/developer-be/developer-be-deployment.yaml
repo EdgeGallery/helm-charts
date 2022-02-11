@@ -44,7 +44,7 @@ spec:
             httpGet:
               path: {{ .Values.livenessProbe.path}}
               port: {{ .Values.expose.developerBe.port }}
-              scheme: {{ .Values.livenessProbe.scheme}}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds}}
@@ -54,7 +54,7 @@ spec:
             httpGet:
               path: {{ .Values.readinessProbe.path}}
               port: {{ .Values.expose.developerBe.port }}
-              scheme: {{ .Values.readinessProbe.scheme}}
+              scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds}}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds}}
@@ -77,6 +77,10 @@ spec:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: APPSTORE_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
+            - name: ATP_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://atp-svc:8073
             - name: HTTP_PROTOCOL
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}
             - name: POSTGRES_IP
@@ -113,6 +117,11 @@ spec:
                 secretKeyRef:
                   name: developer-be-secret
                   key: postgresPassword
+            - name: AUTH_SERVER_ADDRESS
+              value: {{ .Values.global.oauth2.authServerAddress }}
+            - name: SSL_ENABLED
+              value: {{ quote .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
             - name: EDGE_CERT_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -120,11 +129,6 @@ spec:
                   key: certPwd
             - name: EDGE_CERT_PATH
               value: /usr/app/keys/public.p12
-            - name: AUTH_SERVER_ADDRESS
-              value: {{ .Values.global.oauth2.authServerAddress }}
-            - name: SSL_ENABLED
-              value: {{ quote .Values.global.ssl.enabled }}
-            {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
             - name: SSL_KEY_STORE_PASSWORD
@@ -147,6 +151,9 @@ spec:
             {{- if .Values.global.ssl.enabled }}
             - mountPath: /usr/app/ssl
               name: developer-be-keystore
+            - name: package-signature
+              mountPath: /usr/app/keys/
+              readOnly: true
             {{- end }}
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-data
@@ -158,9 +165,6 @@ spec:
             {{- end }}
             - mountPath: /var/run/docker.sock
               name: docker-sock
-              readOnly: true
-            - name: package-signature
-              mountPath: /usr/app/keys/
               readOnly: true
         - name: common-service-cbb
           image: {{ .Values.images.commonServiceCbb.repository }}:{{ .Values.images.commonServiceCbb.tag }}
@@ -221,7 +225,11 @@ spec:
             {{- if .Values.global.ssl.enabled }}
             - mountPath: /usr/app/ssl
               name: developer-be-keystore
+            - mountPath: /usr/app/certs
+              name: developer-be-certs
+              readOnly: true
             {{- end }}
+            
             {{- if .Values.global.persistence.enabled }}
             - name: developer-be-data
               mountPath: /usr/app/user
@@ -241,6 +249,26 @@ spec:
             items:
               - key: keystore.p12
                 path: keystore.p12
+        - name: developer-be-certs
+          secret:
+            secretName: {{ .Values.developer.ssl.certName }}
+            items:
+              - key: server.crt
+                path: server_tls.crt
+                mode: 0644
+              - key: server.key
+                path: server_tls.key
+                mode: 0644
+        - name: package-signature
+          secret:
+            secretName: {{ .Values.developer.secretName }}
+            items:
+              - key: sign_p12
+                path: public.p12
+                mode: 0644
+              - key: sign_cer
+                path: public.cer
+                mode: 0644
         {{- end }}
         - name: docker-sock
           hostPath:
@@ -253,16 +281,6 @@ spec:
           persistentVolumeClaim:
             claimName: developer-be-log-pvc
         {{- end }}
-        - name: package-signature
-          secret:
-            secretName: {{ .Values.developer.secretName }}
-            items:
-              - key: sign_p12
-                path: public.p12
-                mode: 0644
-              - key: sign_cer
-                path: public.cer
-                mode: 0644
 
 {{- if .Values.global.persistence.enabled }}
   

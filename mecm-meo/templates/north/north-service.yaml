@@ -12,21 +12,17 @@
 ############################################################################
 
 
-global:
-  persistence:
-    enabled: true
-    storageClassName: nfs-client
-
-images:
-  healthcheckm:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/healthcheck-m
-    tag: latest
-    pullPolicy: IfNotPresent
-
-healthcheckm:
-  localIp: 
-
-expose:
-  healthcheckm:
-    port: 9529
-    nodePort: 32757
+apiVersion: v1
+kind: Service
+metadata:
+  name: mecm-north
+  labels:
+    app: mecm-north
+spec:
+  selector:
+    app: mecm-north
+  type: NodePort
+  ports:
+    - port: {{ .Values.expose.north.port }}
+      targetPort: 8103
+      nodePort: {{ .Values.expose.north.nodePort }}
