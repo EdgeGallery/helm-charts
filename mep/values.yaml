@@ -16,6 +16,10 @@ global:
   persistence:
     enabled: true
     storageClassName: nfs-client
+  ssl:
+    enabled: false
+    secretName:
+
 images:
   mep:
     repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep
