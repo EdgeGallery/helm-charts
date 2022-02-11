@@ -77,6 +77,10 @@ spec:
                   fieldPath: status.podIP
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: APPSTORE_ADDRESS
+                value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
+            - name: ATP_ADDRESS
+                value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://atp-svc:8073
             - name: HTTP_PROTOCOL
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}
             - name: POSTGRES_IP
