@@ -67,6 +67,8 @@ spec:
                   fieldPath: status.podIP    
             - name: SC_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://service-center:30100
+            - name: AUTH_SERVER_ADDRESS
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://user-mgmt-svc:8067
             {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
