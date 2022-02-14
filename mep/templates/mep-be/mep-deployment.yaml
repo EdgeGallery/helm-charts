@@ -137,7 +137,7 @@ spec:
             - name: MEPAUTH_CERT_DOMAIN_NAME
               value: "edgegallery"
             - name: SSL_ENABLED
-              value: {{ .Values.global.ssl.enabled }}
+              value: "{{ .Values.global.ssl.enabled }}"
             - name: MEPAUTH_DB_NAME
               value: kong
             - name: MEPAUTH_DB_HOST
@@ -197,7 +197,7 @@ spec:
             - name: MEPSERVER_CERT_DOMAIN_NAME
               value: "edgegallery"
             - name: SSL_ENABLED
-              value: {{ .Values.global.ssl.enabled }}
+              value: "{{ .Values.global.ssl.enabled }}"
             - name: SSL_ROOT
               value: /usr/mep/ssl
             - name: ROOT_KEY
