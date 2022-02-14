@@ -51,9 +51,6 @@ spec:
               value: --auth-local=password
 
           volumeMounts:
-            - name: pg-certs
-              mountPath: /etc/mep/ssl/
-              readOnly: true
             - name: pg-init
               mountPath: /docker-entrypoint-initdb.d/
               readOnly: true
@@ -84,16 +81,6 @@ spec:
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
       volumes:
-        - name: pg-certs
-          secret:
-            secretName: pg-secret
-            items:
-              - key: server.crt
-                path: server.crt
-                mode: 0644
-              - key: server.key
-                path: server.key
-                mode: 0644
         - name: pg-init
           secret:
             secretName: pg-init-sql
