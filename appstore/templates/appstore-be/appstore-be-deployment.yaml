@@ -128,11 +128,6 @@ spec:
                 secretKeyRef:
                   name: appstore-be-secret
                   key: devRepoUserName
-            - name: EDGE_CERT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.appstoreBe.secretName }}
-                  key: certPwd
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
             {{- if .Values.global.ssl.enabled }}
@@ -153,6 +148,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.global.ssl.secretName }}
                   key: keyAlias
+            - name: EDGE_CERT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appstoreBe.secretName }}
+                  key: certPwd
             {{- end }}
             {{- if .Values.appShare.enabled }}
             - name: PLATFORM_NAME
@@ -187,6 +187,16 @@ spec:
             items:
               - key: keystore.p12
                 path: keystore.p12
+        - name: appstore-signature
+          secret:
+            secretName: {{ .Values.appstoreBe.secretName }}
+            items:
+              - key: sign_p12
+                path: public.p12
+                mode: 0644
+              - key: sign_cer
+                path: public.cer
+                mode: 0644
         {{- end }}
         - name: docker-sock
           hostPath:
@@ -199,16 +209,6 @@ spec:
           persistentVolumeClaim:
             claimName: appstore-be-log-pvc
         {{- end }}
-        - name: appstore-signature
-          secret:
-            secretName: {{ .Values.appstoreBe.secretName }}
-            items:
-              - key: sign_p12
-                path: public.p12
-                mode: 0644
-              - key: sign_cer
-                path: public.cer
-                mode: 0644
 {{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1
