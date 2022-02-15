@@ -155,7 +155,7 @@ spec:
                   name: pg-secret
                   key: kong_pg_pwd
           volumeMounts:
-            {{ if .Values.global.ssl.enabled }}
+            {{- if .Values.global.ssl.enabled }}
             - name: mepauth-certs
               mountPath: /usr/mep/ssl/
               readOnly: true
