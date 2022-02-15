@@ -224,8 +224,8 @@ spec:
               readOnly: true
             {{- end }}
             - name: mep-cfg
-            mountPath: /usr/mep/conf/mep/
-            readOnly: true
+              mountPath: /usr/mep/conf/mep/
+              readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/mep/data
               name: mep-datastore
