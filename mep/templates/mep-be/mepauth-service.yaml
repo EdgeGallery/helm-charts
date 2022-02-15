@@ -22,8 +22,14 @@ metadata:
 spec:
   type: ClusterIP
   ports:
+  {{- if .Values.global.ssl.enabled }}
   - port: 10443
     protocol: TCP
     targetPort: 10443
+  {{- else }}
+  - port: 10443
+    protocol: TCP
+    targetPort: 8090
+  {{- end }}
   selector:
     app: mep
