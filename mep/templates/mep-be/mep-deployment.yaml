@@ -91,8 +91,10 @@ spec:
           volumeMounts:
             - name: kong-conf
               mountPath: /etc/kong/
+            {{- if .Values.global.ssl.enabled }}
             - name: kong-certs
               mountPath: /var/lib/kong/data/
+            {{- end }}
             - name: kong-plugins
               mountPath: /usr/local/share/lua/5.1/kong/plugins/appid-header/
           ports:
@@ -150,9 +152,11 @@ spec:
                   name: pg-secret
                   key: kong_pg_pwd
           volumeMounts:
+            {{ if .Values.global.ssl.enabled }}
             - name: mepauth-certs
               mountPath: /usr/mep/ssl/
               readOnly: true
+            {{- end }}
             - name: mepauth-jwt
               mountPath: /usr/mep/keys/
               readOnly: true
@@ -211,12 +215,14 @@ spec:
                   name: mep-ssl
                   key: cert_pwd
           volumeMounts:
+            {{- if .Values.global.ssl.enabled }}
             - name: mep-certs
               mountPath: /usr/mep/ssl_tmp/
               readOnly: true
+            {{- end }}
             - name: mep-cfg
-              mountPath: /usr/mep/conf/mep/
-              readOnly: true
+            mountPath: /usr/mep/conf/mep/
+            readOnly: true
             {{- if .Values.global.persistence.enabled }}
             - mountPath: /usr/mep/data
               name: mep-datastore
