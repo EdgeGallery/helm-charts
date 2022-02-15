@@ -131,6 +131,9 @@ spec:
           name: mepauth
           ports:
             - containerPort: 10443
+              name: mepauth-api-ssl
+            - containerPort: 8090
+              name: mepauth-api
           env:
             - name: MEPAUTH_APIGW_HOST
               value: "localhost"
