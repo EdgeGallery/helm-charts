@@ -176,9 +176,11 @@ spec:
             - mountPath: /var/run/docker.sock
               name: docker-sock
               readOnly: true
+            {{- if .Values.global.ssl.enabled }}
             - name: appstore-signature
               mountPath: /usr/app/keys/
               readOnly: true
+            {{- end }}
       volumes:
         {{- if .Values.global.ssl.enabled }}
         - name: appstore-be-keystore

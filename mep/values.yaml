@@ -22,31 +22,31 @@ global:
 
 images:
   mep:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mep
     tag: latest
     pullPolicy: IfNotPresent
   mepauth:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mepauth
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mepauth
     tag: latest
     pullPolicy: IfNotPresent
   kong:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/kong
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/kong
     tag: 2.0.4-ubuntu
     pullPolicy: IfNotPresent
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   dns:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/mep-dns-server
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/mep-dns-server
     tag: latest
     pullPolicy: IfNotPresent
   elasticsearch:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/elasticsearch
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/elasticsearch
     tag: 7.9.0
     pullPolicy: IfNotPresent
   ntp:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/cturra/ntp
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/cturra/ntp
     tag: latest
     pullPolicy: IfNotPresent
 
