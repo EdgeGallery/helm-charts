@@ -19,7 +19,7 @@ global:
 
 images:
   healthcheckm:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/healthcheck-m
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/healthcheck-m
     tag: latest
     pullPolicy: IfNotPresent
 
