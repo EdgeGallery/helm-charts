@@ -72,19 +72,19 @@ expose:
   nodePort: 30067
 images:
   usermgmt:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/edgegallery/user-mgmt
+    repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/user-mgmt
     tag: latest
     pullPolicy: Always
   postgres:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/postgres
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/postgres
     tag: 12.3
     pullPolicy: IfNotPresent
   redis:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/redis
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/redis
     tag: 6.0.3
     pullPolicy: IfNotPresent
   initservicecenter:
-    repository: swr.ap-southeast-1.myhuaweicloud.com/eg-common/curl
+    repository: swr.cn-north-4.myhuaweicloud.com/eg-common/curl
     tag: 7.75.0
     pullPolicy: IfNotPresent
 postgres:
