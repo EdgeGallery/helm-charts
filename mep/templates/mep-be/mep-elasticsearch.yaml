@@ -26,7 +26,7 @@ spec:
             - name: discovery.type
               value: "single-node"
             - name: ES_JAVA_OPTS
-              value: "-Xms2g -Xmx2g"
+              value: "-Xms1g -Xmx1g"
 {{- if .Values.global.persistence.enabled }}
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
