@@ -91,7 +91,7 @@ spec:
         {{- if .Values.global.ssl.enabled }}
         - name: mepm-tools-keystore
           secret:
-            secretName: {{ .Values.global.ssl.secretName }}
+            secretName: {{ .Values.ssl.secretName }}
             items:
               - key: keystore.p12
                 path: keystore.p12
