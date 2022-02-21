@@ -174,7 +174,11 @@ spec:
             httpGet:
               scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
               path: {{ .Values.mepAuthLivenessProbe.path }}
+              {{- if .Values.global.ssl.enabled }}
               port: 10443
+              {{- else }}
+              port: 8090
+              {{- end}}
             initialDelaySeconds: {{ .Values.mepAuthLivenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.mepAuthLivenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.mepAuthLivenessProbe.timeoutSeconds }}
@@ -183,7 +187,11 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.mepAuthReadinessProbe.path }}
+              {{- if .Values.global.ssl.enabled }}
               port: 10443
+              {{- else }}
+              port: 8090
+              {{- end}}
               scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
             initialDelaySeconds: {{ .Values.mepAuthReadinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.mepAuthReadinessProbe.periodSeconds }}
