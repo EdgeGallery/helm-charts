@@ -34,11 +34,19 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: {{ .Values.expose.mepmTools.websshPort }}
+    {{- if .Values.global.ssl.enabled }}
+    - port: {{ .Values.expose.mepmTools.websshPort1 }}
       name: common-web-ssh
       targetPort: 8888
       protocol: TCP
       nodePort: {{ .Values.expose.mepmTools.websshNodePort }}
+    {{- else }}
+    - port: {{ .Values.expose.mepmTools.websshPort2 }}
+      name: common-web-ssh
+      targetPort: 8080
+      protocol: TCP
+      nodePort: {{ .Values.expose.mepmTools.websshNodePort }}
+    {{- end }}
     - port: {{ .Values.expose.mepmTools.commonCbbPort }}
       name: common-cbb-svc
       targetPort: 30101
