@@ -18,6 +18,7 @@ global:
     tls:
       secretName: mecm-mepm-ssl-secret
   ssl:
+    enabled:
     secretName:
   persistence:
     enabled: true
@@ -98,7 +99,8 @@ expose:
     port: 8098
     nodePort: 30208
   mepmTools:
-    websshPort: 8888
+    websshPort1: 8888
+    websshPort2: 8080
     websshNodePort: 30209
     commonCbbPort: 30101
     commonCbbNodePort: 30210
