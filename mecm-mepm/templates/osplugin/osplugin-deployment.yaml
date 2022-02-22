@@ -117,7 +117,7 @@ spec:
               - key: server_tls.key
                 mode: 420
                 path: server_tls.key
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
 {{- if .Values.global.persistence.enabled }}
 ---
 apiVersion: v1

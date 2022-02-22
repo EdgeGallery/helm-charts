@@ -80,7 +80,7 @@ spec:
       volumes:
         - name: mepm-tools-certs
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: server_tls.crt
                 path: server_tls.crt
@@ -91,7 +91,7 @@ spec:
         {{- if .Values.global.ssl.enabled }}
         - name: mepm-tools-keystore
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: keystore.p12
                 path: keystore.p12
