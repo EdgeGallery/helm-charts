@@ -93,7 +93,7 @@ spec:
       volumes:
         - name: apprulemgr-certs
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: ca.crt
                 path: ca.crt
