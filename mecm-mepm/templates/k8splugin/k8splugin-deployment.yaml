@@ -83,7 +83,7 @@ spec:
       volumes:
         - name: k8splugin-certs
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: ca.crt
                 path: ca.crt
