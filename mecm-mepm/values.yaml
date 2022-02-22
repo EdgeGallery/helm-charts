@@ -124,8 +124,6 @@ expose:
     vncNodePort9: 30219
     vncPort10: 30220
     vncNodePort10: 30220
-ssl:
-  secretName: 
 
 mepm:
   postgres:
