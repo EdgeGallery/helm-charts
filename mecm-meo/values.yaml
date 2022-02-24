@@ -85,6 +85,9 @@ expose:
     port: 8443
     nodePort: 30093
 
+mecmNorth:
+  fileSystemAddress:
+
 mecm:
   pushImage: true
   docker:
