@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "1024m"
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
-#ingressClassName: nginx # use only with k8s version >= 1.18.0
+  ingressClassName: nginx # use only with k8s version >= 1.18.0
   tls:
   - secretName: {{ .Values.global.ingress.tls.secretName }}
   rules:
