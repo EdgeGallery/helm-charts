@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: meo-policy 
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      app: mecm-postgres
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: mecm-apm
+    - podSelector:
+        matchLabels:
+          app: mecm-appo
+    - podSelector:
+        matchLabels:
+          app: mecm-inventory
+    - podSelector:
+        matchLabels:
+          app: mecm-north
+    ports:
+    - protocol: TCP
+      port: 5432
