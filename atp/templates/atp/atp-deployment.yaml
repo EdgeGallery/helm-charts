@@ -92,13 +92,13 @@ spec:
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
             - name: APM_SERVER_ADDRESS
-              value: {{ .Values.serveraddress.apm }}
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-apm:8092
             - name: APPO_SERVER_ADDRESS
-              value: {{ .Values.serveraddress.appo }}
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-appo:8091
             - name: INVENTORY_SERVER_ADDRESS
-              value: {{ .Values.serveraddress.inventory }}
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-inventory:8093
             - name: APPSTORE_SERVER_ADDRESS
-              value: {{ .Values.serveraddress.appstore }}
+              value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
