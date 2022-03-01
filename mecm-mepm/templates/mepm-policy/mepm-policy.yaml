@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: mepm-policy 
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      app: mepm-postgres
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: mecm-mepm-lcmcontroller
+    - podSelector:
+        matchLabels:
+          app: mecm-mepm-rescontroller
+    - podSelector:
+        matchLabels:
+          app: mecm-mepm-k8splugin
+    - podSelector:
+        matchLabels:
+          app: mecm-mepm-ossplugin
+    ports:
+    - protocol: TCP
+      port: 5432
