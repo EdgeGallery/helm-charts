@@ -72,8 +72,3 @@ readinessProbe:
   initialDelaySeconds: 45
   periodSeconds: 10
   timeoutSeconds: 5
-serveraddress:
-  apm: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-apm:8092
-  appo: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-appo:8091
-  inventory: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-inventory:8093
-  appstore: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
