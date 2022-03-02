@@ -88,7 +88,6 @@ spec:
               value: {{ .Values.global.oauth2.authServerAddress }}
             - name: SSL_ENABLED
               value: {{ quote .Values.global.ssl.enabled }}
-            {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PATH
               value: /usr/app/ssl/keystore.p12
             - name: APM_SERVER_ADDRESS
@@ -99,6 +98,7 @@ spec:
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://mecm-inventory:8093
             - name: APPSTORE_SERVER_ADDRESS
               value: http{{ if .Values.global.ssl.enabled }}s{{ end }}://appstore-be-svc:8099
+            {{- if .Values.global.ssl.enabled }}
             - name: SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
