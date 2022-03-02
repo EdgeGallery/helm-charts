@@ -21,7 +21,13 @@ spec:
           app: mecm-mepm-k8splugin
     - podSelector:
         matchLabels:
-          app: mecm-mepm-ossplugin
+          app: mecm-mepm-osplugin
+    - podSelector:
+        matchLabels:
+          app: mecm-mepm-apprulemgr
+    - podSelector:
+        matchLabels:
+          app: mepm-tools
     ports:
     - protocol: TCP
       port: 5432
