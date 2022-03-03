@@ -137,8 +137,17 @@ spec:
           env:
             - name: MEPAUTH_APIGW_HOST
               value: "localhost"
+            {{- if .Values.global.ssl.enabled }}
             - name: MEPAUTH_APIGW_PORT
               value: "8444"
+            - name: HTTP_PROTOCOL
+              value: "https"
+            {{- else }}
+            - name: MEPAUTH_APIGW_PORT
+              value: "8001"
+            - name: HTTP_PROTOCOL
+              value: "http"
+            {{- end }}
             - name: MEPAUTH_CERT_DOMAIN_NAME
               value: "edgegallery"
             - name: SSL_ENABLED
@@ -207,8 +216,17 @@ spec:
           env:
             - name: MEPSERVER_APIGW_HOST
               value: "localhost"
+            {{- if .Values.global.ssl.enabled }}
             - name: MEPSERVER_APIGW_PORT
               value: "8444"
+            - name: HTTP_PROTOCOL
+              value: "https"
+            {{- else }}
+            - name: MEPSERVER_APIGW_PORT
+              value: "8001"
+            - name: HTTP_PROTOCOL
+              value: "http"
+            {{- end}}
             - name: MEPSERVER_CERT_DOMAIN_NAME
               value: "edgegallery"
             - name: SSL_ENABLED
@@ -244,7 +262,7 @@ spec:
             httpGet:
               scheme: HTTP{{ if .Values.global.ssl.enabled }}S{{ end }}
               path: {{ .Values.livenessProbe.path }}
-              port: 8088 
+              port: 8088
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
