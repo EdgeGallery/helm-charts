@@ -35,6 +35,9 @@ spec:
           imagePullPolicy: {{ .Values.images.egView.pullPolicy }}
           ports:
             - containerPort: 8300
+              name: eg-view-ssl
+            - containerPort: 8031
+              name: eg-view
           volumeMounts:
             - mountPath: /etc/ssl
               name: eg-view-certs
@@ -42,7 +45,7 @@ spec:
       volumes:
         - name: eg-view-certs
           secret:
-            secretName: {{ .Values.ssl.secretName }}
+            secretName: {{ .Values.global.ssl.secretName }}
             items:
               - key: server.crt
                 path: server.crt
@@ -60,9 +63,16 @@ metadata:
 spec:
   type: NodePort
   ports:
+    {{- if .Values.global.ssl.enabled }}
     - port: {{ .Values.expose.egView.port }}
-      targetPort: 8300
       protocol: TCP
+      targetPort: 8300
       nodePort: {{ .Values.expose.egView.nodePort }}
+    {{- else }}
+    - port: {{ .Values.expose.egView.port }}
+      protocol: TCP
+      targetPort: 8301
+      nodePort: {{ .Values.expose.egView.nodePort }}
+    {{- end }}
   selector:
     app: eg-view
