@@ -84,6 +84,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.jwt.publicKeySecretName }}
                   key: publicKey
+            - name: IS_HTTP
+              value: "false"
           ports:
             - containerPort: 8094
           resources: {}
