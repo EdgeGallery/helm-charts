@@ -12,8 +12,10 @@
 ############################################################################
 
 
-ssl:
-  secretName:
+global:
+  ssl:
+    enabled: false
+    secretName: eg-view-ssl-secret
 images:
   egView:
     repository: swr.cn-north-4.myhuaweicloud.com/edgegallery/eg-view
