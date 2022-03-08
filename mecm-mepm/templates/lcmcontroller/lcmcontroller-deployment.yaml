@@ -84,8 +84,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.jwt.publicKeySecretName }}
                   key: publicKey
+{{- if .Values.global.ssl.enabled }}
             - name: IS_HTTP
               value: "false"
+{{- else }}
+            - name: IS_HTTP
+              value: "true"
+{{- end}}
           ports:
             - containerPort: 8094
           resources: {}
